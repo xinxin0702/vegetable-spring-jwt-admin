@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.github.liuhzuoming23.jwtback.app.mapper.AccountMapper">
+<mapper namespace="com.github.liuzhuoming23.jwtback.app.mapper.AccountMapper">
 
-  <insert id="insert" parameterType="com.github.liuhzuoming23.jwtback.app.domain.Account">
+  <insert id="insert" parameterType="com.github.liuzhuoming23.jwtback.app.domain.Account">
     insert into account(username,password)values(#{username},#{password})
   </insert>
 
-  <select id="select" parameterType="com.github.liuhzuoming23.jwtback.app.domain.Account"
-    resultType="com.github.liuhzuoming23.jwtback.app.domain.Account">
+  <select id="select" parameterType="com.github.liuzhuoming23.jwtback.app.domain.Account"
+    resultType="com.github.liuzhuoming23.jwtback.app.domain.Account">
     select id,username,password,add_datetime addDatetime from account
     <where>
       <if test="id != null">
@@ -21,7 +21,7 @@
   </select>
 
   <select id="selectOneByName" parameterType="String"
-    resultType="com.github.liuhzuoming23.jwtback.app.domain.Account">
+    resultType="com.github.liuzhuoming23.jwtback.app.domain.Account">
     select id,username,password,add_datetime addDatetime from account
     where username=#{username}
   </select>
