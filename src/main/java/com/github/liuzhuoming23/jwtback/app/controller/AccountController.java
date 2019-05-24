@@ -1,9 +1,12 @@
 package com.github.liuzhuoming23.jwtback.app.controller;
 
+import static com.github.liuzhuoming23.jwtback.common.cons.RedisCons.TOKEN_HASH_KEY;
+
 import com.github.liuzhuoming23.jwtback.app.domain.Account;
 import com.github.liuzhuoming23.jwtback.app.service.AccountService;
 import com.github.liuzhuoming23.jwtback.common.domain.Result;
 import com.github.liuzhuoming23.jwtback.common.exception.JwtbackException;
+import com.github.liuzhuoming23.jwtback.common.redis.RedisOperation;
 import com.github.liuzhuoming23.jwtback.util.StringRegexUtil;
 import java.util.List;
 import javax.validation.Valid;
@@ -29,6 +32,8 @@ public class AccountController {
 
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private RedisOperation redisOperation;
 
     @PostMapping
     public void insert(@Valid @ModelAttribute Account account) {
@@ -67,5 +72,6 @@ public class AccountController {
     @DeleteMapping("/{username}")
     public void deleteOneByUsername(@PathVariable String username) {
         accountService.deleteOneByUsername(username);
+        redisOperation.hash().delete(TOKEN_HASH_KEY, username);
     }
 }
