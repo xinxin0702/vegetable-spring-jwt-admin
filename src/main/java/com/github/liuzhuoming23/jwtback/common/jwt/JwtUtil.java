@@ -1,8 +1,10 @@
 package com.github.liuzhuoming23.jwtback.common.jwt;
 
-import static com.github.liuzhuoming23.jwtback.common.cons.RedisKeys.CACHE_ACCOUNT_PREFIX;
-import static com.github.liuzhuoming23.jwtback.common.cons.RedisKeys.CACHE_LINK_SYMBOL;
-import static com.github.liuzhuoming23.jwtback.common.cons.RedisKeys.TOKEN_HASH_KEY;
+import static com.github.liuzhuoming23.jwtback.common.cons.RedisCons.CACHE_KEY_ACCOUNT_PREFIX;
+import static com.github.liuzhuoming23.jwtback.common.cons.RedisCons.CACHE_KEY_LINK_SYMBOL;
+import static com.github.liuzhuoming23.jwtback.common.cons.RedisCons.TOKEN_HASH_KEY;
+import static com.github.liuzhuoming23.jwtback.common.cons.TokenCons.AUTH_HEADER_KEY;
+import static com.github.liuzhuoming23.jwtback.common.cons.TokenCons.EXPIRATION;
 
 import com.github.liuzhuoming23.jwtback.app.domain.Account;
 import com.github.liuzhuoming23.jwtback.app.service.AccountService;
@@ -37,17 +39,19 @@ import org.springframework.util.PathMatcher;
  */
 public class JwtUtil {
 
-    private static final SysProperties SYS_PROPERTIES = SpringContext
-        .getBean(SysProperties.class);
+    private static final SysProperties SYS_PROPERTIES = SpringContext.getBean(SysProperties.class);
     private static final RedisOperation REDIS_OPERATION = SpringContext
         .getBean(RedisOperation.class);
     private static final AccountService ACCOUNT_SERVICE = SpringContext
         .getBean(AccountService.class);
     private static final PathMatcher PATH_MATCHER = new AntPathMatcher();
-    private static final long EXPIRATION = 24 * 60 * 60 * 1000L;
-    private static final String SECRET = "7XykxY4Bog";
-    private static final String HEADER_STRING = "Authorization";
+    private static final String SECRET = EncryptUtil.encode("jwtback", EncryptType.MD5);
 
+    /**
+     * 生成jwt
+     *
+     * @param username 用户名
+     */
     public static String generateToken(String username) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("username", username);
@@ -57,7 +61,6 @@ public class JwtUtil {
             .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
             .signWith(SignatureAlgorithm.HS512, EncryptUtil.encode(SECRET, EncryptType.BASE64))
             .compact();
-
         REDIS_OPERATION.hash().put(TOKEN_HASH_KEY, username, token);
         return token;
     }
@@ -68,7 +71,7 @@ public class JwtUtil {
      * @param request request
      */
     public static HttpServletRequest validateToken(HttpServletRequest request) {
-        String token = request.getHeader(HEADER_STRING);
+        String token = request.getHeader(AUTH_HEADER_KEY);
         if (token != null) {
             try {
                 Claims claims = Jwts.parser()
@@ -80,7 +83,7 @@ public class JwtUtil {
                 Account account = ACCOUNT_SERVICE.selectOneByName(username);
                 if (account == null) {
                     REDIS_OPERATION.value()
-                        .delete(CACHE_ACCOUNT_PREFIX + CACHE_LINK_SYMBOL + username);
+                        .delete(CACHE_KEY_ACCOUNT_PREFIX + CACHE_KEY_LINK_SYMBOL + username);
                     throw new TokenException("account not exist");
                 }
                 //验证用户是否有效

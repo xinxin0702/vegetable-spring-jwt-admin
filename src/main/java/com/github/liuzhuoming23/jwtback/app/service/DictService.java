@@ -30,7 +30,7 @@ public interface DictService {
      *
      * @param dict 字典数据
      */
-    void insert(Dict dict);
+    Dict insert(Dict dict);
 
     /**
      * 根据字典id和字典内容值获取字典内容
@@ -50,5 +50,5 @@ public interface DictService {
     /**
      * 添加字典内容
      */
-    void insertItem(DictItem dictItem);
+    DictItem insertItem(DictItem dictItem);
 }

@@ -3,6 +3,7 @@ package com.github.liuzhuoming23.jwtback.common.config;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.liuzhuoming23.jwtback.common.cons.TokenCons;
 import java.time.Duration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,7 +39,7 @@ public class RedisConfig {
             .serializeValuesWith(RedisSerializationContext
                 .SerializationPair
                 .fromSerializer(redisSerializer))
-            .entryTtl(Duration.ofSeconds(5 * 60 * 60L));
+            .entryTtl(Duration.ofSeconds(TokenCons.EXPIRATION / 1000));
         return RedisCacheManager
             .builder(connectionFactory)
             .cacheDefaults(cacheConfiguration)

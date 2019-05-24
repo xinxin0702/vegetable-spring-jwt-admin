@@ -11,12 +11,12 @@ public class HashOperation {
 
     private StringRedisTemplate stringRedisTemplate;
 
-    public HashOperation(StringRedisTemplate stringRedisTemplate) {
+    HashOperation(StringRedisTemplate stringRedisTemplate) {
         this.stringRedisTemplate = stringRedisTemplate;
     }
 
     /**
-     * 添加hash数据
+     * 添加hash元素
      *
      * @param key redis key
      * @param field hash field
@@ -27,7 +27,7 @@ public class HashOperation {
     }
 
     /**
-     * 获取hash数据
+     * 获取hash元素
      *
      * @param key redis key
      * @param field hash field
@@ -37,7 +37,7 @@ public class HashOperation {
     }
 
     /**
-     * 删除hash数据
+     * 删除hash元素
      *
      * @param key redis key
      * @param fields hash fields

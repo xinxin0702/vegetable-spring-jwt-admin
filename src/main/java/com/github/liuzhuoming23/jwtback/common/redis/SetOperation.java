@@ -11,12 +11,12 @@ public class SetOperation {
 
     private StringRedisTemplate stringRedisTemplate;
 
-    public SetOperation(StringRedisTemplate stringRedisTemplate) {
+    SetOperation(StringRedisTemplate stringRedisTemplate) {
         this.stringRedisTemplate = stringRedisTemplate;
     }
 
     /**
-     * 添加set数据
+     * 添加set元素
      *
      * @param key redis key
      * @param vals values
@@ -32,5 +32,34 @@ public class SetOperation {
      */
     public Long size(String key) {
         return stringRedisTemplate.opsForSet().size(key);
+    }
+
+    /**
+     * 移除set元素
+     *
+     * @param key redis key
+     * @param vals values
+     */
+    public void remove(String key, String... vals) {
+        stringRedisTemplate.opsForSet().remove(key, (Object[]) vals);
+    }
+
+    /**
+     * 值是否存在set中
+     *
+     * @param key redis key
+     * @param val value
+     */
+    public Boolean member(String key, String val) {
+        return stringRedisTemplate.opsForSet().isMember(key, val);
+    }
+
+    /**
+     * 随机移除并返回set中一个元素
+     *
+     * @param key redis key
+     */
+    public String pop(String key) {
+        return stringRedisTemplate.opsForSet().pop(key);
     }
 }

@@ -1,6 +1,6 @@
 package com.github.liuzhuoming23.jwtback.app.controller;
 
-import static com.github.liuzhuoming23.jwtback.common.cons.RedisKeys.TOKEN_HASH_KEY;
+import static com.github.liuzhuoming23.jwtback.common.cons.RedisCons.TOKEN_HASH_KEY;
 
 import com.github.liuzhuoming23.jwtback.app.domain.Account;
 import com.github.liuzhuoming23.jwtback.app.service.AccountService;

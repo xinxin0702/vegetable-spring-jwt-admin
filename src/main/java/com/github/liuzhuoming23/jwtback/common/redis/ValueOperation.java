@@ -11,12 +11,12 @@ public class ValueOperation {
 
     private StringRedisTemplate stringRedisTemplate;
 
-    public ValueOperation(StringRedisTemplate stringRedisTemplate) {
+    ValueOperation(StringRedisTemplate stringRedisTemplate) {
         this.stringRedisTemplate = stringRedisTemplate;
     }
 
     /**
-     * 添加数据
+     * 添加元素
      *
      * @param key redis key
      * @param val values
@@ -26,7 +26,7 @@ public class ValueOperation {
     }
 
     /**
-     * 获取数据
+     * 获取元素
      *
      * @param key redis key
      */
@@ -35,7 +35,7 @@ public class ValueOperation {
     }
 
     /**
-     * 删除数据
+     * 删除元素
      *
      * @param key redis key
      */

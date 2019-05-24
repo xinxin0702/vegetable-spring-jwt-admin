@@ -1,8 +1,9 @@
-package com.github.liuzhuoming23.jwtback.app.service;
+package com.github.liuzhuoming23.jwtback.app.service.impl;
 
 import com.github.liuzhuoming23.jwtback.app.domain.Account;
 import com.github.liuzhuoming23.jwtback.app.mapper.AccountMapper;
-import com.github.liuzhuoming23.jwtback.common.cons.RedisKeys;
+import com.github.liuzhuoming23.jwtback.app.service.AccountService;
+import com.github.liuzhuoming23.jwtback.common.cons.RedisCons;
 import com.github.liuzhuoming23.jwtback.common.exception.JwtbackException;
 import com.github.liuzhuoming23.jwtback.util.EncryptType;
 import com.github.liuzhuoming23.jwtback.util.EncryptUtil;
@@ -22,7 +23,7 @@ import org.springframework.stereotype.Service;
  * @author liuzhuoming
  */
 @Service
-@CacheConfig(cacheNames = RedisKeys.CACHE_ACCOUNT_PREFIX)
+@CacheConfig(cacheNames = RedisCons.CACHE_KEY_ACCOUNT_PREFIX)
 public class AccountServiceImpl implements AccountService {
 
     @Autowired
