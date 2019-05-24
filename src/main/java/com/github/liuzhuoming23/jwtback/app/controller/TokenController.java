@@ -7,8 +7,7 @@ import com.github.liuzhuoming23.jwtback.app.service.AccountService;
 import com.github.liuzhuoming23.jwtback.common.domain.Result;
 import com.github.liuzhuoming23.jwtback.common.jwt.JwtUtil;
 import com.github.liuzhuoming23.jwtback.common.redis.RedisOperation;
-import com.github.liuzhuoming23.jwtback.util.EncryptType;
-import com.github.liuzhuoming23.jwtback.util.EncryptUtil;
+import com.github.liuzhuoming23.jwtback.util.PswUtil;
 import java.util.HashMap;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,12 +66,11 @@ public class TokenController {
         if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
             return false;
         }
-        Account exist = accountService.selectOneByName(username);
-        if (exist == null) {
+        Account one = accountService.selectOneByUsername(username);
+        if (one == null) {
             return false;
         }
-        if (!EncryptUtil.encode(username + password, EncryptType.MD5)
-            .equals(exist.getPassword())) {
+        if (!PswUtil.valid(username, password, one.getPassword())) {
             return false;
         }
         return true;

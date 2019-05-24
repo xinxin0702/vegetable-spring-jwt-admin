@@ -29,7 +29,7 @@ public interface AccountService {
      *
      * @param username 用户名
      */
-    Account selectOneByName(String username);
+    Account selectOneByUsername(String username);
 
     /**
      * 更新账户密码

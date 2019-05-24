@@ -5,6 +5,7 @@ import static com.github.liuzhuoming23.jwtback.common.cons.RedisCons.CACHE_KEY_L
 import static com.github.liuzhuoming23.jwtback.common.cons.RedisCons.TOKEN_HASH_KEY;
 import static com.github.liuzhuoming23.jwtback.common.cons.TokenCons.AUTH_HEADER_KEY;
 import static com.github.liuzhuoming23.jwtback.common.cons.TokenCons.EXPIRATION;
+import static com.github.liuzhuoming23.jwtback.common.cons.TokenCons.JWT_SECRET;
 
 import com.github.liuzhuoming23.jwtback.app.domain.Account;
 import com.github.liuzhuoming23.jwtback.app.service.AccountService;
@@ -45,7 +46,6 @@ public class JwtUtil {
     private static final AccountService ACCOUNT_SERVICE = SpringContext
         .getBean(AccountService.class);
     private static final PathMatcher PATH_MATCHER = new AntPathMatcher();
-    private static final String SECRET = EncryptUtil.encode("jwtback", EncryptType.MD5);
 
     /**
      * 生成jwt
@@ -59,7 +59,7 @@ public class JwtUtil {
         String token = Jwts.builder()
             .setClaims(map)
             .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
-            .signWith(SignatureAlgorithm.HS512, EncryptUtil.encode(SECRET, EncryptType.BASE64))
+            .signWith(SignatureAlgorithm.HS512, EncryptUtil.encode(JWT_SECRET, EncryptType.BASE64))
             .compact();
         REDIS_OPERATION.hash().put(TOKEN_HASH_KEY, username, token);
         return token;
@@ -75,12 +75,12 @@ public class JwtUtil {
         if (token != null) {
             try {
                 Claims claims = Jwts.parser()
-                    .setSigningKey(EncryptUtil.encode(SECRET, EncryptType.BASE64))
+                    .setSigningKey(EncryptUtil.encode(JWT_SECRET, EncryptType.BASE64))
                     .parseClaimsJws(token).getBody();
                 String username = (String) claims.get("username");
                 Date expiration = claims.getExpiration();
                 //验证用户是否存在
-                Account account = ACCOUNT_SERVICE.selectOneByName(username);
+                Account account = ACCOUNT_SERVICE.selectOneByUsername(username);
                 if (account == null) {
                     REDIS_OPERATION.value()
                         .delete(CACHE_KEY_ACCOUNT_PREFIX + CACHE_KEY_LINK_SYMBOL + username);

@@ -5,8 +5,7 @@ import com.github.liuzhuoming23.jwtback.app.mapper.AccountMapper;
 import com.github.liuzhuoming23.jwtback.app.service.AccountService;
 import com.github.liuzhuoming23.jwtback.common.cons.RedisCons;
 import com.github.liuzhuoming23.jwtback.common.exception.JwtbackException;
-import com.github.liuzhuoming23.jwtback.util.EncryptType;
-import com.github.liuzhuoming23.jwtback.util.EncryptUtil;
+import com.github.liuzhuoming23.jwtback.util.PswUtil;
 import com.github.liuzhuoming23.jwtback.util.StringRegexUtil;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
@@ -40,14 +39,13 @@ public class AccountServiceImpl implements AccountService {
             throw new JwtbackException(
                 "password must contain uppercase and lowercase letters and numbers and length between 6 and 16");
         }
-        List<Account> list = accountMapper.select(account);
-        if (list != null && list.size() > 0) {
+        Account list = accountMapper.selectOneByUsername(account.getUsername());
+        if (list != null) {
             throw new JwtbackException("account already exists");
         }
-        account.setPassword(EncryptUtil.encode(account.getUsername() + account.getPassword(),
-            EncryptType.MD5));
+        account.setPassword(PswUtil.cipher(account.getUsername(), account.getPassword()));
         accountMapper.insert(account);
-        return accountMapper.selectOneByName(account.getUsername());
+        return accountMapper.selectOneByUsername(account.getUsername());
     }
 
     @Override
@@ -57,20 +55,23 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     @Cacheable(key = "#p0")
-    public Account selectOneByName(String username) {
+    public Account selectOneByUsername(String username) {
         if (StringUtils.isEmpty(username)) {
-            return null;
+            throw new JwtbackException("account not exist");
         }
-        return accountMapper.selectOneByName(username);
+        Account account = accountMapper.selectOneByUsername(username);
+        if (account == null) {
+            throw new JwtbackException("account not exist");
+        }
+        return account;
     }
 
     @Override
     @CachePut(key = "#p0.username")
     public Account updatePasswordByUsername(Account account) {
-        account.setPassword(EncryptUtil.encode(account.getUsername() + account.getPassword(),
-            EncryptType.MD5));
+        account.setPassword(PswUtil.cipher(account.getUsername(), account.getPassword()));
         accountMapper.updatePasswordByUsername(account);
-        return accountMapper.selectOneByName(account.getUsername());
+        return accountMapper.selectOneByUsername(account.getUsername());
     }
 
     @Override

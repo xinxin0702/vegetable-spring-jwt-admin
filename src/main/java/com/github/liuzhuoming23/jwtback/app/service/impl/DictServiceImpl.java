@@ -39,10 +39,11 @@ public class DictServiceImpl implements DictService {
     @Cacheable(key = "#p0")
     public Dict selectOneByCode(String code) {
         Dict dict = dictMapper.selectOneByCode(code);
-        if (dict != null) {
-            List<DictItem> dictItems = dictMapper.selectByDictCode(dict.getCode());
-            dict.setItems(dictItems);
+        if (dict == null) {
+            throw new JwtbackException("dict not exist");
         }
+        List<DictItem> dictItems = dictMapper.selectByDictCode(dict.getCode());
+        dict.setItems(dictItems);
         return dict;
     }
 
@@ -59,7 +60,11 @@ public class DictServiceImpl implements DictService {
         DictItem dictItem = new DictItem();
         dictItem.setDictId(dictId);
         dictItem.setVal(val);
-        return dictMapper.selectByDictIdAndVal(dictItem);
+        DictItem one = dictMapper.selectByDictIdAndVal(dictItem);
+        if (one == null) {
+            throw new JwtbackException("dictItem not exist");
+        }
+        return one;
     }
 
     @Override

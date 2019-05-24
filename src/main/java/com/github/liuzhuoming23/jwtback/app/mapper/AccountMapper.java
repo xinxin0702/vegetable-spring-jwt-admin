@@ -29,7 +29,7 @@ public interface AccountMapper {
      *
      * @param username 用户名
      */
-    Account selectOneByName(String username);
+    Account selectOneByUsername(String username);
 
     /**
      * 根据用户id获取账户信息

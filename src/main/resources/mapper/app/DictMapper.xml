@@ -8,13 +8,13 @@
     select id,code,`name`,enable from dict
     <where>
       <if test="id != null">
-        id=#{id}
+        and id=#{id}
       </if>
       <if test="code != null and code != ''">
-        code=#{code}
+        and code=#{code}
       </if>
       <if test="enable != null">
-        enable=#{enable}
+        and enable=#{enable}
       </if>
     </where>
   </select>

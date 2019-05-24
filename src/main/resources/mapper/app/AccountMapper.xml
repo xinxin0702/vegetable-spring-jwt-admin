@@ -4,29 +4,32 @@
 <mapper namespace="com.github.liuzhuoming23.jwtback.app.mapper.AccountMapper">
 
   <insert id="insert" parameterType="com.github.liuzhuoming23.jwtback.app.domain.Account">
-    insert into account(username,password)values(#{username},#{password})
+    insert into account(username,password,role_id)values(#{username},#{password},#{roleId})
   </insert>
 
   <select id="select" parameterType="com.github.liuzhuoming23.jwtback.app.domain.Account"
     resultType="com.github.liuzhuoming23.jwtback.app.domain.Account">
-    select id,username,add_datetime addDatetime,enable from account
+    select id,username,role_id roleId,add_datetime addDatetime,enable from account
     <where>
       <if test="id != null">
-        id=#{id}
+        and id=#{id}
+      </if>
+      <if test="roleId != null">
+        and role_id=#{roleId}
       </if>
       <if test="username != null and username != ''">
-        username=#{username}
+        and username=#{username}
       </if>
     </where>
   </select>
-  <select id="selectOneByName" parameterType="String"
+  <select id="selectOneByUsername" parameterType="String"
     resultType="com.github.liuzhuoming23.jwtback.app.domain.Account">
-    select id,username,password,add_datetime addDatetime,enable from account
+    select id,username,password,role_id roleId,add_datetime addDatetime,enable from account
     where username=#{username}
   </select>
   <select id="selectOneById" parameterType="int"
     resultType="com.github.liuzhuoming23.jwtback.app.domain.Account">
-    select id,username,password,add_datetime addDatetime,enable from account
+    select id,username,password,role_id roleId,add_datetime addDatetime,enable from account
     where id=#{id}
   </select>
   <update id="updatePasswordByUsername"
