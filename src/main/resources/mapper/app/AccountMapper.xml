@@ -9,7 +9,7 @@
 
   <select id="select" parameterType="com.github.liuzhuoming23.jwtback.app.domain.Account"
     resultType="com.github.liuzhuoming23.jwtback.app.domain.Account">
-    select id,username,password,add_datetime addDatetime from account
+    select id,username,add_datetime addDatetime,enable from account
     <where>
       <if test="id != null">
         id=#{id}
@@ -22,7 +22,7 @@
 
   <select id="selectOneByName" parameterType="String"
     resultType="com.github.liuzhuoming23.jwtback.app.domain.Account">
-    select id,username,password,add_datetime addDatetime from account
+    select id,username,password,add_datetime addDatetime,enable from account
     where username=#{username}
   </select>
 </mapper>

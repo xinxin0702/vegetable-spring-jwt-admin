@@ -2,11 +2,11 @@ package com.github.liuzhuoming23.jwtback.app.service;
 
 import com.github.liuzhuoming23.jwtback.app.domain.Account;
 import com.github.liuzhuoming23.jwtback.app.mapper.AccountMapper;
-import com.github.liuzhuoming23.jwtback.common.exception.JwtbackException;
 import com.github.liuzhuoming23.jwtback.common.cons.RedisKeys;
-import com.github.liuzhuoming23.jwtback.common.redis.RedisOperation;
+import com.github.liuzhuoming23.jwtback.common.exception.JwtbackException;
 import com.github.liuzhuoming23.jwtback.util.EncryptType;
 import com.github.liuzhuoming23.jwtback.util.EncryptUtil;
+import com.github.liuzhuoming23.jwtback.util.StringRegexUtil;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,15 +26,17 @@ public class AccountServiceImpl implements AccountService {
 
     @Autowired
     private AccountMapper accountMapper;
-    @Autowired
-    private RedisOperation redisOperation;
 
     @Override
     @CachePut(key = "#p0.username")
     public Account insert(Account account) {
+        if (!StringRegexUtil.isLetterDigit(account.getUsername())) {
+            throw new JwtbackException(
+                "username can only contain uppercase and lowercase letters and numbers");
+        }
         List<Account> list = accountMapper.select(account);
         if (list != null && list.size() > 0) {
-            throw new JwtbackException("user already exists");
+            throw new JwtbackException("account already exists");
         }
         account.setPassword(EncryptUtil.encode(account.getUsername() + account.getPassword(),
             EncryptType.MD5));
@@ -53,10 +55,10 @@ public class AccountServiceImpl implements AccountService {
         if (StringUtils.isEmpty(username)) {
             return null;
         }
-        Account account = accountMapper.selectOneByName(username);
-        if (account == null) {
-            redisOperation.value().delete(RedisKeys.CACHE_ACCOUNT_PREFIX + "::" + username);
+        if (!StringRegexUtil.isLetterDigit(username)) {
+            throw new JwtbackException(
+                "username can only contain uppercase and lowercase letters and numbers");
         }
-        return account;
+        return accountMapper.selectOneByName(username);
     }
 }

@@ -3,6 +3,7 @@ package com.github.liuzhuoming23.jwtback.common.config;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.time.Duration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
@@ -32,11 +33,16 @@ public class RedisConfig {
         objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
         objectMapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
         redisSerializer.setObjectMapper(objectMapper);
-        RedisCacheConfiguration cacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
-            .serializeValuesWith(
-                RedisSerializationContext.SerializationPair.fromSerializer(redisSerializer));
-        RedisCacheManager redisCacheManager = RedisCacheManager.builder(connectionFactory)
-            .cacheDefaults(cacheConfiguration).build();
+        RedisCacheConfiguration cacheConfiguration = RedisCacheConfiguration
+            .defaultCacheConfig()
+            .serializeValuesWith(RedisSerializationContext
+                .SerializationPair
+                .fromSerializer(redisSerializer))
+            .entryTtl(Duration.ofSeconds(60 * 60 * 1000L));
+        RedisCacheManager redisCacheManager = RedisCacheManager
+            .builder(connectionFactory)
+            .cacheDefaults(cacheConfiguration)
+            .build();
         return redisCacheManager;
     }
 }

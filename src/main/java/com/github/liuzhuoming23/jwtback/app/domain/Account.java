@@ -14,7 +14,7 @@ import lombok.Data;
 @Data
 public class Account {
 
-    private Long id;
+    private Integer id;
     @NotEmpty
     private String username;
     @NotEmpty
@@ -22,4 +22,5 @@ public class Account {
     private String password;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date addDateTime;
+    private Integer enable;
 }

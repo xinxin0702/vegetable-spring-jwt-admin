@@ -1,6 +1,13 @@
 package com.github.liuzhuoming23.jwtback.common.jwt;
 
-import com.github.liuzhuoming23.jwtback.common.context.SpringContextUtil;
+import static com.github.liuzhuoming23.jwtback.common.cons.RedisKeys.CACHE_ACCOUNT_PREFIX;
+import static com.github.liuzhuoming23.jwtback.common.cons.RedisKeys.CACHE_LINK_SYMBOL;
+import static com.github.liuzhuoming23.jwtback.common.cons.RedisKeys.TOKEN_HASH_KEY;
+
+import com.github.liuzhuoming23.jwtback.app.domain.Account;
+import com.github.liuzhuoming23.jwtback.app.service.AccountService;
+import com.github.liuzhuoming23.jwtback.common.context.AccountContext;
+import com.github.liuzhuoming23.jwtback.common.context.SpringContext;
 import com.github.liuzhuoming23.jwtback.common.exception.JwtbackException;
 import com.github.liuzhuoming23.jwtback.common.properties.SysProperties;
 import com.github.liuzhuoming23.jwtback.common.redis.RedisOperation;
@@ -30,15 +37,16 @@ import org.springframework.util.PathMatcher;
  */
 public class JwtUtil {
 
-    private static final SysProperties SYS_PROPERTIES = SpringContextUtil
+    private static final SysProperties SYS_PROPERTIES = SpringContext
         .getBean(SysProperties.class);
-    private static final RedisOperation REDIS_OPERATION = SpringContextUtil
+    private static final RedisOperation REDIS_OPERATION = SpringContext
         .getBean(RedisOperation.class);
+    private static final AccountService ACCOUNT_SERVICE = SpringContext
+        .getBean(AccountService.class);
     private static final PathMatcher PATH_MATCHER = new AntPathMatcher();
     private static final long EXPIRATION = 24 * 60 * 60 * 1000L;
     private static final String SECRET = "7XykxY4Bog";
     private static final String HEADER_STRING = "Authorization";
-    private static final String TOKEN_HASH_KEY = "tokens";
 
     public static String generateToken(String username) {
         HashMap<String, Object> map = new HashMap<>();
@@ -54,11 +62,45 @@ public class JwtUtil {
         return token;
     }
 
-    public static HttpServletRequest validateTokenAndAddUserIdToHeader(HttpServletRequest request) {
+    /**
+     * token有效性验证
+     *
+     * @param request request
+     */
+    public static HttpServletRequest validateToken(HttpServletRequest request) {
         String token = request.getHeader(HEADER_STRING);
         if (token != null) {
             try {
-                Claims claims = verifyToken(token);
+                Claims claims = Jwts.parser()
+                    .setSigningKey(EncryptUtil.encode(SECRET, EncryptType.MD5))
+                    .parseClaimsJws(token).getBody();
+                String username = (String) claims.get("username");
+                Date expiration = claims.getExpiration();
+                //验证用户是否存在
+                Account account = ACCOUNT_SERVICE.selectOneByName(username);
+                if (account == null) {
+                    REDIS_OPERATION.value()
+                        .delete(CACHE_ACCOUNT_PREFIX + CACHE_LINK_SYMBOL + username);
+                    throw new JwtbackException("account not exist");
+                }
+                //验证用户是否有效
+                if (account.getEnable() != 0) {
+                    throw new JwtbackException("invalid account");
+                }
+                //验证token是否存在
+                String tokenInRedis = REDIS_OPERATION.hash().get(TOKEN_HASH_KEY, username);
+                if (StringUtils.isEmpty(tokenInRedis) || !token.equals(tokenInRedis)) {
+                    REDIS_OPERATION.hash().delete(TOKEN_HASH_KEY, username);
+                    throw new JwtbackException("token expired");
+                }
+                //验证token是否过期
+                if (System.currentTimeMillis() > expiration.getTime()) {
+                    REDIS_OPERATION.hash().delete(TOKEN_HASH_KEY, username);
+                    throw new JwtbackException("token expired");
+                }
+                //通过验证则把当前登录用户信息保存到ThreadLocal
+                AccountContext.set(account);
+
                 return new JwtHttpServletRequest(request, claims);
             } catch (Exception e) {
                 throw new JwtbackException("token validation failed");
@@ -66,28 +108,6 @@ public class JwtUtil {
         } else {
             throw new JwtbackException("missing token");
         }
-    }
-
-    /**
-     * token有效性验证
-     *
-     * @param token token
-     */
-    private static Claims verifyToken(String token) {
-        Claims claims = Jwts.parser().setSigningKey(EncryptUtil.encode(SECRET, EncryptType.MD5))
-            .parseClaimsJws(token).getBody();
-        String username = (String) claims.get("username");
-        Date expiration = claims.getExpiration();
-        //验证token是否存在
-        String tokenInRedis = REDIS_OPERATION.hash().get(TOKEN_HASH_KEY, username);
-        if (StringUtils.isEmpty(tokenInRedis) || !token.equals(tokenInRedis)) {
-            throw new JwtbackException("token expired");
-        }
-        //验证token是否过期
-        if (System.currentTimeMillis() > expiration.getTime()) {
-            throw new JwtbackException("token expired");
-        }
-        return claims;
     }
 
     /**

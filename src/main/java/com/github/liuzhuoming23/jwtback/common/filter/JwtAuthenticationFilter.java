@@ -1,5 +1,6 @@
 package com.github.liuzhuoming23.jwtback.common.filter;
 
+import com.github.liuzhuoming23.jwtback.common.exception.JwtbackException;
 import com.github.liuzhuoming23.jwtback.common.jwt.JwtUtil;
 import java.io.IOException;
 import javax.servlet.FilterChain;
@@ -18,13 +19,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
         FilterChain filterChain) throws ServletException, IOException {
-        try {
-            if (!JwtUtil.isAnonUrl(request)) {
-                request = JwtUtil.validateTokenAndAddUserIdToHeader(request);
+        if (!JwtUtil.isAnonUrl(request)) {
+            try {
+                request = JwtUtil.validateToken(request);
+            } catch (Exception e) {
+                throw new JwtbackException(e.getMessage());
             }
-        } catch (Exception e) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
-            return;
         }
         filterChain.doFilter(request, response);
     }
