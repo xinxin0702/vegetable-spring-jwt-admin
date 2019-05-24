@@ -31,13 +31,13 @@ public class AccountServiceImpl implements AccountService {
     @Override
     @CachePut(key = "#p0.username")
     public Account insert(Account account) {
-        if (!StringRegexUtil.isLetterDigit(account.getUsername())) {
+        if (!StringRegexUtil.isContainLetterOrDigit(account.getUsername(), 6, 16)) {
             throw new JwtbackException(
-                "username can only contain uppercase and lowercase letters and numbers");
+                "username can only contain uppercase or lowercase letters or numbers and length between 6 and 16");
         }
-        if (!StringRegexUtil.isLetterDigit(account.getPassword())) {
+        if (!StringRegexUtil.isContainUppercaseAndLowercaseAndDigit(account.getPassword(), 6, 16)) {
             throw new JwtbackException(
-                "password can only contain uppercase and lowercase letters and numbers");
+                "password must contain uppercase and lowercase letters and numbers and length between 6 and 16");
         }
         List<Account> list = accountMapper.select(account);
         if (list != null && list.size() > 0) {

@@ -18,7 +18,28 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = JwtbackException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public Result handleException(JwtbackException e) {
+    public Result handle(JwtbackException e) {
+        log.error(e.getMessage());
+        return new Result().fail(e.getMessage());
+    }
+
+    @ExceptionHandler(value = TokenException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public Result handle(TokenException e) {
+        log.error(e.getMessage());
+        return new Result().fail(HttpStatus.UNAUTHORIZED, e.getMessage(), "");
+    }
+
+    @ExceptionHandler(value = RuntimeException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public Result handle(RuntimeException e) {
+        log.error(e.getMessage());
+        return new Result().fail(e.getMessage());
+    }
+
+    @ExceptionHandler(value = Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public Result handle(Exception e) {
         log.error(e.getMessage());
         return new Result().fail(e.getMessage());
     }

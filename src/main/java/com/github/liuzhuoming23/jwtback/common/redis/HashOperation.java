@@ -19,30 +19,30 @@ public class HashOperation {
      * 添加hash数据
      *
      * @param key redis key
-     * @param hashKey hash key
+     * @param field hash field
      * @param val value
      */
-    public void put(String key, String hashKey, String val) {
-        stringRedisTemplate.opsForHash().put(key, hashKey, val);
+    public void put(String key, String field, String val) {
+        stringRedisTemplate.opsForHash().put(key, field, val);
     }
 
     /**
      * 获取hash数据
      *
      * @param key redis key
-     * @param hashKey hash key
+     * @param field hash field
      */
-    public String get(String key, String hashKey) {
-        return (String) stringRedisTemplate.opsForHash().get(key, hashKey);
+    public String get(String key, String field) {
+        return (String) stringRedisTemplate.opsForHash().get(key, field);
     }
 
     /**
      * 删除hash数据
      *
      * @param key redis key
-     * @param hashKeys hash keys
+     * @param fields hash fields
      */
-    public void delete(String key, String... hashKeys) {
-        stringRedisTemplate.opsForHash().delete(key, (Object[]) hashKeys);
+    public void delete(String key, String... fields) {
+        stringRedisTemplate.opsForHash().delete(key, (Object[]) fields);
     }
 }

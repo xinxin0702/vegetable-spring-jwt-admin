@@ -25,4 +25,12 @@ public class SetOperation {
         stringRedisTemplate.opsForSet().add(key, vals);
     }
 
+    /**
+     * 获取set size
+     *
+     * @param key redis key
+     */
+    public Long size(String key) {
+        return stringRedisTemplate.opsForSet().size(key);
+    }
 }

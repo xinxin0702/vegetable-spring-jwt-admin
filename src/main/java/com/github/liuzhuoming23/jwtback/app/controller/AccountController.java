@@ -7,7 +7,6 @@ import com.github.liuzhuoming23.jwtback.common.exception.JwtbackException;
 import com.github.liuzhuoming23.jwtback.util.StringRegexUtil;
 import java.util.List;
 import javax.validation.Valid;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,15 +50,13 @@ public class AccountController {
     @PutMapping("/{username}/psw")
     public void updatePasswordByUsername(@PathVariable String username,
         @RequestParam String password) {
-        if (StringUtils.isEmpty(username) || username.length() < 6 || username.length() > 16) {
-            throw new JwtbackException("account not exist");
-        }
-        if (StringUtils.isEmpty(password) || password.length() < 6 || password.length() > 16) {
-            throw new JwtbackException("invalid password");
-        }
-        if (!StringRegexUtil.isLetterDigit(password)) {
+        if (!StringRegexUtil.isContainLetterOrDigit(username, 6, 16)) {
             throw new JwtbackException(
-                "password can only contain uppercase and lowercase letters and numbers");
+                "username can only contain uppercase or lowercase letters or numbers and length between 6 and 16");
+        }
+        if (!StringRegexUtil.isContainUppercaseAndLowercaseAndDigit(password, 6, 16)) {
+            throw new JwtbackException(
+                "password must contain uppercase and lowercase letters and numbers and length between 6 and 16");
         }
         Account account = new Account();
         account.setUsername(username);

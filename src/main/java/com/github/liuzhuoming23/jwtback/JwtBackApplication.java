@@ -11,10 +11,10 @@ import org.springframework.cache.annotation.EnableCaching;
  */
 @SpringBootApplication
 @EnableCaching
-public class JwtDemoApplication {
+public class JwtBackApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(JwtDemoApplication.class, args);
+        SpringApplication.run(JwtBackApplication.class, args);
     }
 
 }

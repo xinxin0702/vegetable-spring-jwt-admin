@@ -8,7 +8,7 @@ import com.github.liuzhuoming23.jwtback.app.domain.Account;
 import com.github.liuzhuoming23.jwtback.app.service.AccountService;
 import com.github.liuzhuoming23.jwtback.common.context.AccountContext;
 import com.github.liuzhuoming23.jwtback.common.context.SpringContext;
-import com.github.liuzhuoming23.jwtback.common.exception.JwtbackException;
+import com.github.liuzhuoming23.jwtback.common.exception.TokenException;
 import com.github.liuzhuoming23.jwtback.common.properties.SysProperties;
 import com.github.liuzhuoming23.jwtback.common.redis.RedisOperation;
 import com.github.liuzhuoming23.jwtback.util.EncryptType;
@@ -55,7 +55,7 @@ public class JwtUtil {
         String token = Jwts.builder()
             .setClaims(map)
             .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
-            .signWith(SignatureAlgorithm.HS512, EncryptUtil.encode(SECRET, EncryptType.MD5))
+            .signWith(SignatureAlgorithm.HS512, EncryptUtil.encode(SECRET, EncryptType.BASE64))
             .compact();
 
         REDIS_OPERATION.hash().put(TOKEN_HASH_KEY, username, token);
@@ -72,7 +72,7 @@ public class JwtUtil {
         if (token != null) {
             try {
                 Claims claims = Jwts.parser()
-                    .setSigningKey(EncryptUtil.encode(SECRET, EncryptType.MD5))
+                    .setSigningKey(EncryptUtil.encode(SECRET, EncryptType.BASE64))
                     .parseClaimsJws(token).getBody();
                 String username = (String) claims.get("username");
                 Date expiration = claims.getExpiration();
@@ -81,32 +81,29 @@ public class JwtUtil {
                 if (account == null) {
                     REDIS_OPERATION.value()
                         .delete(CACHE_ACCOUNT_PREFIX + CACHE_LINK_SYMBOL + username);
-                    throw new JwtbackException("account not exist");
+                    throw new TokenException("account not exist");
                 }
                 //验证用户是否有效
                 if (account.getEnable() != 0) {
-                    throw new JwtbackException("invalid account");
+                    throw new TokenException("invalid account");
                 }
                 //验证token是否存在
                 String tokenInRedis = REDIS_OPERATION.hash().get(TOKEN_HASH_KEY, username);
                 if (StringUtils.isEmpty(tokenInRedis) || !token.equals(tokenInRedis)) {
-                    REDIS_OPERATION.hash().delete(TOKEN_HASH_KEY, username);
-                    throw new JwtbackException("token expired");
+                    throw new TokenException("token expired");
                 }
                 //验证token是否过期
                 if (System.currentTimeMillis() > expiration.getTime()) {
-                    REDIS_OPERATION.hash().delete(TOKEN_HASH_KEY, username);
-                    throw new JwtbackException("token expired");
+                    throw new TokenException("token expired");
                 }
                 //通过验证则把当前登录用户信息保存到ThreadLocal
                 AccountContext.set(account);
-
                 return new JwtHttpServletRequest(request, claims);
             } catch (Exception e) {
-                throw new JwtbackException("token validation failed");
+                throw new TokenException(e.getMessage());
             }
         } else {
-            throw new JwtbackException("missing token");
+            throw new TokenException("missing token");
         }
     }
 
@@ -128,7 +125,7 @@ public class JwtUtil {
 
         private Map<String, String> claims;
 
-        public JwtHttpServletRequest(HttpServletRequest request, Map<String, ?> claims) {
+        JwtHttpServletRequest(HttpServletRequest request, Map<String, ?> claims) {
             super(request);
             this.claims = new HashMap<>();
             claims.forEach((k, v) -> this.claims.put(k, String.valueOf(v)));

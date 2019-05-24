@@ -3,7 +3,6 @@ package com.github.liuzhuoming23.jwtback.common.filter;
 import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -17,12 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  *
  * @author liuzhuoming
  */
-public class CORSFilter implements Filter {
-
-    @Override
-    public void destroy() {
-
-    }
+public class CorsFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
@@ -38,10 +32,4 @@ public class CORSFilter implements Filter {
         }
         chain.doFilter(request, response);
     }
-
-    @Override
-    public void init(FilterConfig arg0) {
-
-    }
-
 }

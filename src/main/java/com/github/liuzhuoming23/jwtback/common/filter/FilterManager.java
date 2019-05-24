@@ -14,8 +14,8 @@ public class FilterManager {
 
     @Bean
     public FilterRegistrationBean cORSFilter() {
-        FilterRegistrationBean<CORSFilter> registrationBean = new FilterRegistrationBean<>();
-        CORSFilter filter = new CORSFilter();
+        FilterRegistrationBean<CorsFilter> registrationBean = new FilterRegistrationBean<>();
+        CorsFilter filter = new CorsFilter();
         registrationBean.setFilter(filter);
         registrationBean.setOrder(0);
         return registrationBean;
