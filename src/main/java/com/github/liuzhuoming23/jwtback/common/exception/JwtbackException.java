@@ -3,8 +3,7 @@ package com.github.liuzhuoming23.jwtback.common.exception;
 /**
  * jwtback系统异常
  *
- * @author gnimouhzuil
- * @date 2019/5/23 22:15
+ * @author liuzhuoming
  */
 public class JwtbackException extends RuntimeException {
 

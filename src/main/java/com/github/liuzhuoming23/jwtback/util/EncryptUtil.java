@@ -12,7 +12,6 @@ import org.apache.commons.codec.digest.DigestUtils;
  * 编码解码工具类
  *
  * @author liuzhuoming
- * @datetime 2019/5/6 16:25
  */
 public class EncryptUtil {
 

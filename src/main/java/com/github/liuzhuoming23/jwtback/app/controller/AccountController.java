@@ -14,8 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * 测试
  *
- * @author gnimouhzuil
- * @date 2019/5/23 10:45
+ * @author liuzhuoming
  */
 @RestController
 @RequestMapping("account")

@@ -5,8 +5,7 @@ import java.util.HashMap;
 /**
  * 返回值
  *
- * @author gnimouhzuil
- * @date 2019/5/23 22:15
+ * @author liuzhuoming
  */
 public class Result extends HashMap<String, Object> {
 

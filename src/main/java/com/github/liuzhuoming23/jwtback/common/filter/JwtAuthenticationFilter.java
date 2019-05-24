@@ -8,6 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+/**
+ * jwt鉴权过滤器
+ *
+ * @author liuzhuoming
+ */
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override

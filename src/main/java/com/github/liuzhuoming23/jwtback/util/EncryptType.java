@@ -3,8 +3,7 @@ package com.github.liuzhuoming23.jwtback.util;
 /**
  * 加密解密类型
  *
- * @author gnimouhzuil
- * @date 2019/5/23 21:02
+ * @author liuzhuoming
  */
 public enum EncryptType {
     /**

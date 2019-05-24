@@ -5,8 +5,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 /**
  * redis value操作
  *
- * @author gnimouhzuil
- * @date 2019/5/23 17:12
+ * @author liuzhuoming
  */
 public class ValueOperation {
 

@@ -1,4 +1,4 @@
-package com.github.liuzhuoming23.jwtback.system.controller;
+package com.github.liuzhuoming23.jwtback.app.controller;
 
 import com.github.liuzhuoming23.jwtback.app.domain.Account;
 import com.github.liuzhuoming23.jwtback.app.service.AccountService;
@@ -18,8 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * 登录接口
  *
- * @author gnimouhzuil
- * @date 2019/5/23 10:28
+ * @author liuzhuoming
  */
 @RestController
 public class LoginController {

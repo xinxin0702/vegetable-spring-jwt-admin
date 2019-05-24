@@ -3,8 +3,7 @@ package com.github.liuzhuoming23.jwtback.common.cons;
 /**
  * redis keys
  *
- * @author gnimouhzuil
- * @date 2019/5/23 23:17
+ * @author liuzhuoming
  */
 public class RedisKeys {
 

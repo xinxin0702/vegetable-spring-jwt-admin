@@ -26,8 +26,7 @@ import org.springframework.util.PathMatcher;
 /**
  * jwt生成解析及验证
  *
- * @author gnimouhzuil
- * @date 2019/5/23 10:02
+ * @author liuzhuoming
  */
 public class JwtUtil {
 

@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 /**
  * jwtback系统异常统一处理
  *
- * @author gnimouhzuil
- * @date 2019/5/23 23:15
+ * @author liuzhuoming
  */
 @Slf4j
 @RestControllerAdvice

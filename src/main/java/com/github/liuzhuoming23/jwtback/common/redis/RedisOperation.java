@@ -7,8 +7,7 @@ import org.springframework.stereotype.Component;
 /**
  * redis操作
  *
- * @author: liuzhuoming
- * @date: 2018/7/2 10:38
+ * @author liuzhuoming
  */
 @Component
 public class RedisOperation {
@@ -22,5 +21,9 @@ public class RedisOperation {
 
     public HashOperation hash() {
         return new HashOperation(stringRedisTemplate);
+    }
+
+    public SetOperation set() {
+        return new SetOperation(stringRedisTemplate);
     }
 }

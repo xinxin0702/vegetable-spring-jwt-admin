@@ -7,8 +7,7 @@ import org.springframework.stereotype.Component;
 /**
  * filter管理器
  *
- * @author gnimouhzuil
- * @date 2019/5/23 11:06
+ * @author liuzhuoming
  */
 @Component
 public class FilterManager {

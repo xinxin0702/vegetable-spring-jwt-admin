@@ -9,8 +9,7 @@ import lombok.Data;
 /**
  * 账户信息
  *
- * @author gnimouhzuil
- * @date 2019/5/23 10:42
+ * @author liuzhuoming
  */
 @Data
 public class Account {

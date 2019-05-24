@@ -6,8 +6,7 @@ import java.util.List;
 /**
  * 账户service
  *
- * @author gnimouhzuil
- * @date 2019/5/23 21:42
+ * @author liuzhuoming
  */
 public interface AccountService {
 

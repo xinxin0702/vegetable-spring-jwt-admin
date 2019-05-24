@@ -15,8 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 /**
  * 跨域过滤器
  *
- * @author gnimouhzuil
- * @date 2019/5/23 11:02
+ * @author liuzhuoming
  */
 public class CORSFilter implements Filter {
 

@@ -5,8 +5,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 /**
  * redis set操作
  *
- * @author gnimouhzuil
- * @date 2019/5/23 23:21
+ * @author liuzhuoming
  */
 public class SetOperation {
 

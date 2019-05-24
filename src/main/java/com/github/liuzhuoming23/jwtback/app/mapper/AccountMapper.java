@@ -6,8 +6,7 @@ import java.util.List;
 /**
  * 账户mapper
  *
- * @author gnimouhzuil
- * @date 2019/5/23 18:10
+ * @author liuzhuoming
  */
 public interface AccountMapper {
 
