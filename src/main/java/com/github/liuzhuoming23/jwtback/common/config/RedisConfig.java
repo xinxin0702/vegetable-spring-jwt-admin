@@ -38,11 +38,10 @@ public class RedisConfig {
             .serializeValuesWith(RedisSerializationContext
                 .SerializationPair
                 .fromSerializer(redisSerializer))
-            .entryTtl(Duration.ofSeconds(60 * 60 * 1000L));
-        RedisCacheManager redisCacheManager = RedisCacheManager
+            .entryTtl(Duration.ofSeconds(5 * 60 * 60L));
+        return RedisCacheManager
             .builder(connectionFactory)
             .cacheDefaults(cacheConfiguration)
             .build();
-        return redisCacheManager;
     }
 }

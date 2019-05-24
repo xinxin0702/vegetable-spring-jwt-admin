@@ -18,7 +18,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-        FilterChain filterChain) throws ServletException, IOException {
+        FilterChain filterChain) throws ServletException, IOException, JwtbackException {
         if (!JwtUtil.isAnonUrl(request)) {
             try {
                 request = JwtUtil.validateToken(request);

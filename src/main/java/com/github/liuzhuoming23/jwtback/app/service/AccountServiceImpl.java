@@ -11,6 +11,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,10 @@ public class AccountServiceImpl implements AccountService {
             throw new JwtbackException(
                 "username can only contain uppercase and lowercase letters and numbers");
         }
+        if (!StringRegexUtil.isLetterDigit(account.getPassword())) {
+            throw new JwtbackException(
+                "password can only contain uppercase and lowercase letters and numbers");
+        }
         List<Account> list = accountMapper.select(account);
         if (list != null && list.size() > 0) {
             throw new JwtbackException("account already exists");
@@ -55,10 +60,21 @@ public class AccountServiceImpl implements AccountService {
         if (StringUtils.isEmpty(username)) {
             return null;
         }
-        if (!StringRegexUtil.isLetterDigit(username)) {
-            throw new JwtbackException(
-                "username can only contain uppercase and lowercase letters and numbers");
-        }
         return accountMapper.selectOneByName(username);
+    }
+
+    @Override
+    @CachePut(key = "#p0.username")
+    public Account updatePasswordByUsername(Account account) {
+        account.setPassword(EncryptUtil.encode(account.getUsername() + account.getPassword(),
+            EncryptType.MD5));
+        accountMapper.updatePasswordByUsername(account);
+        return accountMapper.selectOneByName(account.getUsername());
+    }
+
+    @Override
+    @CacheEvict(key = "#p0")
+    public void deleteOneByUsername(String username) {
+        accountMapper.deleteOneByUsername(username);
     }
 }
