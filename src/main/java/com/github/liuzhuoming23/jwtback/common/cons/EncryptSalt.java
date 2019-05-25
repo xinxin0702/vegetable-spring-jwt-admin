@@ -4,11 +4,11 @@ import com.github.liuzhuoming23.jwtback.util.EncryptType;
 import com.github.liuzhuoming23.jwtback.util.EncryptUtil;
 
 /**
- * mysql cons
+ * 加密盐
  *
  * @author liuzhuoming
  */
-public class MysqlCons {
+public class EncryptSalt {
 
     /**
      * 账户密码加盐

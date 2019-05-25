@@ -1,6 +1,6 @@
 package com.github.liuzhuoming23.jwtback.app.controller;
 
-import static com.github.liuzhuoming23.jwtback.common.cons.RedisCons.TOKEN_HASH_KEY;
+import static com.github.liuzhuoming23.jwtback.common.cons.RedisKey.TOKEN_HASH_KEY;
 
 import com.github.liuzhuoming23.jwtback.app.domain.Account;
 import com.github.liuzhuoming23.jwtback.app.service.AccountService;
@@ -70,7 +70,7 @@ public class TokenController {
         if (one == null) {
             return false;
         }
-        if (!PswUtil.valid(username, password, one.getPassword())) {
+        if (!PswUtil.isEquals(username, password, one.getPassword())) {
             return false;
         }
         return true;

@@ -1,9 +1,11 @@
 package com.github.liuzhuoming23.jwtback.app.controller;
 
-import static com.github.liuzhuoming23.jwtback.common.cons.RedisCons.TOKEN_HASH_KEY;
+import static com.github.liuzhuoming23.jwtback.common.cons.RedisKey.TOKEN_HASH_KEY;
 
 import com.github.liuzhuoming23.jwtback.app.domain.Account;
 import com.github.liuzhuoming23.jwtback.app.service.AccountService;
+import com.github.liuzhuoming23.jwtback.common.annotation.Log;
+import com.github.liuzhuoming23.jwtback.common.cons.LogLevel;
 import com.github.liuzhuoming23.jwtback.common.domain.Result;
 import com.github.liuzhuoming23.jwtback.common.exception.JwtbackException;
 import com.github.liuzhuoming23.jwtback.common.redis.RedisOperation;
@@ -37,17 +39,20 @@ public class AccountController {
     private RedisOperation redisOperation;
 
     @PostMapping
+    @Log(description = "添加账户", level = LogLevel.LV5)
     public void insert(@Valid @ModelAttribute Account account) {
         accountService.insert(account);
     }
 
     @GetMapping
+    @Log(description = "查看账户列表", level = LogLevel.LV2)
     public Result select(Account account) {
         List<Account> accounts = accountService.select(account);
         return new Result().succ(accounts);
     }
 
     @GetMapping("/{username}")
+    @Log(description = "查看账户", level = LogLevel.LV2)
     public Result selectOneByName(@PathVariable String username) {
         Account account = accountService.selectOneByUsername(username);
         account.setPassword("******");
@@ -55,6 +60,7 @@ public class AccountController {
     }
 
     @PutMapping("/{username}/psw")
+    @Log(description = "修改账户密码", level = LogLevel.LV5)
     public void updatePasswordByUsername(@PathVariable String username,
         @RequestParam String password, @RequestParam String newPassword) {
         if (!StringRegexUtil.isContainLetterOrDigit(username, 6, 16)) {
@@ -76,7 +82,7 @@ public class AccountController {
             throw new JwtbackException("account not exist");
         }
 
-        if (PswUtil.valid(username, password, one.getPassword())) {
+        if (PswUtil.isEquals(username, password, one.getPassword())) {
             Account account = new Account();
             account.setUsername(username);
             account.setPassword(newPassword);
@@ -87,6 +93,7 @@ public class AccountController {
     }
 
     @DeleteMapping("/{username}")
+    @Log(description = "删除账户", level = LogLevel.LV5)
     public void deleteOneByUsername(@PathVariable String username) {
         accountService.deleteOneByUsername(username);
         redisOperation.hash().delete(TOKEN_HASH_KEY, username);

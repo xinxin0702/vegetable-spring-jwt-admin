@@ -19,9 +19,9 @@ public interface DictService {
     List<Dict> select(Dict dict);
 
     /**
-     * 根据字典内容编码获取字典
+     * 根据字典项编码获取字典
      *
-     * @param code 字典内容编码
+     * @param code 字典项编码
      */
     Dict selectOneByCode(String code);
 
@@ -33,22 +33,22 @@ public interface DictService {
     Dict insert(Dict dict);
 
     /**
-     * 根据字典id和字典内容值获取字典内容
+     * 根据字典id和字典项值获取字典项
      *
      * @param dictId 字典id
-     * @param val 字典内容值
+     * @param val 字典项值
      */
     DictItem selectByDictIdAndVal(Integer dictId, Integer val);
 
     /**
-     * 根据字典id获取字典内容集合
+     * 根据字典id获取字典项集合
      *
      * @param dictId 字典id
      */
     List<DictItem> selectByDictId(Integer dictId);
 
     /**
-     * 添加字典内容
+     * 添加字典项
      */
     DictItem insertItem(DictItem dictItem);
 }

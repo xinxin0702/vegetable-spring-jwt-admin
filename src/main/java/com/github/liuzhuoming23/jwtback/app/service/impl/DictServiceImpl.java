@@ -4,7 +4,7 @@ import com.github.liuzhuoming23.jwtback.app.domain.Dict;
 import com.github.liuzhuoming23.jwtback.app.domain.DictItem;
 import com.github.liuzhuoming23.jwtback.app.mapper.DictMapper;
 import com.github.liuzhuoming23.jwtback.app.service.DictService;
-import com.github.liuzhuoming23.jwtback.common.cons.RedisCons;
+import com.github.liuzhuoming23.jwtback.common.cons.RedisKey;
 import com.github.liuzhuoming23.jwtback.common.exception.JwtbackException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
  * @author liuzhuoming
  */
 @Service
-@CacheConfig(cacheNames = RedisCons.CACHE_KEY_DICT_PREFIX)
+@CacheConfig(cacheNames = RedisKey.CACHE_KEY_DICT_PREFIX)
 public class DictServiceImpl implements DictService {
 
     @Autowired

@@ -27,6 +27,6 @@ public class Account {
     @Min(0)
     private Integer roleId;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date addDateTime;
-    private Integer enable = 0;
+    private Date addDatetime;
+    private Integer enable;
 }

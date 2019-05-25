@@ -40,28 +40,28 @@ public interface DictMapper {
     void insert(Dict dict);
 
     /**
-     * 根据字典id获取字典内容集合
+     * 根据字典id获取字典项集合
      *
      * @param code 字典code
      */
     List<DictItem> selectByDictCode(String code);
 
     /**
-     * 根据字典id和字典内容值获取字典内容
+     * 根据字典id和字典项值获取字典项
      *
-     * @param dictItem 字典内容查询信息
+     * @param dictItem 字典项查询信息
      */
     DictItem selectByDictIdAndVal(DictItem dictItem);
 
     /**
-     * 根据字典id获取字典内容集合
+     * 根据字典id获取字典项集合
      *
      * @param dictId 字典id
      */
     List<DictItem> selectByDictId(Integer dictId);
 
     /**
-     * 添加字典内容
+     * 添加字典项
      */
     void insertItem(DictItem dictItem);
 }

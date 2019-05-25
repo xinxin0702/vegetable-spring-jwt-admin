@@ -8,7 +8,7 @@ import javax.validation.constraints.Size;
 import lombok.Data;
 
 /**
- * 字典内容
+ * 字典项
  *
  * @author liuzhuoming
  */

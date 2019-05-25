@@ -3,6 +3,7 @@ package com.github.liuzhuoming23.jwtback.app.controller;
 import com.github.liuzhuoming23.jwtback.app.domain.Dict;
 import com.github.liuzhuoming23.jwtback.app.domain.DictItem;
 import com.github.liuzhuoming23.jwtback.app.service.DictService;
+import com.github.liuzhuoming23.jwtback.common.annotation.Log;
 import com.github.liuzhuoming23.jwtback.common.domain.Result;
 import java.util.List;
 import javax.validation.Valid;
@@ -26,35 +27,41 @@ public class DictController {
     private DictService dictService;
 
     @PostMapping
+    @Log(description = "添加字典")
     public void insert(@Valid Dict dict) {
         dictService.insert(dict);
     }
 
     @GetMapping
+    @Log(description = "获取字典列表")
     public Result select(Dict dict) {
         List<Dict> list = dictService.select(dict);
         return new Result().succ(list);
     }
 
     @GetMapping("{code}")
+    @Log(description = "获取字典")
     public Result selectOneByCode(@PathVariable String code) {
         Dict dict = dictService.selectOneByCode(code);
         return new Result().succ(dict);
     }
 
     @PostMapping("/{dictId}/item")
+    @Log(description = "添加字典项")
     public void insertItem(@Valid DictItem dictItem, @PathVariable Integer dictId) {
         dictItem.setDictId(dictId);
         dictService.insertItem(dictItem);
     }
 
     @GetMapping("/{dictId}/item")
-    public Result insertItem(@PathVariable Integer dictId) {
+    @Log(description = "获取字典项集合")
+    public Result selectItem(@PathVariable Integer dictId) {
         List<DictItem> dictItems = dictService.selectByDictId(dictId);
         return new Result().succ(dictItems);
     }
 
     @GetMapping("/{dictId}/item/{val}")
+    @Log(description = "获取字典项")
     public Result insertItem(@PathVariable Integer dictId, @PathVariable Integer val) {
         DictItem dictItem = dictService.selectByDictIdAndVal(dictId, val);
         return new Result().succ(dictItem);

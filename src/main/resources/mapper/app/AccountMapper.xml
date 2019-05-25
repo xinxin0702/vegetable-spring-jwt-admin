@@ -9,7 +9,7 @@
 
   <select id="select" parameterType="com.github.liuzhuoming23.jwtback.app.domain.Account"
     resultType="com.github.liuzhuoming23.jwtback.app.domain.Account">
-    select id,username,role_id roleId,add_datetime addDatetime,enable from account
+    select id,username,'******' password,role_id roleId,add_datetime addDatetime,enable from account
     <where>
       <if test="id != null">
         and id=#{id}
@@ -19,6 +19,9 @@
       </if>
       <if test="username != null and username != ''">
         and username=#{username}
+      </if>
+      <if test="enable != null">
+        and enable=#{enable}
       </if>
     </where>
   </select>

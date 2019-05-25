@@ -1,11 +1,11 @@
 package com.github.liuzhuoming23.jwtback.common.cons;
 
 /**
- * redis cons
+ * redis key
  *
  * @author liuzhuoming
  */
-public class RedisCons {
+public class RedisKey {
 
     /**
      * 缓存连接符

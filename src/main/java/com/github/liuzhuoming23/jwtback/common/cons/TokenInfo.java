@@ -4,11 +4,11 @@ import com.github.liuzhuoming23.jwtback.util.EncryptType;
 import com.github.liuzhuoming23.jwtback.util.EncryptUtil;
 
 /**
- * token cons
+ * token信息
  *
  * @author liuzhuoming
  */
-public class TokenCons {
+public class TokenInfo {
 
     public static final long EXPIRATION = 24 * 60 * 60 * 1000L;
     public static final String AUTH_HEADER_KEY = "Authorization";

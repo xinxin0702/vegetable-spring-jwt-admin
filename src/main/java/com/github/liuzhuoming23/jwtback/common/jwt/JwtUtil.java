@@ -1,11 +1,11 @@
 package com.github.liuzhuoming23.jwtback.common.jwt;
 
-import static com.github.liuzhuoming23.jwtback.common.cons.RedisCons.CACHE_KEY_ACCOUNT_PREFIX;
-import static com.github.liuzhuoming23.jwtback.common.cons.RedisCons.CACHE_KEY_LINK_SYMBOL;
-import static com.github.liuzhuoming23.jwtback.common.cons.RedisCons.TOKEN_HASH_KEY;
-import static com.github.liuzhuoming23.jwtback.common.cons.TokenCons.AUTH_HEADER_KEY;
-import static com.github.liuzhuoming23.jwtback.common.cons.TokenCons.EXPIRATION;
-import static com.github.liuzhuoming23.jwtback.common.cons.TokenCons.JWT_SECRET;
+import static com.github.liuzhuoming23.jwtback.common.cons.RedisKey.CACHE_KEY_ACCOUNT_PREFIX;
+import static com.github.liuzhuoming23.jwtback.common.cons.RedisKey.CACHE_KEY_LINK_SYMBOL;
+import static com.github.liuzhuoming23.jwtback.common.cons.RedisKey.TOKEN_HASH_KEY;
+import static com.github.liuzhuoming23.jwtback.common.cons.TokenInfo.AUTH_HEADER_KEY;
+import static com.github.liuzhuoming23.jwtback.common.cons.TokenInfo.EXPIRATION;
+import static com.github.liuzhuoming23.jwtback.common.cons.TokenInfo.JWT_SECRET;
 
 import com.github.liuzhuoming23.jwtback.app.domain.Account;
 import com.github.liuzhuoming23.jwtback.app.service.AccountService;
@@ -19,14 +19,12 @@ import com.github.liuzhuoming23.jwtback.util.EncryptUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import org.apache.commons.lang3.StringUtils;
@@ -114,8 +112,7 @@ public class JwtUtil {
      * 是否免登录url
      */
     public static boolean isAnonUrl(HttpServletRequest request) {
-        List<String> anons = Arrays.stream(SYS_PROPERTIES.getAnonUrl().split(",")).map(String::trim)
-            .collect(Collectors.toList());
+        List<String> anons = SYS_PROPERTIES.getAnonUrls();
         for (String anon : anons) {
             if (PATH_MATCHER.match(anon, request.getServletPath())) {
                 return true;

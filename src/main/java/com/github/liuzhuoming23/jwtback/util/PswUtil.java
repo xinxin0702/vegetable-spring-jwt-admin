@@ -1,6 +1,6 @@
 package com.github.liuzhuoming23.jwtback.util;
 
-import static com.github.liuzhuoming23.jwtback.common.cons.MysqlCons.ACCOUNT_PASSWORD_SALT;
+import static com.github.liuzhuoming23.jwtback.common.cons.EncryptSalt.ACCOUNT_PASSWORD_SALT;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -31,7 +31,7 @@ public class PswUtil {
      * @return true正确 false错误
      * @see PswUtil#cipher(String, String)
      */
-    public static boolean valid(String username, String password, String ciphertext) {
+    public static boolean isEquals(String username, String password, String ciphertext) {
         return StringUtils.isNotEmpty(ciphertext) && ciphertext.equals(EncryptUtil
             .encode(username + ACCOUNT_PASSWORD_SALT + password, EncryptType.MD5));
     }
