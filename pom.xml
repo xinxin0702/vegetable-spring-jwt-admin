@@ -10,9 +10,9 @@
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
   <groupId>com.github.liuzhuoming23</groupId>
-  <artifactId>jwt-back</artifactId>
+  <artifactId>s-vea</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>jwt-back</name>
+  <name>spring-vue-element-admin</name>
   <description>Demo project for Spring Boot</description>
 
   <properties>
@@ -75,6 +75,22 @@
       <groupId>com.alibaba</groupId>
       <artifactId>fastjson</artifactId>
       <version>1.2.58</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.5.6</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpmime</artifactId>
+      <version>4.5.6</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpcore</artifactId>
+      <version>4.4.11</version>
     </dependency>
   </dependencies>
 
