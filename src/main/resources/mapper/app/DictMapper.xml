@@ -5,7 +5,8 @@
 
   <select id="select" resultType="com.github.liuzhuoming23.svea.app.domain.Dict"
     parameterType="com.github.liuzhuoming23.svea.app.domain.Dict">
-    select id,code,`name`,enable from dict
+    select id,code,`name`,enable
+    from dict
     <where>
       <if test="id != null">
         and id=#{id}
@@ -25,32 +26,44 @@
   </select>
   <select id="selectOneById" resultType="com.github.liuzhuoming23.svea.app.domain.Dict"
     parameterType="int">
-    select id,code,`name`,enable from dict
+    select id,code,`name`,enable
+    from dict
     where id=#{id}
   </select>
   <insert id="insert" useGeneratedKeys="true" keyProperty="id"
     parameterType="com.github.liuzhuoming23.svea.app.domain.Dict">
-    insert into dict(code,`name`,enable)values(#{code},#{name},#{enable})
+    insert into
+    dict(code,`name`,enable)
+    values
+    (#{code},#{name},#{enable})
   </insert>
-
 
   <select id="selectByDictCode" parameterType="String"
     resultType="com.github.liuzhuoming23.svea.app.domain.DictItem">
-    select id,dict_id dictId,context,val,sort from dict_item
-    where dict_id=(select id from dict where code=#{code})
+    select id,dict_id dictId,context,val,sort
+    from dict_item
+    where dict_id=(select id
+                   from dict
+                   where code=#{code})
   </select>
   <select id="selectByDictIdAndVal"
     parameterType="com.github.liuzhuoming23.svea.app.domain.DictItem"
     resultType="com.github.liuzhuoming23.svea.app.domain.DictItem">
-    select id,dict_id dictId,context,val,sort from dict_item
-    where dict_id=#{dictId} and val=#{val}
+    select id,dict_id dictId,context,val,sort
+    from dict_item
+    where dict_id=#{dictId}
+    and val=#{val}
   </select>
   <select id="selectByDictId" parameterType="int"
     resultType="com.github.liuzhuoming23.svea.app.domain.DictItem">
-    select id,dict_id dictId,context,val,sort from dict_item
+    select id,dict_id dictId,context,val,sort
+    from dict_item
     where dict_id=#{dictId}
   </select>
   <insert id="insertItem" parameterType="com.github.liuzhuoming23.svea.app.domain.DictItem">
-    insert into dict_item(dict_id,context,val,sort)values(#{dictId},#{context},#{val},#{sort})
+    insert into dict_item
+    (dict_id,context,val,sort)
+    values
+    (#{dictId},#{context},#{val},#{sort})
   </insert>
 </mapper>
