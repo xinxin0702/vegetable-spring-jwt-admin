@@ -10,7 +10,7 @@
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
   <groupId>com.github.liuzhuoming23</groupId>
-  <artifactId>s-vea</artifactId>
+  <artifactId>S-VEA</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>spring-vue-element-admin</name>
   <description>Demo project for Spring Boot</description>
