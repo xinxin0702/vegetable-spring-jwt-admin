@@ -32,10 +32,10 @@
   </select>
   <insert id="insert" useGeneratedKeys="true" keyProperty="id"
     parameterType="com.github.liuzhuoming23.svea.app.domain.Dict">
-    insert into
-    dict(code,`name`,enable)
+    insert into dict
+    (code,`name`)
     values
-    (#{code},#{name},#{enable})
+    (#{code},#{name})
   </insert>
 
   <select id="selectByDictCode" parameterType="String"

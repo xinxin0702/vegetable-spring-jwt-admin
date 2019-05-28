@@ -5,14 +5,15 @@
 
   <insert id="insert" parameterType="com.github.liuzhuoming23.svea.app.domain.Account">
     insert into account
-    (username,password,role_id)
+    (username,password,role_id,isAdmin)
     values
-    (#{username},#{password},#{roleId})
+    (#{username},#{password},#{roleId},#{isAdmin})
   </insert>
 
   <select id="select" parameterType="com.github.liuzhuoming23.svea.app.domain.Account"
     resultType="com.github.liuzhuoming23.svea.app.domain.Account">
-    select id,username,'******' password,role_id roleId,add_datetime addDatetime,enable from account
+    select id,username,'******' password,role_id roleId,is_admin isAdmin,add_datetime
+    addDatetime,enable from account
     <where>
       <if test="id != null">
         and id=#{id}
@@ -26,17 +27,20 @@
       <if test="enable != null">
         and enable=#{enable}
       </if>
+      <if test="isAdmin != null">
+        and is_admin=#{isAdmin}
+      </if>
     </where>
   </select>
   <select id="selectOneByUsername" parameterType="String"
     resultType="com.github.liuzhuoming23.svea.app.domain.Account">
-    select id,username,password,role_id roleId,add_datetime addDatetime,enable
+    select id,username,password,role_id roleId,is_admin isAdmin,add_datetime addDatetime,enable
     from account
     where username=#{username}
   </select>
   <select id="selectOneById" parameterType="int"
     resultType="com.github.liuzhuoming23.svea.app.domain.Account">
-    select id,username,password,role_id roleId,add_datetime addDatetime,enable
+    select id,username,password,role_id roleId,is_admin isAdmin,add_datetime addDatetime,enable
     from account
     where id=#{id}
   </select>

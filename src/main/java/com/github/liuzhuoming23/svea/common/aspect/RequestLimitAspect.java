@@ -56,20 +56,23 @@ public class RequestLimitAspect {
         int count = annotation.count();
         long interval = annotation.interval();
 
-        String field = ip + " | " + uri;
+        String field = ip + "|" + uri;
 
         String json = redisOperation.hash().get(RedisKey.LIMIT_HASH_KEY, field);
 
         int times = 1;
         long ts = System.currentTimeMillis();
 
+        //redis信息不存在
         if (StringUtils.isNotEmpty(json)) {
             JSONObject jsonObject = JSONObject.parseObject(json);
 
             int timesRedis = jsonObject.getInteger("times") + 1;
             long tsRedis = jsonObject.getLong("ts");
 
+            //redis存的过期时间小于当前时间（时间限制解除），重设限制时间
             if (tsRedis >= ts) {
+                //redis存的请求次数大于设置的最大请求次数，则请求失败
                 if (timesRedis > count) {
                     throw new SveaException("exceeding the maximum number of requests");
                 } else {

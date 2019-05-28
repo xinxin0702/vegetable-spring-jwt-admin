@@ -5,6 +5,7 @@ import com.github.liuzhuoming23.svea.app.domain.DictItem;
 import com.github.liuzhuoming23.svea.app.service.DictService;
 import com.github.liuzhuoming23.svea.common.annotation.Log;
 import com.github.liuzhuoming23.svea.common.domain.Result;
+import com.github.liuzhuoming23.svea.common.exception.SveaException;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,11 @@ public class DictController {
     @PostMapping
     @Log(description = "添加字典")
     public void insert(@Valid Dict dict) {
-        dictService.insert(dict);
+        try {
+            dictService.insert(dict);
+        } catch (Exception e) {
+            throw new SveaException("insert dict failed");
+        }
     }
 
     @GetMapping
@@ -46,21 +51,21 @@ public class DictController {
         return new Result().succ(dict);
     }
 
-    @PostMapping("/{dictId}/item")
+    @PostMapping("{dictId}/item")
     @Log(description = "添加字典项")
     public void insertItem(@Valid DictItem dictItem, @PathVariable Integer dictId) {
         dictItem.setDictId(dictId);
         dictService.insertItem(dictItem);
     }
 
-    @GetMapping("/{dictId}/item")
+    @GetMapping("{dictId}/item")
     @Log(description = "获取字典项集合")
     public Result selectItem(@PathVariable Integer dictId) {
         List<DictItem> dictItems = dictService.selectByDictId(dictId);
         return new Result().succ(dictItems);
     }
 
-    @GetMapping("/{dictId}/item/{val}")
+    @GetMapping("{dictId}/item/{val}")
     @Log(description = "获取字典项")
     public Result insertItem(@PathVariable Integer dictId, @PathVariable Integer val) {
         DictItem dictItem = dictService.selectByDictIdAndVal(dictId, val);

@@ -107,7 +107,8 @@ public class HttpClientHelper {
             } else {
                 throw new RuntimeException(
                     response.getStatusLine().getStatusCode() + " | " + uri.getScheme() + "://" + uri
-                        .getAuthority() + uri.getPath() + "?" + com.github.liuzhuoming23.svea.util.QueryParamsUtil
+                        .getAuthority() + uri.getPath() + "?"
+                        + com.github.liuzhuoming23.svea.util.QueryParamsUtil
                         .generateParamsStringWithSortAndNotUrlEncodeAndNotNullable(params));
             }
         } catch (Exception e) {

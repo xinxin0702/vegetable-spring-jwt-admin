@@ -1,14 +1,11 @@
 package com.github.liuzhuoming23.svea.app.controller;
 
-import static com.github.liuzhuoming23.svea.common.cons.RedisKey.TOKEN_HASH_KEY;
-
 import com.github.liuzhuoming23.svea.app.domain.Account;
 import com.github.liuzhuoming23.svea.app.service.AccountService;
 import com.github.liuzhuoming23.svea.common.annotation.Log;
 import com.github.liuzhuoming23.svea.common.cons.LogLevel;
 import com.github.liuzhuoming23.svea.common.domain.Result;
 import com.github.liuzhuoming23.svea.common.exception.SveaException;
-import com.github.liuzhuoming23.svea.common.redis.RedisOperation;
 import com.github.liuzhuoming23.svea.util.PswUtil;
 import com.github.liuzhuoming23.svea.util.StringRegexUtil;
 import java.util.List;
@@ -35,8 +32,6 @@ public class AccountController {
 
     @Autowired
     private AccountService accountService;
-    @Autowired
-    private RedisOperation redisOperation;
 
     @PostMapping
     @Log(description = "添加账户", level = LogLevel.LV5)
@@ -51,7 +46,7 @@ public class AccountController {
         return new Result().succ(accounts);
     }
 
-    @GetMapping("/{username}")
+    @GetMapping("{username}")
     @Log(description = "查看账户", level = LogLevel.LV2)
     public Result selectOneByName(@PathVariable String username) {
         Account account = accountService.selectOneByUsername(username);
@@ -59,7 +54,7 @@ public class AccountController {
         return new Result().succ(account);
     }
 
-    @PutMapping("/{username}/psw")
+    @PutMapping("{username}/psw")
     @Log(description = "修改账户密码", level = LogLevel.LV5)
     public void updatePasswordByUsername(@PathVariable String username,
         @RequestParam String password, @RequestParam String newPassword) {
@@ -92,10 +87,9 @@ public class AccountController {
         }
     }
 
-    @DeleteMapping("/{username}")
+    @DeleteMapping("{username}")
     @Log(description = "删除账户", level = LogLevel.LV5)
     public void deleteOneByUsername(@PathVariable String username) {
         accountService.deleteOneByUsername(username);
-        redisOperation.hash().delete(TOKEN_HASH_KEY, username);
     }
 }

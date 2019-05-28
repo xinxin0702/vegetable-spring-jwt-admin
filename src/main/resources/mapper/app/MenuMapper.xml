@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.liuzhuoming23.svea.app.mapper.MenuMapper">
+
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id"
+    parameterType="com.github.liuzhuoming23.svea.app.domain.Menu">
+    insert into menu
+    (`name`,permission,parent_id,sort)
+    values
+    (#{name},#{permission},#{parentId},#{sort})
+  </insert>
+  <select id="selectOneById" parameterType="int"
+    resultType="com.github.liuzhuoming23.svea.app.domain.Menu">
+    select id,`name`,permission,parent_id,sort,enable
+    from menu
+    where id=#{id}
+  </select>
+  <select id="selectListByParentId" parameterType="int"
+    resultType="com.github.liuzhuoming23.svea.app.domain.Menu">
+    select id,`name`,permission,parent_id,sort,enable
+    from menu
+    where parent_id=#{parentId}
+  </select>
+</mapper>

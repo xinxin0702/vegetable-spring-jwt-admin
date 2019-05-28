@@ -1,7 +1,5 @@
 package com.github.liuzhuoming23.svea.common.jwt;
 
-import static com.github.liuzhuoming23.svea.common.cons.RedisKey.CACHE_KEY_ACCOUNT_PREFIX;
-import static com.github.liuzhuoming23.svea.common.cons.RedisKey.CACHE_KEY_LINK_SYMBOL;
 import static com.github.liuzhuoming23.svea.common.cons.RedisKey.TOKEN_HASH_KEY;
 import static com.github.liuzhuoming23.svea.common.cons.TokenInfo.AUTH_HEADER_KEY;
 import static com.github.liuzhuoming23.svea.common.cons.TokenInfo.EXPIRATION;
@@ -80,8 +78,6 @@ public class JwtUtil {
                 //验证用户是否存在
                 Account account = ACCOUNT_SERVICE.selectOneByUsername(username);
                 if (account == null) {
-                    REDIS_OPERATION
-                        .delete(CACHE_KEY_ACCOUNT_PREFIX + CACHE_KEY_LINK_SYMBOL + username);
                     throw new TokenException("account not exist");
                 }
                 //验证用户是否有效
@@ -89,7 +85,7 @@ public class JwtUtil {
                     throw new TokenException("invalid account");
                 }
                 //验证token是否存在
-                String tokenInRedis = (String) REDIS_OPERATION.hash().get(TOKEN_HASH_KEY, username);
+                String tokenInRedis = REDIS_OPERATION.hash().get(TOKEN_HASH_KEY, username);
                 if (StringUtils.isEmpty(tokenInRedis) || !token.equals(tokenInRedis)) {
                     throw new TokenException("token expired");
                 }

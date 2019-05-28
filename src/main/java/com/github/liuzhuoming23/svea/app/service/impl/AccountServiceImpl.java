@@ -1,10 +1,12 @@
 package com.github.liuzhuoming23.svea.app.service.impl;
 
+import static com.github.liuzhuoming23.svea.common.cons.RedisKey.TOKEN_HASH_KEY;
+
 import com.github.liuzhuoming23.svea.app.domain.Account;
 import com.github.liuzhuoming23.svea.app.mapper.AccountMapper;
 import com.github.liuzhuoming23.svea.app.service.AccountService;
-import com.github.liuzhuoming23.svea.common.cons.RedisKey;
 import com.github.liuzhuoming23.svea.common.exception.SveaException;
+import com.github.liuzhuoming23.svea.common.redis.RedisOperation;
 import com.github.liuzhuoming23.svea.util.PswUtil;
 import com.github.liuzhuoming23.svea.util.StringRegexUtil;
 import java.util.List;
@@ -22,14 +24,14 @@ import org.springframework.stereotype.Service;
  * @author liuzhuoming
  */
 @Service
-@CacheConfig(cacheNames = RedisKey.CACHE_KEY_ACCOUNT_PREFIX)
 public class AccountServiceImpl implements AccountService {
 
     @Autowired
     private AccountMapper accountMapper;
+    @Autowired
+    private RedisOperation redisOperation;
 
     @Override
-    @CachePut(key = "#p0.username")
     public Account insert(Account account) {
         if (!StringRegexUtil.isContainLetterOrDigit(account.getUsername(), 6, 16)) {
             throw new SveaException(
@@ -54,7 +56,6 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    @Cacheable(key = "#p0")
     public Account selectOneByUsername(String username) {
         if (StringUtils.isEmpty(username)) {
             throw new SveaException("account not exist");
@@ -67,7 +68,6 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    @CachePut(key = "#p0.username")
     public Account updatePasswordByUsername(Account account) {
         account.setPassword(PswUtil.cipher(account.getUsername(), account.getPassword()));
         accountMapper.updatePasswordByUsername(account);
@@ -75,8 +75,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    @CacheEvict(key = "#p0")
     public void deleteOneByUsername(String username) {
         accountMapper.deleteOneByUsername(username);
+        redisOperation.hash().delete(TOKEN_HASH_KEY, username);
     }
 }
