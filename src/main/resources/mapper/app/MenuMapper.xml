@@ -12,14 +12,20 @@
   </insert>
   <select id="selectOneById" parameterType="int"
     resultType="com.github.liuzhuoming23.svea.app.domain.Menu">
-    select id,`name`,permission,parent_id,sort,enable
+    select id,`name`,permission,parent_id parentId,sort,enable
     from menu
     where id=#{id}
+    order by sort
   </select>
   <select id="selectListByParentId" parameterType="int"
     resultType="com.github.liuzhuoming23.svea.app.domain.Menu">
-    select id,`name`,permission,parent_id,sort,enable
+    select id,`name`,permission,parent_id parentId,sort,enable
     from menu
     where parent_id=#{parentId}
+    order by sort
   </select>
+  <delete id="deleteOneById" parameterType="int">
+    delete from menu
+    where id=#{id}
+  </delete>
 </mapper>

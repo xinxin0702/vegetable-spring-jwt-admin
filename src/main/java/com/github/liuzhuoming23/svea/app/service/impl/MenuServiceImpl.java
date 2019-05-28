@@ -37,6 +37,11 @@ public class MenuServiceImpl implements MenuService {
         return menu;
     }
 
+    @Override
+    public void deleteOneById(int id) {
+        menuMapper.deleteOneById(id);
+    }
+
     /**
      * 递归获取所有子菜单
      *

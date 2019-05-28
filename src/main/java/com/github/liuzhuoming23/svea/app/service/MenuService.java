@@ -22,4 +22,11 @@ public interface MenuService {
      * @param id 菜单id
      */
     Menu selectOneById(Integer id);
+
+    /**
+     * 根据id删除菜单信息
+     *
+     * @param id 菜单id
+     */
+    void deleteOneById(int id);
 }

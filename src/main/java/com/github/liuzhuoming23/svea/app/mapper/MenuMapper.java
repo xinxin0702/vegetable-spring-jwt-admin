@@ -30,4 +30,11 @@ public interface MenuMapper {
      * @param parentId 父菜单id
      */
     List<Menu> selectListByParentId(Integer parentId);
+
+    /**
+     * 根据id删除菜单信息
+     *
+     * @param id 菜单id
+     */
+    void deleteOneById(int id);
 }

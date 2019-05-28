@@ -10,6 +10,7 @@
     where dict_id=(select id
                    from dict
                    where code=#{code})
+    order by sort
   </select>
   <select id="selectByDictIdAndDictItemVal"
     resultType="com.github.liuzhuoming23.svea.app.domain.DictItem">
@@ -17,12 +18,14 @@
     from dict_item
     where dict_id=#{dictId}
     and val=#{val}
+    order by sort
   </select>
   <select id="selectByDictId" parameterType="int"
     resultType="com.github.liuzhuoming23.svea.app.domain.DictItem">
     select id,dict_id dictId,context,val,sort
     from dict_item
     where dict_id=#{dictId}
+    order by sort
   </select>
   <insert id="insert" parameterType="com.github.liuzhuoming23.svea.app.domain.DictItem">
     insert into dict_item
