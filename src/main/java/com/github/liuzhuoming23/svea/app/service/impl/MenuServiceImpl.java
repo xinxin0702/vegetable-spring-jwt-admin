@@ -24,7 +24,7 @@ public class MenuServiceImpl implements MenuService {
         if (menu.getParentId() != null) {
             Menu parent = menuMapper.selectOneById(menu.getParentId());
             if (parent == null) {
-                throw new SveaException("menu not exist");
+                throw new SveaException("menu(id=" + menu.getParentId() + ") not exist");
             }
         }
         menuMapper.insert(menu);

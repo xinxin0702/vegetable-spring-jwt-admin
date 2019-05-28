@@ -23,17 +23,13 @@ public class DictItemServiceImpl implements DictItemService {
     @Autowired
     private DictMapper dictMapper;
 
-
     @Override
     public DictItem selectByDictIdAndDictItemVal(Integer dictId, Integer val) {
-        DictItem dictItem = new DictItem();
-        dictItem.setDictId(dictId);
-        dictItem.setVal(val);
-        DictItem one = dictItemMapper.selectByDictIdAndDictItemVal(dictItem);
-        if (one == null) {
-            throw new SveaException("dictItem not exist");
+        DictItem dictItem = dictItemMapper.selectByDictIdAndDictItemVal(dictId, val);
+        if (dictItem == null) {
+            throw new SveaException("dictItem(dictId=" + dictId + " val=" + val + ") not exist");
         }
-        return one;
+        return dictItem;
     }
 
     @Override
@@ -48,11 +44,14 @@ public class DictItemServiceImpl implements DictItemService {
             try {
                 dictItemMapper.insert(dictItem);
             } catch (Exception e) {
-                throw new SveaException("dictItem is exist");
+                throw new SveaException(
+                    "dictItem(dictId=" + dictItem.getDictId() + " val=" + dictItem.getVal()
+                        + ") is exist");
             }
-            return dictItemMapper.selectByDictIdAndDictItemVal(dictItem);
+            return dictItemMapper
+                .selectByDictIdAndDictItemVal(dictItem.getDictId(), dictItem.getVal());
         } else {
-            throw new SveaException("dict not exist");
+            throw new SveaException("dict(id=" + dictItem.getDictId() + ") not exist");
         }
     }
 }

@@ -12,7 +12,6 @@
                    where code=#{code})
   </select>
   <select id="selectByDictIdAndDictItemVal"
-    parameterType="com.github.liuzhuoming23.svea.app.domain.DictItem"
     resultType="com.github.liuzhuoming23.svea.app.domain.DictItem">
     select id,dict_id dictId,context,val,sort
     from dict_item

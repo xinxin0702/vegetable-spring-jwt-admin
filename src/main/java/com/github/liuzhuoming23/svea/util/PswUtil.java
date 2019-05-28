@@ -18,7 +18,7 @@ public class PswUtil {
      * @param password 明文密码
      * @return 密文密码
      */
-    public static String cipher(String username, String password) {
+    public static String encrypt(String username, String password) {
         return EncryptUtil.encode(username + ACCOUNT_PASSWORD_SALT + password, EncryptType.MD5);
     }
 
@@ -27,13 +27,13 @@ public class PswUtil {
      *
      * @param username 用户名
      * @param password 明文密码
-     * @param ciphertext 密文密码
+     * @param encryptedText 密文密码
      * @return true正确 false错误
-     * @see PswUtil#cipher(String, String)
+     * @see PswUtil#encrypt(String, String)
      */
-    public static boolean isEquals(String username, String password, String ciphertext) {
-        return StringUtils.isNotEmpty(ciphertext) && ciphertext.equals(EncryptUtil
-            .encode(username + ACCOUNT_PASSWORD_SALT + password, EncryptType.MD5));
+    public static boolean isEquals(String username, String password, String encryptedText) {
+        return StringUtils.isNotEmpty(encryptedText) && encryptedText
+            .equals(encrypt(username, password));
     }
 
 }

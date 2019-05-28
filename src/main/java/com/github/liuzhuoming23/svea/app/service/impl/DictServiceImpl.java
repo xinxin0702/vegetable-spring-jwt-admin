@@ -37,7 +37,7 @@ public class DictServiceImpl implements DictService {
     public Dict selectOneByCode(String code) {
         Dict dict = dictMapper.selectOneByCode(code);
         if (dict == null) {
-            throw new SveaException("dict not exist");
+            throw new SveaException("dict(code=" + code + ") not exist");
         }
         List<DictItem> dictItems = dictItemMapper.selectByDictCode(dict.getCode());
         dict.setItems(dictItems);

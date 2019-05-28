@@ -2,6 +2,7 @@ package com.github.liuzhuoming23.svea.app.mapper;
 
 import com.github.liuzhuoming23.svea.app.domain.DictItem;
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 字典项mapper
@@ -20,9 +21,11 @@ public interface DictItemMapper {
     /**
      * 根据字典id和字典项值获取字典项
      *
-     * @param dictItem 字典项查询信息
+     * @param dictId 字典id
+     * @param val 字典项值
      */
-    DictItem selectByDictIdAndDictItemVal(DictItem dictItem);
+    DictItem selectByDictIdAndDictItemVal(@Param("dictId") Integer dictId,
+        @Param("val") Integer val);
 
     /**
      * 根据字典id获取字典项集合

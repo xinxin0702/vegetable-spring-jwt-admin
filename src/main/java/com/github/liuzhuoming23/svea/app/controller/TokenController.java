@@ -67,8 +67,8 @@ public class TokenController {
     }
 
     @DeleteMapping("logout/{username}")
-    @Log(description = "强制退出系统", level = LogLevel.LV2)
-    public void kickout(@PathVariable String username) {
+    @Log(description = "强制登出系统", level = LogLevel.LV4)
+    public void forceLogout(@PathVariable String username) {
         redisOperation.hash().delete(TOKEN_HASH_KEY, username);
     }
 
@@ -82,13 +82,10 @@ public class TokenController {
         if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
             return false;
         }
-        Account one = accountService.selectOneByUsername(username);
-        if (one == null) {
+        Account account = accountService.selectOneByUsername(username);
+        if (account == null) {
             return false;
         }
-        if (!PswUtil.isEquals(username, password, one.getPassword())) {
-            return false;
-        }
-        return true;
+        return PswUtil.isEquals(username, password, account.getPassword());
     }
 }

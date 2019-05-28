@@ -12,10 +12,6 @@ import com.github.liuzhuoming23.svea.util.StringRegexUtil;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 /**
@@ -43,9 +39,10 @@ public class AccountServiceImpl implements AccountService {
         }
         Account list = accountMapper.selectOneByUsername(account.getUsername());
         if (list != null) {
-            throw new SveaException("account already exists");
+            throw new SveaException(
+                "account(username=" + account.getUsername() + ") already exists");
         }
-        account.setPassword(PswUtil.cipher(account.getUsername(), account.getPassword()));
+        account.setPassword(PswUtil.encrypt(account.getUsername(), account.getPassword()));
         accountMapper.insert(account);
         return accountMapper.selectOneByUsername(account.getUsername());
     }
@@ -58,18 +55,18 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Account selectOneByUsername(String username) {
         if (StringUtils.isEmpty(username)) {
-            throw new SveaException("account not exist");
+            throw new SveaException("account(username=" + username + ") not exist");
         }
         Account account = accountMapper.selectOneByUsername(username);
         if (account == null) {
-            throw new SveaException("account not exist");
+            throw new SveaException("account(username=" + username + ") not exist");
         }
         return account;
     }
 
     @Override
     public Account updatePasswordByUsername(Account account) {
-        account.setPassword(PswUtil.cipher(account.getUsername(), account.getPassword()));
+        account.setPassword(PswUtil.encrypt(account.getUsername(), account.getPassword()));
         accountMapper.updatePasswordByUsername(account);
         return accountMapper.selectOneByUsername(account.getUsername());
     }
