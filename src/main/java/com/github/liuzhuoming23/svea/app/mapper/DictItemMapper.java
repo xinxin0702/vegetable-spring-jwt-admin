@@ -45,4 +45,12 @@ public interface DictItemMapper {
      * @param dictId 字典id
      */
     void deleteByDictId(Integer dictId);
+
+    /**
+     * 根据字典id和字典项值删除字典项
+     *
+     * @param dictId 字典id
+     * @param val 字典项值
+     */
+    void deleteByDictIdAndDictItemVal(@Param("dictId") Integer dictId, @Param("val") Integer val);
 }

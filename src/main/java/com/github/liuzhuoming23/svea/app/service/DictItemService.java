@@ -29,4 +29,12 @@ public interface DictItemService {
      * 添加字典项
      */
     void insert(DictItem dictItem);
+
+    /**
+     * 根据字典id和字典项值删除字典项
+     *
+     * @param dictId 字典id
+     * @param val 字典项值
+     */
+    void deleteByDictIdAndDictItemVal(Integer dictId, Integer val);
 }

@@ -34,4 +34,9 @@
     delete from dict_item
     where dict_id=#{dictId}
   </delete>
+  <delete id="deleteByDictIdAndDictItemVal">
+    delete from dict_item
+    where dict_id=#{dictId}
+    and val=#{val}
+  </delete>
 </mapper>

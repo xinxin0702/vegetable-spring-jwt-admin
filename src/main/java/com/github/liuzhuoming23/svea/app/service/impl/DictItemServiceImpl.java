@@ -52,4 +52,9 @@ public class DictItemServiceImpl implements DictItemService {
             throw new SveaException("dict(id=" + dictItem.getDictId() + ") not exist");
         }
     }
+
+    @Override
+    public void deleteByDictIdAndDictItemVal(Integer dictId, Integer val) {
+        dictItemMapper.deleteByDictIdAndDictItemVal(dictId, val);
+    }
 }

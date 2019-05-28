@@ -8,6 +8,7 @@ import com.github.liuzhuoming23.svea.common.exception.SveaException;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,5 +49,11 @@ public class DictController {
     public Result selectOneByCode(@PathVariable String code) {
         Dict dict = dictService.selectOneByCode(code);
         return new Result().succ(dict);
+    }
+
+    @DeleteMapping("{code}")
+    @Log(description = "删除字典")
+    public void delete(@PathVariable String code) {
+        dictService.delete(code);
     }
 }
