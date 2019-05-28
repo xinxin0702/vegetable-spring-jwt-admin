@@ -30,4 +30,8 @@
     values
     (#{dictId},#{context},#{val},#{sort})
   </insert>
+  <delete id="deleteByDictId" parameterType="int">
+    delete from dict_item
+    where dict_id=#{dictId}
+  </delete>
 </mapper>

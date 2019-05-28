@@ -28,5 +28,5 @@ public interface DictItemService {
     /**
      * 添加字典项
      */
-    DictItem insert(DictItem dictItem);
+    void insert(DictItem dictItem);
 }

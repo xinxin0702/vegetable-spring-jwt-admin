@@ -28,7 +28,7 @@ public class AccountServiceImpl implements AccountService {
     private RedisOperation redisOperation;
 
     @Override
-    public Account insert(Account account) {
+    public void insert(Account account) {
         if (!StringRegexUtil.isContainLetterOrDigit(account.getUsername(), 6, 16)) {
             throw new SveaException(
                 "username can only contain uppercase or lowercase letters or numbers and length between 6 and 16");
@@ -44,7 +44,6 @@ public class AccountServiceImpl implements AccountService {
         }
         account.setPassword(PswUtil.encrypt(account.getUsername(), account.getPassword()));
         accountMapper.insert(account);
-        return accountMapper.selectOneByUsername(account.getUsername());
     }
 
     @Override
@@ -65,10 +64,9 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Account updatePasswordByUsername(Account account) {
+    public void updatePasswordByUsername(Account account) {
         account.setPassword(PswUtil.encrypt(account.getUsername(), account.getPassword()));
         accountMapper.updatePasswordByUsername(account);
-        return accountMapper.selectOneByUsername(account.getUsername());
     }
 
     @Override

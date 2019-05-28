@@ -38,7 +38,7 @@ public class DictItemServiceImpl implements DictItemService {
     }
 
     @Override
-    public DictItem insert(DictItem dictItem) {
+    public void insert(DictItem dictItem) {
         Dict dict = dictMapper.selectOneById(dictItem.getDictId());
         if (dict != null) {
             try {
@@ -48,8 +48,6 @@ public class DictItemServiceImpl implements DictItemService {
                     "dictItem(dictId=" + dictItem.getDictId() + " val=" + dictItem.getVal()
                         + ") is exist");
             }
-            return dictItemMapper
-                .selectByDictIdAndDictItemVal(dictItem.getDictId(), dictItem.getVal());
         } else {
             throw new SveaException("dict(id=" + dictItem.getDictId() + ") not exist");
         }

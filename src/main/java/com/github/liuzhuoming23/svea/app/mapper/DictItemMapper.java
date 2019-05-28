@@ -38,4 +38,11 @@ public interface DictItemMapper {
      * 添加字典项
      */
     void insert(DictItem dictItem);
+
+    /**
+     * 根据字典id删除字典项集合
+     *
+     * @param dictId 字典id
+     */
+    void deleteByDictId(Integer dictId);
 }

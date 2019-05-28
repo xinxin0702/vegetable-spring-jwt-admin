@@ -20,7 +20,7 @@ public class MenuServiceImpl implements MenuService {
     private MenuMapper menuMapper;
 
     @Override
-    public Menu insert(Menu menu) {
+    public void insert(Menu menu) {
         if (menu.getParentId() != null) {
             Menu parent = menuMapper.selectOneById(menu.getParentId());
             if (parent == null) {
@@ -28,7 +28,6 @@ public class MenuServiceImpl implements MenuService {
             }
         }
         menuMapper.insert(menu);
-        return selectOneById(menu.getId());
     }
 
     @Override

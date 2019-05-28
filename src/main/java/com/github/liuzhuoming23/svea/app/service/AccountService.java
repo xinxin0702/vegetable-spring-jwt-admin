@@ -15,7 +15,7 @@ public interface AccountService {
      *
      * @param account 账户信息
      */
-    Account insert(Account account);
+    void insert(Account account);
 
     /**
      * 获取账户信息
@@ -36,7 +36,7 @@ public interface AccountService {
      *
      * @param account 账户信息
      */
-    Account updatePasswordByUsername(Account account);
+    void updatePasswordByUsername(Account account);
 
     /**
      * 根据用户名删除账户密码

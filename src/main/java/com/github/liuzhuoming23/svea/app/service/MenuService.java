@@ -14,7 +14,7 @@ public interface MenuService {
      *
      * @param menu 菜单信息
      */
-    Menu insert(Menu menu);
+    void insert(Menu menu);
 
     /**
      * 根据id获取菜单信息

@@ -29,5 +29,12 @@ public interface DictService {
      *
      * @param dict 字典数据
      */
-    Dict insert(Dict dict);
+    void insert(Dict dict);
+
+    /**
+     * 删除字典
+     *
+     * @param code 字典编码
+     */
+    void delete(String code);
 }

@@ -9,6 +9,7 @@ import com.github.liuzhuoming23.svea.common.exception.SveaException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 字典service
@@ -45,8 +46,15 @@ public class DictServiceImpl implements DictService {
     }
 
     @Override
-    public Dict insert(Dict dict) {
+    public void insert(Dict dict) {
         dictMapper.insert(dict);
-        return dictMapper.selectOneByCode(dict.getCode());
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void delete(String code) {
+        Dict dict = dictMapper.selectOneByCode(code);
+        dictItemMapper.deleteByDictId(dict.getId());
+        dictMapper.delete(dict.getId());
     }
 }
