@@ -37,33 +37,4 @@
     values
     (#{code},#{name})
   </insert>
-
-  <select id="selectByDictCode" parameterType="String"
-    resultType="com.github.liuzhuoming23.svea.app.domain.DictItem">
-    select id,dict_id dictId,context,val,sort
-    from dict_item
-    where dict_id=(select id
-                   from dict
-                   where code=#{code})
-  </select>
-  <select id="selectByDictIdAndVal"
-    parameterType="com.github.liuzhuoming23.svea.app.domain.DictItem"
-    resultType="com.github.liuzhuoming23.svea.app.domain.DictItem">
-    select id,dict_id dictId,context,val,sort
-    from dict_item
-    where dict_id=#{dictId}
-    and val=#{val}
-  </select>
-  <select id="selectByDictId" parameterType="int"
-    resultType="com.github.liuzhuoming23.svea.app.domain.DictItem">
-    select id,dict_id dictId,context,val,sort
-    from dict_item
-    where dict_id=#{dictId}
-  </select>
-  <insert id="insertItem" parameterType="com.github.liuzhuoming23.svea.app.domain.DictItem">
-    insert into dict_item
-    (dict_id,context,val,sort)
-    values
-    (#{dictId},#{context},#{val},#{sort})
-  </insert>
 </mapper>

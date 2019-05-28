@@ -1,7 +1,6 @@
 package com.github.liuzhuoming23.svea.app.controller;
 
 import com.github.liuzhuoming23.svea.app.domain.Dict;
-import com.github.liuzhuoming23.svea.app.domain.DictItem;
 import com.github.liuzhuoming23.svea.app.service.DictService;
 import com.github.liuzhuoming23.svea.common.annotation.Log;
 import com.github.liuzhuoming23.svea.common.domain.Result;
@@ -49,26 +48,5 @@ public class DictController {
     public Result selectOneByCode(@PathVariable String code) {
         Dict dict = dictService.selectOneByCode(code);
         return new Result().succ(dict);
-    }
-
-    @PostMapping("{dictId}/item")
-    @Log(description = "添加字典项")
-    public void insertItem(@Valid DictItem dictItem, @PathVariable Integer dictId) {
-        dictItem.setDictId(dictId);
-        dictService.insertItem(dictItem);
-    }
-
-    @GetMapping("{dictId}/item")
-    @Log(description = "获取字典项集合")
-    public Result selectItem(@PathVariable Integer dictId) {
-        List<DictItem> dictItems = dictService.selectByDictId(dictId);
-        return new Result().succ(dictItems);
-    }
-
-    @GetMapping("{dictId}/item/{val}")
-    @Log(description = "获取字典项")
-    public Result insertItem(@PathVariable Integer dictId, @PathVariable Integer val) {
-        DictItem dictItem = dictService.selectByDictIdAndVal(dictId, val);
-        return new Result().succ(dictItem);
     }
 }

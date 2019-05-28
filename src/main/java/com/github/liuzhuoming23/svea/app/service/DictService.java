@@ -1,7 +1,6 @@
 package com.github.liuzhuoming23.svea.app.service;
 
 import com.github.liuzhuoming23.svea.app.domain.Dict;
-import com.github.liuzhuoming23.svea.app.domain.DictItem;
 import java.util.List;
 
 /**
@@ -31,24 +30,4 @@ public interface DictService {
      * @param dict 字典数据
      */
     Dict insert(Dict dict);
-
-    /**
-     * 根据字典id和字典项值获取字典项
-     *
-     * @param dictId 字典id
-     * @param val 字典项值
-     */
-    DictItem selectByDictIdAndVal(Integer dictId, Integer val);
-
-    /**
-     * 根据字典id获取字典项集合
-     *
-     * @param dictId 字典id
-     */
-    List<DictItem> selectByDictId(Integer dictId);
-
-    /**
-     * 添加字典项
-     */
-    DictItem insertItem(DictItem dictItem);
 }
