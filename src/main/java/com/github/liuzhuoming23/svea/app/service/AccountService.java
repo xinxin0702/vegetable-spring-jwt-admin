@@ -18,6 +18,13 @@ public interface AccountService {
     void insert(Account account);
 
     /**
+     * 更新账户
+     *
+     * @param account 账户
+     */
+    void update(Account account);
+
+    /**
      * 获取账户
      *
      * @param account 账户查询条件
@@ -34,9 +41,10 @@ public interface AccountService {
     /**
      * 更新账户密码
      *
-     * @param account 账户
+     * @param username 用户名
+     * @param password 明文密码
      */
-    void updatePasswordByUsername(Account account);
+    void updatePasswordByUsername(String username, String password);
 
     /**
      * 根据用户名删除账户密码

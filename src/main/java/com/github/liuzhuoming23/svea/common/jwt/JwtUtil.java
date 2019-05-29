@@ -85,7 +85,7 @@ public class JwtUtil {
                 }
                 //验证用户是否有效
                 if (account.getEnable() != 0) {
-                    throw new TokenException("invalid account");
+                    throw new TokenException("account is not enable");
                 }
                 //验证token是否存在
                 String tokenInRedis = REDIS_OPERATION.value().get(TOKEN_HASH_KEY + "::" + username);

@@ -1,13 +1,13 @@
 package com.github.liuzhuoming23.svea.app.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.github.liuzhuoming23.svea.app.domain.Account;
+import com.github.liuzhuoming23.svea.app.domain.Role;
 
 /**
- * 账户mapper
+ * 角色mapper
  *
  * @author liuzhuoming
  */
-public interface AccountMapper extends BaseMapper<Account> {
+public interface RoleMapper extends BaseMapper<Role> {
 
 }

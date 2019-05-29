@@ -13,14 +13,14 @@ spring:
 
   datasource:
     driverClassName: com.p6spy.engine.spy.P6SpyDriver
-    url: jdbc:p6spy:mysql://localhost:3306/jwt?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC
+    url: jdbc:p6spy:mysql://localhost:32778/s-vea?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC
     username: root
     password: root
 
   aop:
     auto: true
 
-mybatis:
+mybatis-plus:
   type-aliases-package: com.github.liuzhuoming23.svea.*.domain
   mapper-locations: classpath:mapper/*/*.xml
 
@@ -31,4 +31,4 @@ svea:
   #日志保存敏感字段，会被在日志内统一替换为'******'。只适用于基本类型参数，不适用于实体类里的参数
   sensitiveField: password,newPassword,idcard
   #日志记录自定义级别，大于等于这个级别的才会被记录。默认值为0，即全部保存
-  logLevel: 2
+  logLevel:

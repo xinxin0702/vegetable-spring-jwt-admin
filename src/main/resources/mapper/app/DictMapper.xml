@@ -2,43 +2,4 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.github.liuzhuoming23.svea.app.mapper.DictMapper">
-
-  <select id="select" resultType="com.github.liuzhuoming23.svea.app.domain.Dict"
-    parameterType="com.github.liuzhuoming23.svea.app.domain.Dict">
-    select id,code,`name`,enable
-    from dict
-    <where>
-      <if test="id != null">
-        and id=#{id}
-      </if>
-      <if test="code != null and code != ''">
-        and code=#{code}
-      </if>
-      <if test="enable != null">
-        and enable=#{enable}
-      </if>
-    </where>
-  </select>
-  <select id="selectOneByCode" resultType="com.github.liuzhuoming23.svea.app.domain.Dict"
-    parameterType="String">
-    select id,code,`name`,enable from dict
-    where code=#{code}
-  </select>
-  <select id="selectOneById" resultType="com.github.liuzhuoming23.svea.app.domain.Dict"
-    parameterType="int">
-    select id,code,`name`,enable
-    from dict
-    where id=#{id}
-  </select>
-  <insert id="insert" useGeneratedKeys="true" keyProperty="id"
-    parameterType="com.github.liuzhuoming23.svea.app.domain.Dict">
-    insert into dict
-    (code,`name`)
-    values
-    (#{code},#{name})
-  </insert>
-  <delete id="delete" parameterType="int">
-    delete from dict
-    where id=#{id}
-  </delete>
 </mapper>

@@ -3,6 +3,7 @@ package com.github.liuzhuoming23.svea.app.controller;
 import com.github.liuzhuoming23.svea.app.domain.Account;
 import com.github.liuzhuoming23.svea.app.service.AccountService;
 import com.github.liuzhuoming23.svea.common.annotation.Log;
+import com.github.liuzhuoming23.svea.common.annotation.RequestLimit;
 import com.github.liuzhuoming23.svea.common.cons.LogLevel;
 import com.github.liuzhuoming23.svea.common.domain.Result;
 import com.github.liuzhuoming23.svea.common.exception.SveaException;
@@ -10,10 +11,10 @@ import com.github.liuzhuoming23.svea.util.PswUtil;
 import com.github.liuzhuoming23.svea.util.StringRegexUtil;
 import java.util.List;
 import javax.validation.Valid;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -35,8 +36,18 @@ public class AccountController {
 
     @PostMapping
     @Log(description = "添加账户", level = LogLevel.LV5)
-    public void insert(@Valid @ModelAttribute Account account) {
+    public void insert(@Valid Account account) {
+        if (StringUtils.isEmpty(account.getPassword())) {
+            throw new SveaException("password must not be null or empty");
+        }
         accountService.insert(account);
+    }
+
+    @PutMapping("{username}")
+    @Log(description = "更新账户", level = LogLevel.LV4)
+    public void update(@Valid Account account, @PathVariable String username) {
+        account.setUsername(username);
+        accountService.update(account);
     }
 
     @GetMapping
@@ -56,6 +67,7 @@ public class AccountController {
 
     @PutMapping("{username}/psw")
     @Log(description = "修改账户密码", level = LogLevel.LV5)
+    @RequestLimit(count = 1, interval = 24 * 60 * 60 * 1000)
     public void updatePasswordByUsername(@PathVariable String username,
         @RequestParam String password, @RequestParam String newPassword) {
         if (!StringRegexUtil.isContainLetterOrDigit(username, 6, 16)) {
@@ -78,10 +90,7 @@ public class AccountController {
         }
 
         if (PswUtil.isEquals(username, password, one.getPassword())) {
-            Account account = new Account();
-            account.setUsername(username);
-            account.setPassword(newPassword);
-            accountService.updatePasswordByUsername(account);
+            accountService.updatePasswordByUsername(username, newPassword);
         } else {
             throw new SveaException("incorrect username or password");
         }

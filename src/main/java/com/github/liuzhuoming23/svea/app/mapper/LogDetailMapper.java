@@ -1,5 +1,6 @@
 package com.github.liuzhuoming23.svea.app.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.github.liuzhuoming23.svea.app.domain.LogDetail;
 
 /**
@@ -7,12 +8,6 @@ import com.github.liuzhuoming23.svea.app.domain.LogDetail;
  *
  * @author liuzhuoming
  */
-public interface LogDetailMapper {
+public interface LogDetailMapper extends BaseMapper<LogDetail> {
 
-    /**
-     * 添加日志记录
-     *
-     * @param logDetail 日志详情
-     */
-    void insert(LogDetail logDetail);
 }

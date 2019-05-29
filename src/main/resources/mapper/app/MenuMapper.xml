@@ -2,44 +2,4 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.github.liuzhuoming23.svea.app.mapper.MenuMapper">
-
-  <insert id="insert" useGeneratedKeys="true" keyProperty="id"
-    parameterType="com.github.liuzhuoming23.svea.app.domain.Menu">
-    insert into menu
-    (`name`,parent_id,sort)
-    values
-    (#{name},#{parentId},#{sort})
-  </insert>
-  <update id="update" parameterType="com.github.liuzhuoming23.svea.app.domain.Menu">
-    update menu
-    <set>
-      <if test="name!=null and name!=''">
-        `name`=#{name},
-      </if>
-      parent_id=#{parentId},
-      sort=#{sort},
-      <if test="enable!=null">
-        enable=#{enable}
-      </if>
-    </set>
-    where id=#{id}
-  </update>
-  <select id="selectOneById" parameterType="int"
-    resultType="com.github.liuzhuoming23.svea.app.domain.Menu">
-    select id,`name`,parent_id parentId,sort,enable
-    from menu
-    where id=#{id}
-    order by sort
-  </select>
-  <select id="selectListByParentId" parameterType="int"
-    resultType="com.github.liuzhuoming23.svea.app.domain.Menu">
-    select id,`name`,parent_id parentId,sort,enable
-    from menu
-    where parent_id=#{parentId}
-    order by sort
-  </select>
-  <delete id="deleteOneById" parameterType="int">
-    delete from menu
-    where id=#{id}
-  </delete>
 </mapper>

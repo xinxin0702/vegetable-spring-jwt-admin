@@ -25,6 +25,13 @@ public interface MenuService {
     void update(Menu menu);
 
     /**
+     * 获取菜单列表
+     *
+     * @param menu 查询条件
+     */
+    List<Menu> select(Menu menu);
+
+    /**
      * 根据id获取菜单
      *
      * @param id 菜单id
@@ -37,11 +44,4 @@ public interface MenuService {
      * @param id 菜单id
      */
     void deleteOneById(Integer id);
-
-    /**
-     * 根据角色id获取菜单集合
-     *
-     * @param roleId 角色id
-     */
-    List<Menu> selectListByRoleId(Integer roleId);
 }

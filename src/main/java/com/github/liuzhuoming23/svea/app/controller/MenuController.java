@@ -5,6 +5,7 @@ import com.github.liuzhuoming23.svea.app.service.MenuService;
 import com.github.liuzhuoming23.svea.common.annotation.Log;
 import com.github.liuzhuoming23.svea.common.cons.LogLevel;
 import com.github.liuzhuoming23.svea.common.domain.Result;
+import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,6 +28,13 @@ public class MenuController {
     @Autowired
     private MenuService menuService;
 
+    @GetMapping
+    @Log(description = "获取菜单列表", level = LogLevel.LV1)
+    public Result select(Menu menu) {
+        List<Menu> list = menuService.select(menu);
+        return new Result().succ(list);
+    }
+
     @GetMapping("{id}")
     @Log(description = "获取菜单", level = LogLevel.LV1)
     public Result selectOneById(@PathVariable Integer id) {
@@ -46,9 +54,10 @@ public class MenuController {
         menuService.deleteOneById(id);
     }
 
-    @PutMapping
+    @PutMapping("{id}")
     @Log(description = "更新菜单", level = LogLevel.LV2)
-    public void update(@Valid Menu menu) {
+    public void update(@Valid Menu menu, @PathVariable Integer id) {
+        menu.setId(id);
         menuService.update(menu);
     }
 }

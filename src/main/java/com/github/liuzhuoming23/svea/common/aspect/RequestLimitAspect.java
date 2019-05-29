@@ -3,7 +3,6 @@ package com.github.liuzhuoming23.svea.common.aspect;
 import com.alibaba.fastjson.JSONObject;
 import com.github.liuzhuoming23.svea.common.annotation.RequestLimit;
 import com.github.liuzhuoming23.svea.common.cons.RedisKey;
-import com.github.liuzhuoming23.svea.common.cons.TokenInfo;
 import com.github.liuzhuoming23.svea.common.exception.SveaException;
 import com.github.liuzhuoming23.svea.common.redis.RedisOperation;
 import java.lang.reflect.Method;
@@ -76,7 +75,9 @@ public class RequestLimitAspect {
             if (tsRedis >= ts) {
                 //redis存的请求次数大于设置的最大请求次数，则请求失败
                 if (timesRedis > count) {
-                    throw new SveaException("exceeding the maximum number of requests");
+                    throw new SveaException(String.format(
+                        "exceeding the maximum number of requests, limit %d times every %d millisecond",
+                        count, interval));
                 } else {
                     ts = tsRedis;
                     times = timesRedis;
@@ -93,6 +94,6 @@ public class RequestLimitAspect {
         redisOperation.value()
             .set(RedisKey.LIMIT_HASH_KEY + "::" + field, JSONObject.toJSONString(params));
         redisOperation.expire(RedisKey.LIMIT_HASH_KEY + "::" + field,
-            new Date(System.currentTimeMillis() + TokenInfo.EXPIRATION));
+            new Date(System.currentTimeMillis() + interval));
     }
 }

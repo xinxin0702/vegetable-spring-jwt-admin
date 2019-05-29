@@ -12,34 +12,4 @@
                    where code=#{code})
     order by sort
   </select>
-  <select id="selectOneByDictIdAndDictItemVal"
-    resultType="com.github.liuzhuoming23.svea.app.domain.DictItem">
-    select id,dict_id dictId,context,val,sort
-    from dict_item
-    where dict_id=#{dictId}
-    and val=#{val}
-    order by sort
-  </select>
-  <select id="selectListByDictId" parameterType="int"
-    resultType="com.github.liuzhuoming23.svea.app.domain.DictItem">
-    select id,dict_id dictId,context,val,sort
-    from dict_item
-    where dict_id=#{dictId}
-    order by sort
-  </select>
-  <insert id="insert" parameterType="com.github.liuzhuoming23.svea.app.domain.DictItem">
-    insert into dict_item
-    (dict_id,context,val,sort)
-    values
-    (#{dictId},#{context},#{val},#{sort})
-  </insert>
-  <delete id="deleteByDictId" parameterType="int">
-    delete from dict_item
-    where dict_id=#{dictId}
-  </delete>
-  <delete id="deleteByDictIdAndDictItemVal">
-    delete from dict_item
-    where dict_id=#{dictId}
-    and val=#{val}
-  </delete>
 </mapper>
