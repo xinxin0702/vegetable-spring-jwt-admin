@@ -24,8 +24,8 @@ public class DictItemServiceImpl implements DictItemService {
     private DictMapper dictMapper;
 
     @Override
-    public DictItem selectByDictIdAndDictItemVal(Integer dictId, Integer val) {
-        DictItem dictItem = dictItemMapper.selectByDictIdAndDictItemVal(dictId, val);
+    public DictItem selectOneByDictIdAndDictItemVal(Integer dictId, Integer val) {
+        DictItem dictItem = dictItemMapper.selectOneByDictIdAndDictItemVal(dictId, val);
         if (dictItem == null) {
             throw new SveaException("dictItem(dictId=" + dictId + " val=" + val + ") not exist");
         }
@@ -33,8 +33,8 @@ public class DictItemServiceImpl implements DictItemService {
     }
 
     @Override
-    public List<DictItem> selectByDictId(Integer dictId) {
-        return dictItemMapper.selectByDictId(dictId);
+    public List<DictItem> selectListByDictId(Integer dictId) {
+        return dictItemMapper.selectListByDictId(dictId);
     }
 
     @Override

@@ -16,7 +16,7 @@ public interface DictItemMapper {
      *
      * @param code 字典code
      */
-    List<DictItem> selectByDictCode(String code);
+    List<DictItem> selectListByDictCode(String code);
 
     /**
      * 根据字典id和字典项值获取字典项
@@ -24,7 +24,7 @@ public interface DictItemMapper {
      * @param dictId 字典id
      * @param val 字典项值
      */
-    DictItem selectByDictIdAndDictItemVal(@Param("dictId") Integer dictId,
+    DictItem selectOneByDictIdAndDictItemVal(@Param("dictId") Integer dictId,
         @Param("val") Integer val);
 
     /**
@@ -32,7 +32,7 @@ public interface DictItemMapper {
      *
      * @param dictId 字典id
      */
-    List<DictItem> selectByDictId(Integer dictId);
+    List<DictItem> selectListByDictId(Integer dictId);
 
     /**
      * 添加字典项

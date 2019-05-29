@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,7 +35,7 @@ public class MenuController {
     }
 
     @PostMapping
-    @Log(description = "添加菜单", level = LogLevel.LV1)
+    @Log(description = "添加菜单", level = LogLevel.LV2)
     public void insert(@Valid Menu menu) {
         menuService.insert(menu);
     }
@@ -43,5 +44,11 @@ public class MenuController {
     @Log(description = "删除菜单", level = LogLevel.LV2)
     public void delete(@PathVariable Integer id) {
         menuService.deleteOneById(id);
+    }
+
+    @PutMapping
+    @Log(description = "更新菜单", level = LogLevel.LV2)
+    public void update(@Valid Menu menu) {
+        menuService.update(menu);
     }
 }

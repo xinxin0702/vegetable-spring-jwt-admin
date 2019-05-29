@@ -72,6 +72,6 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void deleteOneByUsername(String username) {
         accountMapper.deleteOneByUsername(username);
-        redisOperation.hash().delete(TOKEN_HASH_KEY, username);
+        redisOperation.delete(TOKEN_HASH_KEY + "::" + username);
     }
 }

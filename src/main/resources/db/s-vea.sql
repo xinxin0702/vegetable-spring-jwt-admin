@@ -5,13 +5,13 @@
  Source Server Type    : MySQL
  Source Server Version : 50725
  Source Host           : localhost:3306
- Source Schema         : jwt
+ Source Schema         : s-vea
 
  Target Server Type    : MySQL
  Target Server Version : 50725
  File Encoding         : 65001
 
- Date: 27/05/2019 18:31:35
+ Date: 29/05/2019 11:30:08
 */
 
 SET NAMES utf8mb4;
@@ -26,17 +26,19 @@ CREATE TABLE `account`  (
   `username` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户名',
   `password` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '密文密码',
   `role_id` int(11) NOT NULL COMMENT '角色id',
+  `is_admin` int(1) NOT NULL DEFAULT 0 COMMENT '是否超管（0不是 1是）',
   `add_datetime` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '添加时间',
   `enable` int(1) NOT NULL DEFAULT 0 COMMENT '是否可用（0可用，1不可用）',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `username_unique`(`username`) USING BTREE COMMENT '用户名唯一'
-) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '账户信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '账户表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of account
 -- ----------------------------
-INSERT INTO `account` VALUES (12, 'liuzhuoming', '947d3cdf0b69fb6899c73518af1ecadc', 0, '2019-05-24 22:36:03', 0);
-INSERT INTO `account` VALUES (15, 'admin12', 'bbc9ddb3638771f3084c10f5c546eda7', 0, '2019-05-27 14:28:19', 0);
+INSERT INTO `account` VALUES (12, 'liuzhuoming', '947d3cdf0b69fb6899c73518af1ecadc', 0, 0, '2019-05-24 22:36:03', 0);
+INSERT INTO `account` VALUES (15, 'admin12', 'bbc9ddb3638771f3084c10f5c546eda7', 0, 0, '2019-05-27 14:28:19', 1);
+INSERT INTO `account` VALUES (16, 'admin123', '6e583e95f7efd82762e3b41cb627d428', 0, 0, '2019-05-29 10:59:00', 1);
 
 -- ----------------------------
 -- Table structure for account_role
@@ -47,7 +49,7 @@ CREATE TABLE `account_role`  (
   `account_id` int(11) NOT NULL COMMENT '账户id',
   `roleId` int(11) NULL DEFAULT NULL COMMENT '角色id',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '账户角色对应关系表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '账户角色表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for dict
@@ -60,7 +62,13 @@ CREATE TABLE `dict`  (
   `enable` int(1) NOT NULL DEFAULT 0 COMMENT '是否可用（0可用，1不可用）',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `code_unique`(`code`) USING BTREE COMMENT 'code唯一'
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '字典类型表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '字典表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of dict
+-- ----------------------------
+INSERT INTO `dict` VALUES (4, 'test3', '测试3', 0);
+INSERT INTO `dict` VALUES (9, 'test4', '测试3', 0);
 
 -- ----------------------------
 -- Table structure for dict_item
@@ -74,7 +82,7 @@ CREATE TABLE `dict_item`  (
   `sort` int(3) NULL DEFAULT NULL COMMENT '排序',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `dict_id_and_val_unique`(`dict_id`, `val`) USING BTREE COMMENT '字典id和值联合唯一'
-) ENGINE = InnoDB AUTO_INCREMENT = 18 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '字典项表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '字典项表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for log_detail
@@ -90,10 +98,10 @@ CREATE TABLE `log_detail`  (
   `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '操作账户名',
   `description` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '日志描述',
   `run_time` int(11) NOT NULL DEFAULT 0 COMMENT '运行时间（毫秒）',
-  `exception` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '异常信息',
+  `exception` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '异常信息',
   `add_datetime` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '保存日期时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 223 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 342 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统日志表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of log_detail
@@ -283,6 +291,125 @@ INSERT INTO `log_detail` VALUES (219, 1, 'com.github.liuzhuoming23.svea.app.cont
 INSERT INTO `log_detail` VALUES (220, 1, 'com.github.liuzhuoming23.svea.app.controller.MenuController.insert', 'menu={\"name\":\"测试1\",\"parentId\":3}', NULL, 12, 'liuzhuoming', '添加菜单', 5, NULL, '2019-05-27 14:34:51');
 INSERT INTO `log_detail` VALUES (221, 1, 'com.github.liuzhuoming23.svea.app.controller.MenuController.selectOneById', 'id=1', '{\"data\":{\"enable\":0,\"id\":1,\"name\":\"测试1\"}}', 12, 'liuzhuoming', '获取菜单', 19, NULL, '2019-05-27 14:35:23');
 INSERT INTO `log_detail` VALUES (222, 1, 'com.github.liuzhuoming23.svea.app.controller.MenuController.selectOneById', 'id=1', '{\"data\":{\"enable\":0,\"id\":1,\"name\":\"测试1\"}}', 12, 'liuzhuoming', '获取菜单', 22, NULL, '2019-05-27 14:36:17');
+INSERT INTO `log_detail` VALUES (223, 3, 'com.github.liuzhuoming23.svea.app.controller.TokenController.login', 'username=\"liuzhuoming\",password=******', '{\"username\":\"liuzhuoming\",\"token\":\"eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkwOTYwNjksInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.t0ZnTr9ddnZIJwUZYiJ2YvpAQfoe6BVP4cjUd1CfXJKX5VapLe3Dc1HVLtlYXeqVkbpldRI9eyR5mJyVF9v4SQ\"}', NULL, NULL, '登录系统', 1865, NULL, '2019-05-28 10:14:30');
+INSERT INTO `log_detail` VALUES (224, 1, 'com.github.liuzhuoming23.svea.app.controller.MenuController.insert', 'menu={\"name\":\"测试1\",\"parentId\":3}', NULL, 12, 'liuzhuoming', '添加菜单', 0, 'java.lang.IllegalStateException: No cache could be resolved for \'Builder[public com.github.liuzhuoming23.svea.app.domain.Menu com.github.liuzhuoming23.svea.app.service.impl.MenuServiceImpl.insert(com.github.liuzhuoming23.svea.app.domain.Menu)] caches=[] | key=\'#p0.id\' | keyGenerator=\'\' | cacheManager=\'\' | cacheResolver=\'\' | condition=\'\' | unless=\'\'\' using resolver \'org.springframework.cache.interceptor.SimpleCacheResolver@c2157fe\'. At least one cache should be provided per cache operation.', '2019-05-28 10:17:02');
+INSERT INTO `log_detail` VALUES (225, 1, 'com.github.liuzhuoming23.svea.app.controller.MenuController.selectOneById', 'id=1', '{\"data\":{\"enable\":0,\"id\":1,\"name\":\"测试1\"}}', 12, 'liuzhuoming', '获取菜单', 54, NULL, '2019-05-28 10:50:19');
+INSERT INTO `log_detail` VALUES (226, 1, 'com.github.liuzhuoming23.svea.app.controller.MenuController.selectOneById', 'id=1', NULL, 12, 'liuzhuoming', '获取菜单', 2, 'java.lang.IllegalStateException: No cache could be resolved for \'Builder[public com.github.liuzhuoming23.svea.app.domain.Menu com.github.liuzhuoming23.svea.app.service.impl.MenuServiceImpl.selectOneById(java.lang.Integer)] caches=[] | key=\'\' | keyGenerator=\'cacheKeyGenerator\' | cacheManager=\'\' | cacheResolver=\'\' | condition=\'\' | unless=\'\' | sync=\'false\'\' using resolver \'org.springframework.cache.interceptor.SimpleCacheResolver@9b4865f\'. At least one cache should be provided per cache operation.', '2019-05-28 10:53:24');
+INSERT INTO `log_detail` VALUES (227, 3, 'com.github.liuzhuoming23.svea.app.controller.TokenController.login', 'username=\"liuzhuoming\",password=******', '{\"username\":\"liuzhuoming\",\"token\":\"eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkwNTUyMTksInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.l7km1gv4vuh85V7JTUFdJr2uQeDQ0OONi9tI6zI6METB_bUDBLoKwgX0vR2gouFukpTzCkRZ0yfrPP8c0hV7_g\"}', NULL, NULL, '登录系统', 62, NULL, '2019-05-28 10:53:39');
+INSERT INTO `log_detail` VALUES (228, 3, 'com.github.liuzhuoming23.svea.app.controller.TokenController.login', 'username=\"liuzhuoming\",password=******', '{\"username\":\"liuzhuoming\",\"token\":\"eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkwNTUyNjcsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.67nzs_-5YkVLjFfnn8m8_OTWxmnNq1lvOdHSNUfjEHukg5wGNHdAx3jqc3N2UKpnw4xh2mb3lrdoVhFRH7An0w\"}', NULL, NULL, '登录系统', 13, NULL, '2019-05-28 10:54:27');
+INSERT INTO `log_detail` VALUES (229, 1, 'com.github.liuzhuoming23.svea.app.controller.MenuController.selectOneById', 'id=1', NULL, 12, 'liuzhuoming', '获取菜单', 0, 'java.lang.IllegalStateException: No cache could be resolved for \'Builder[public com.github.liuzhuoming23.svea.app.domain.Menu com.github.liuzhuoming23.svea.app.service.impl.MenuServiceImpl.selectOneById(java.lang.Integer)] caches=[] | key=\'\' | keyGenerator=\'cacheKeyGenerator\' | cacheManager=\'\' | cacheResolver=\'\' | condition=\'\' | unless=\'\' | sync=\'false\'\' using resolver \'org.springframework.cache.interceptor.SimpleCacheResolver@9b4865f\'. At least one cache should be provided per cache operation.', '2019-05-28 10:54:35');
+INSERT INTO `log_detail` VALUES (230, 1, 'com.github.liuzhuoming23.svea.app.controller.MenuController.selectOneById', 'id=1', '{\"data\":{\"enable\":0,\"id\":1,\"name\":\"测试1\"}}', 12, 'liuzhuoming', '获取菜单', 25, NULL, '2019-05-28 10:55:57');
+INSERT INTO `log_detail` VALUES (231, 3, 'com.github.liuzhuoming23.svea.app.controller.TokenController.login', 'username=\"liuzhuoming\",password=******', '{\"username\":\"liuzhuoming\",\"token\":\"eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkwNTU3MjksInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.sx3Y_-EJU6u4_QKj3qIPKUbobwOMuOPw85zwj9qzfmXO_RsNpPZVY2drYztw49_DAgkjU9UPf2tME3dqZO59zw\"}', NULL, NULL, '登录系统', 2060, NULL, '2019-05-28 11:02:09');
+INSERT INTO `log_detail` VALUES (232, 1, 'com.github.liuzhuoming23.svea.app.controller.MenuController.selectOneById', 'id=1', '{\"data\":{\"enable\":0,\"id\":1,\"name\":\"测试1\"}}', 12, 'liuzhuoming', '获取菜单', 25, NULL, '2019-05-28 11:02:24');
+INSERT INTO `log_detail` VALUES (233, 1, 'com.github.liuzhuoming23.svea.app.controller.MenuController.selectOneById', 'id=1', '{\"data\":{\"enable\":0,\"id\":1,\"name\":\"测试1\"}}', 12, 'liuzhuoming', '获取菜单', 3, NULL, '2019-05-28 11:02:26');
+INSERT INTO `log_detail` VALUES (234, 1, 'com.github.liuzhuoming23.svea.app.controller.MenuController.selectOneById', 'id=1', '{\"data\":{\"enable\":0,\"id\":1,\"name\":\"测试1\"}}', 12, 'liuzhuoming', '获取菜单', 2, NULL, '2019-05-28 11:02:28');
+INSERT INTO `log_detail` VALUES (235, 1, 'com.github.liuzhuoming23.svea.app.controller.MenuController.selectOneById', 'id=1', '{\"data\":{\"enable\":0,\"id\":1,\"name\":\"测试1\"}}', 12, 'liuzhuoming', '获取菜单', 1, NULL, '2019-05-28 11:02:29');
+INSERT INTO `log_detail` VALUES (236, 1, 'com.github.liuzhuoming23.svea.app.controller.MenuController.selectOneById', 'id=1', '{\"data\":{\"enable\":0,\"id\":1,\"name\":\"测试1\"}}', 12, 'liuzhuoming', '获取菜单', 1, NULL, '2019-05-28 11:02:33');
+INSERT INTO `log_detail` VALUES (237, 1, 'com.github.liuzhuoming23.svea.app.controller.MenuController.selectOneById', 'id=1', '{\"data\":{\"enable\":0,\"id\":1,\"name\":\"测试1\"}}', 12, 'liuzhuoming', '获取菜单', 2, NULL, '2019-05-28 11:02:55');
+INSERT INTO `log_detail` VALUES (238, 1, 'com.github.liuzhuoming23.svea.app.controller.MenuController.selectOneById', 'id=1', '{\"data\":{\"enable\":0,\"id\":1,\"name\":\"测试1\"}}', 12, 'liuzhuoming', '获取菜单', 1, NULL, '2019-05-28 11:02:56');
+INSERT INTO `log_detail` VALUES (239, 1, 'com.github.liuzhuoming23.svea.app.controller.MenuController.selectOneById', 'id=1', '{\"data\":{\"enable\":0,\"id\":1,\"name\":\"测试1\"}}', 12, 'liuzhuoming', '获取菜单', 1, NULL, '2019-05-28 11:03:40');
+INSERT INTO `log_detail` VALUES (240, 2, 'com.github.liuzhuoming23.svea.app.controller.AccountController.selectOneByName', 'username=\"liuzhuoming\"', '{\"data\":{\"addDatetime\":1558737363000,\"enable\":0,\"id\":12,\"password\":\"******\",\"roleId\":0,\"username\":\"liuzhuoming\"}}', 12, 'liuzhuoming', '查看账户', 3, NULL, '2019-05-28 11:04:02');
+INSERT INTO `log_detail` VALUES (241, 1, 'com.github.liuzhuoming23.svea.app.controller.MenuController.selectOneById', 'id=1', '{\"data\":{\"enable\":0,\"id\":1,\"name\":\"测试1\"}}', 12, 'liuzhuoming', '获取菜单', 37, NULL, '2019-05-28 11:13:06');
+INSERT INTO `log_detail` VALUES (242, 1, 'com.github.liuzhuoming23.svea.app.controller.MenuController.selectOneById', 'id=1', '{\"data\":{\"enable\":0,\"id\":1,\"name\":\"测试1\"}}', 12, 'liuzhuoming', '获取菜单', 3, NULL, '2019-05-28 11:13:21');
+INSERT INTO `log_detail` VALUES (243, 2, 'com.github.liuzhuoming23.svea.app.controller.AccountController.selectOneByName', 'username=\"liuzhuoming\"', '{\"data\":{\"addDatetime\":1558737363000,\"enable\":0,\"id\":12,\"password\":\"******\",\"roleId\":0,\"username\":\"liuzhuoming\"}}', 12, 'liuzhuoming', '查看账户', 4, NULL, '2019-05-28 11:13:24');
+INSERT INTO `log_detail` VALUES (244, 2, 'com.github.liuzhuoming23.svea.app.controller.AccountController.selectOneByName', 'username=\"liuzhuoming\"', '{\"data\":{\"addDatetime\":1558737363000,\"enable\":0,\"id\":12,\"password\":\"******\",\"roleId\":0,\"username\":\"liuzhuoming\"}}', 12, 'liuzhuoming', '查看账户', 2, NULL, '2019-05-28 11:13:25');
+INSERT INTO `log_detail` VALUES (245, 2, 'com.github.liuzhuoming23.svea.app.controller.AccountController.selectOneByName', 'username=\"liuzhuoming\"', '{\"data\":{\"addDatetime\":1558737363000,\"enable\":0,\"id\":12,\"password\":\"******\",\"roleId\":0,\"username\":\"liuzhuoming\"}}', 12, 'liuzhuoming', '查看账户', 1, NULL, '2019-05-28 11:13:26');
+INSERT INTO `log_detail` VALUES (246, 0, 'com.github.liuzhuoming23.svea.app.controller.DictController.select', 'dict={}', '{\"data\":[]}', 12, 'liuzhuoming', '获取字典列表', 33, NULL, '2019-05-28 11:15:18');
+INSERT INTO `log_detail` VALUES (247, 0, 'com.github.liuzhuoming23.svea.app.controller.DictController.selectOneByCode', 'code=\"test\"', NULL, 12, 'liuzhuoming', '获取字典', 3, 'com.github.liuzhuoming23.svea.common.exception.SveaException: dict not exist', '2019-05-28 11:15:52');
+INSERT INTO `log_detail` VALUES (248, 0, 'com.github.liuzhuoming23.svea.app.controller.DictController.insert', 'dict={\"code\":\"test3\",\"name\":\"测试3\"}', NULL, 12, 'liuzhuoming', '添加字典', 53, 'org.springframework.dao.DataIntegrityViolationException: \r\n### Error updating database.  Cause: java.sql.SQLIntegrityConstraintViolationException: Column \'enable\' cannot be null\r\n### The error may exist in file [G:\\projects\\spring-vue-element-admin\\target\\classes\\mapper\\app\\DictMapper.xml]\r\n### The error may involve com.github.liuzhuoming23.svea.app.mapper.DictMapper.insert-Inline\r\n### The error occurred while setting parameters\r\n### SQL: insert into     dict(code,`name`,enable)     values     (?,?,?)\r\n### Cause: java.sql.SQLIntegrityConstraintViolationException: Column \'enable\' cannot be null\n; Column \'enable\' cannot be null; nested exception is java.sql.SQLIntegrityConstraintViolationException: Column \'enable\' cannot be null', '2019-05-28 11:16:11');
+INSERT INTO `log_detail` VALUES (249, 0, 'com.github.liuzhuoming23.svea.app.controller.DictController.insert', 'dict={\"code\":\"test3\",\"id\":4,\"name\":\"测试3\"}', NULL, 12, 'liuzhuoming', '添加字典', 191, NULL, '2019-05-28 11:17:16');
+INSERT INTO `log_detail` VALUES (250, 0, 'com.github.liuzhuoming23.svea.app.controller.DictController.selectOneByCode', 'code=\"test\"', NULL, 12, 'liuzhuoming', '获取字典', 4, 'com.github.liuzhuoming23.svea.common.exception.SveaException: dict not exist', '2019-05-28 11:17:21');
+INSERT INTO `log_detail` VALUES (251, 0, 'com.github.liuzhuoming23.svea.app.controller.DictController.select', 'dict={}', '{\"data\":[]}', 12, 'liuzhuoming', '获取字典列表', 1, NULL, '2019-05-28 11:17:25');
+INSERT INTO `log_detail` VALUES (252, 0, 'com.github.liuzhuoming23.svea.app.controller.DictController.select', 'dict={}', '{\"data\":[]}', 12, 'liuzhuoming', '获取字典列表', 1, NULL, '2019-05-28 11:17:27');
+INSERT INTO `log_detail` VALUES (253, 0, 'com.github.liuzhuoming23.svea.app.controller.DictController.insert', 'dict={\"code\":\"test3\",\"name\":\"测试3\"}', NULL, 12, 'liuzhuoming', '添加字典', 56, 'org.springframework.dao.DuplicateKeyException: \r\n### Error updating database.  Cause: java.sql.SQLIntegrityConstraintViolationException: Duplicate entry \'test3\' for key \'code_unique\'\r\n### The error may exist in file [G:\\projects\\spring-vue-element-admin\\target\\classes\\mapper\\app\\DictMapper.xml]\r\n### The error may involve com.github.liuzhuoming23.svea.app.mapper.DictMapper.insert-Inline\r\n### The error occurred while setting parameters\r\n### SQL: insert into     dict(code,`name`)     values     (?,?)\r\n### Cause: java.sql.SQLIntegrityConstraintViolationException: Duplicate entry \'test3\' for key \'code_unique\'\n; Duplicate entry \'test3\' for key \'code_unique\'; nested exception is java.sql.SQLIntegrityConstraintViolationException: Duplicate entry \'test3\' for key \'code_unique\'', '2019-05-28 11:17:29');
+INSERT INTO `log_detail` VALUES (254, 0, 'com.github.liuzhuoming23.svea.app.controller.DictController.insert', 'dict={\"code\":\"test3\",\"name\":\"测试3\"}', NULL, 12, 'liuzhuoming', '添加字典', 222, 'com.github.liuzhuoming23.svea.common.exception.SveaException: \r\n### Error updating database.  Cause: java.sql.SQLIntegrityConstraintViolationException: Duplicate entry \'test3\' for key \'code_unique\'\r\n### The error may exist in file [G:\\projects\\spring-vue-element-admin\\target\\classes\\mapper\\app\\DictMapper.xml]\r\n### The error may involve com.github.liuzhuoming23.svea.app.mapper.DictMapper.insert-Inline\r\n### The error occurred while setting parameters\r\n### SQL: insert into dict     (code,`name`)     values     (?,?)\r\n### Cause: java.sql.SQLIntegrityConstraintViolationException: Duplicate entry \'test3\' for key \'code_unique\'\n; Duplicate entry \'test3\' for key \'code_unique\'; nested exception is java.sql.SQLIntegrityConstraintViolationException: Duplicate entry \'test3\' for key \'code_unique\'', '2019-05-28 11:19:17');
+INSERT INTO `log_detail` VALUES (255, 0, 'com.github.liuzhuoming23.svea.app.controller.DictController.insert', 'dict={\"code\":\"test3\",\"name\":\"测试3\"}', NULL, 12, 'liuzhuoming', '添加字典', 208, 'com.github.liuzhuoming23.svea.common.exception.SveaException: insert dict failed', '2019-05-28 11:21:11');
+INSERT INTO `log_detail` VALUES (256, 0, 'com.github.liuzhuoming23.svea.app.controller.DictController.insert', 'dict={\"code\":\"test4\",\"id\":8,\"name\":\"测试3\"}', NULL, 12, 'liuzhuoming', '添加字典', 24, NULL, '2019-05-28 11:21:19');
+INSERT INTO `log_detail` VALUES (257, 0, 'com.github.liuzhuoming23.svea.app.controller.DictController.selectOneByCode', 'code=\"test\"', NULL, 12, 'liuzhuoming', '获取字典', 5, 'com.github.liuzhuoming23.svea.common.exception.SveaException: dict not exist', '2019-05-28 11:21:32');
+INSERT INTO `log_detail` VALUES (258, 0, 'com.github.liuzhuoming23.svea.app.controller.DictController.selectOneByCode', 'code=\"test4\"', '{\"data\":{\"code\":\"test4\",\"enable\":0,\"id\":8,\"items\":[],\"name\":\"测试3\"}}', 12, 'liuzhuoming', '获取字典', 33, NULL, '2019-05-28 11:21:39');
+INSERT INTO `log_detail` VALUES (259, 0, 'com.github.liuzhuoming23.svea.app.controller.DictController.select', 'dict={}', '{\"data\":[]}', 12, 'liuzhuoming', '获取字典列表', 1, NULL, '2019-05-28 11:21:43');
+INSERT INTO `log_detail` VALUES (260, 0, 'com.github.liuzhuoming23.svea.app.controller.DictController.select', 'dict={}', '{\"data\":[]}', 12, 'liuzhuoming', '获取字典列表', 1, NULL, '2019-05-28 11:22:36');
+INSERT INTO `log_detail` VALUES (261, 0, 'com.github.liuzhuoming23.svea.app.controller.DictController.select', 'dict={}', '{\"data\":[{\"code\":\"test3\",\"enable\":0,\"id\":4,\"items\":[],\"name\":\"测试3\"},{\"code\":\"test4\",\"enable\":0,\"id\":8,\"items\":[],\"name\":\"测试3\"}]}', 12, 'liuzhuoming', '获取字典列表', 29, NULL, '2019-05-28 11:22:53');
+INSERT INTO `log_detail` VALUES (262, 0, 'com.github.liuzhuoming23.svea.app.controller.DictController.select', 'dict={}', '{\"data\":[{\"code\":\"test3\",\"enable\":0,\"id\":4,\"items\":[],\"name\":\"测试3\"},{\"code\":\"test4\",\"enable\":0,\"id\":8,\"items\":[],\"name\":\"测试3\"}]}', 12, 'liuzhuoming', '获取字典列表', 65, NULL, '2019-05-28 11:26:21');
+INSERT INTO `log_detail` VALUES (263, 0, 'com.github.liuzhuoming23.svea.app.controller.DictController.select', 'dict={}', '{\"data\":[{\"code\":\"test3\",\"enable\":0,\"id\":4,\"items\":[],\"name\":\"测试3\"},{\"code\":\"test4\",\"enable\":0,\"id\":8,\"items\":[],\"name\":\"测试3\"}]}', 12, 'liuzhuoming', '获取字典列表', 7, NULL, '2019-05-28 11:26:23');
+INSERT INTO `log_detail` VALUES (264, 0, 'com.github.liuzhuoming23.svea.app.controller.DictController.select', 'dict={}', '{\"data\":[{\"code\":\"test3\",\"enable\":0,\"id\":4,\"items\":[],\"name\":\"测试3\"},{\"code\":\"test4\",\"enable\":0,\"id\":8,\"items\":[],\"name\":\"测试3\"}]}', 12, 'liuzhuoming', '获取字典列表', 1, NULL, '2019-05-28 11:26:24');
+INSERT INTO `log_detail` VALUES (265, 0, 'com.github.liuzhuoming23.svea.app.controller.DictController.select', 'dict={}', '{\"data\":[{\"code\":\"test3\",\"enable\":0,\"id\":4,\"items\":[],\"name\":\"测试3\"},{\"code\":\"test4\",\"enable\":0,\"id\":8,\"items\":[],\"name\":\"测试3\"}]}', 12, 'liuzhuoming', '获取字典列表', 1, NULL, '2019-05-28 11:26:24');
+INSERT INTO `log_detail` VALUES (266, 0, 'com.github.liuzhuoming23.svea.app.controller.DictController.select', 'dict={}', '{\"data\":[{\"code\":\"test3\",\"enable\":0,\"id\":4,\"items\":[],\"name\":\"测试3\"},{\"code\":\"test4\",\"enable\":0,\"id\":8,\"items\":[],\"name\":\"测试3\"}]}', 12, 'liuzhuoming', '获取字典列表', 2, NULL, '2019-05-28 11:27:47');
+INSERT INTO `log_detail` VALUES (267, 0, 'com.github.liuzhuoming23.svea.app.controller.DictController.select', 'dict={}', '{\"data\":[{\"code\":\"test3\",\"enable\":0,\"id\":4,\"items\":[],\"name\":\"测试3\"},{\"code\":\"test4\",\"enable\":0,\"id\":8,\"items\":[],\"name\":\"测试3\"}]}', 12, 'liuzhuoming', '获取字典列表', 1, NULL, '2019-05-28 11:27:47');
+INSERT INTO `log_detail` VALUES (268, 0, 'com.github.liuzhuoming23.svea.app.controller.DictController.selectOneByCode', 'code=\"test4\"', '{\"data\":{\"code\":\"test4\",\"enable\":0,\"id\":8,\"items\":[],\"name\":\"测试3\"}}', 12, 'liuzhuoming', '获取字典', 5, NULL, '2019-05-28 11:27:49');
+INSERT INTO `log_detail` VALUES (269, 0, 'com.github.liuzhuoming23.svea.app.controller.DictController.selectOneByCode', 'code=\"test4\"', '{\"data\":{\"code\":\"test4\",\"enable\":0,\"id\":8,\"items\":[],\"name\":\"测试3\"}}', 12, 'liuzhuoming', '获取字典', 2, NULL, '2019-05-28 11:27:50');
+INSERT INTO `log_detail` VALUES (270, 0, 'com.github.liuzhuoming23.svea.app.controller.DictController.selectOneByCode', 'code=\"test4\"', '{\"data\":{\"code\":\"test4\",\"enable\":0,\"id\":8,\"items\":[],\"name\":\"测试3\"}}', 12, 'liuzhuoming', '获取字典', 1, NULL, '2019-05-28 11:27:54');
+INSERT INTO `log_detail` VALUES (271, 0, 'com.github.liuzhuoming23.svea.app.controller.DictController.selectOneByCode', 'code=\"test4\"', '{\"data\":{\"code\":\"test4\",\"enable\":0,\"id\":8,\"items\":[],\"name\":\"测试3\"}}', 12, 'liuzhuoming', '获取字典', 15, NULL, '2019-05-28 11:32:13');
+INSERT INTO `log_detail` VALUES (272, 0, 'com.github.liuzhuoming23.svea.app.controller.DictController.select', 'dict={}', '{\"data\":[{\"code\":\"test3\",\"enable\":0,\"id\":4,\"items\":[],\"name\":\"测试3\"},{\"code\":\"test4\",\"enable\":0,\"id\":8,\"items\":[],\"name\":\"测试3\"}]}', 12, 'liuzhuoming', '获取字典列表', 26, NULL, '2019-05-28 11:32:14');
+INSERT INTO `log_detail` VALUES (273, 2, 'com.github.liuzhuoming23.svea.app.controller.AccountController.selectOneByName', 'username=\"liuzhuoming\"', '{\"data\":{\"addDatetime\":1558737363000,\"enable\":0,\"id\":12,\"isAdmin\":0,\"password\":\"******\",\"roleId\":0,\"username\":\"liuzhuoming\"}}', 12, 'liuzhuoming', '查看账户', 3, NULL, '2019-05-28 11:32:16');
+INSERT INTO `log_detail` VALUES (274, 1, 'com.github.liuzhuoming23.svea.app.controller.MenuController.selectOneById', 'id=1', '{\"data\":{\"enable\":0,\"id\":1,\"name\":\"测试1\"}}', 12, 'liuzhuoming', '获取菜单', 25, NULL, '2019-05-28 11:32:19');
+INSERT INTO `log_detail` VALUES (275, 2, 'com.github.liuzhuoming23.svea.app.controller.AccountController.selectOneByName', 'username=\"liuzhuoming\"', '{\"data\":{\"addDatetime\":1558737363000,\"enable\":0,\"id\":12,\"isAdmin\":0,\"password\":\"******\",\"roleId\":0,\"username\":\"liuzhuoming\"}}', 12, 'liuzhuoming', '查看账户', 20, NULL, '2019-05-28 11:54:53');
+INSERT INTO `log_detail` VALUES (276, 2, 'com.github.liuzhuoming23.svea.app.controller.AccountController.selectOneByName', 'username=\"liuzhuoming\"', '{\"data\":{\"addDatetime\":1558737363000,\"enable\":0,\"id\":12,\"isAdmin\":0,\"password\":\"******\",\"roleId\":0,\"username\":\"liuzhuoming\"}}', 12, 'liuzhuoming', '查看账户', 2, NULL, '2019-05-28 11:54:55');
+INSERT INTO `log_detail` VALUES (277, 2, 'com.github.liuzhuoming23.svea.app.controller.AccountController.selectOneByName', 'username=\"liuzhuoming\"', '{\"data\":{\"addDatetime\":1558737363000,\"enable\":0,\"id\":12,\"isAdmin\":0,\"password\":\"******\",\"roleId\":0,\"username\":\"liuzhuoming\"}}', 12, 'liuzhuoming', '查看账户', 2, NULL, '2019-05-28 11:54:55');
+INSERT INTO `log_detail` VALUES (278, 2, 'com.github.liuzhuoming23.svea.app.controller.AccountController.selectOneByName', 'username=\"liuzhuoming\"', '{\"data\":{\"addDatetime\":1558737363000,\"enable\":0,\"id\":12,\"isAdmin\":0,\"password\":\"******\",\"roleId\":0,\"username\":\"liuzhuoming\"}}', 12, 'liuzhuoming', '查看账户', 1, NULL, '2019-05-28 11:54:58');
+INSERT INTO `log_detail` VALUES (279, 2, 'com.github.liuzhuoming23.svea.app.controller.AccountController.selectOneByName', 'username=\"liuzhuoming\"', '{\"data\":{\"addDatetime\":1558737363000,\"enable\":0,\"id\":12,\"isAdmin\":0,\"password\":\"******\",\"roleId\":0,\"username\":\"liuzhuoming\"}}', 12, 'liuzhuoming', '查看账户', 1, NULL, '2019-05-28 11:54:59');
+INSERT INTO `log_detail` VALUES (280, 2, 'com.github.liuzhuoming23.svea.app.controller.AccountController.selectOneByName', 'username=\"liuzhuoming\"', '{\"data\":{\"addDatetime\":1558737363000,\"enable\":0,\"id\":12,\"isAdmin\":0,\"password\":\"******\",\"roleId\":0,\"username\":\"liuzhuoming\"}}', 12, 'liuzhuoming', '查看账户', 1, NULL, '2019-05-28 11:54:59');
+INSERT INTO `log_detail` VALUES (281, 2, 'com.github.liuzhuoming23.svea.app.controller.AccountController.selectOneByName', 'username=\"liuzhuoming\"', '{\"data\":{\"addDatetime\":1558737363000,\"enable\":0,\"id\":12,\"isAdmin\":0,\"password\":\"******\",\"roleId\":0,\"username\":\"liuzhuoming\"}}', 12, 'liuzhuoming', '查看账户', 1, NULL, '2019-05-28 11:55:00');
+INSERT INTO `log_detail` VALUES (282, 0, 'com.github.liuzhuoming23.svea.app.controller.DictController.select', 'dict={}', '{\"data\":[{\"code\":\"test3\",\"enable\":0,\"id\":4,\"items\":[],\"name\":\"测试3\"},{\"code\":\"test4\",\"enable\":0,\"id\":8,\"items\":[],\"name\":\"测试3\"}]}', 12, 'liuzhuoming', '获取字典列表', 57, NULL, '2019-05-28 12:00:25');
+INSERT INTO `log_detail` VALUES (283, 0, 'com.github.liuzhuoming23.svea.app.controller.DictController.select', 'dict={}', '{\"data\":[{\"code\":\"test3\",\"enable\":0,\"id\":4,\"items\":[],\"name\":\"测试3\"},{\"code\":\"test4\",\"enable\":0,\"id\":8,\"items\":[],\"name\":\"测试3\"}]}', 12, 'liuzhuoming', '获取字典列表', 3, NULL, '2019-05-28 12:00:26');
+INSERT INTO `log_detail` VALUES (284, 0, 'com.github.liuzhuoming23.svea.app.controller.DictController.selectOneByCode', 'code=\"test4\"', '{\"data\":{\"code\":\"test4\",\"enable\":0,\"id\":8,\"items\":[],\"name\":\"测试3\"}}', 12, 'liuzhuoming', '获取字典', 7, NULL, '2019-05-28 12:00:28');
+INSERT INTO `log_detail` VALUES (285, 0, 'com.github.liuzhuoming23.svea.app.controller.DictController.selectOneByCode', 'code=\"test4\"', '{\"data\":{\"code\":\"test4\",\"enable\":0,\"id\":8,\"items\":[],\"name\":\"测试3\"}}', 12, 'liuzhuoming', '获取字典', 1, NULL, '2019-05-28 12:00:28');
+INSERT INTO `log_detail` VALUES (286, 0, 'com.github.liuzhuoming23.svea.app.controller.DictController.select', 'dict={}', '{\"data\":[{\"code\":\"test3\",\"enable\":0,\"id\":4,\"items\":[],\"name\":\"测试3\"},{\"code\":\"test4\",\"enable\":0,\"id\":8,\"items\":[],\"name\":\"测试3\"}]}', 12, 'liuzhuoming', '获取字典列表', 18894, NULL, '2019-05-28 15:17:21');
+INSERT INTO `log_detail` VALUES (287, 0, 'com.github.liuzhuoming23.svea.app.controller.DictController.select', 'dict={}', '{\"data\":[{\"code\":\"test3\",\"enable\":0,\"id\":4,\"items\":[],\"name\":\"??3\"},{\"code\":\"test4\",\"enable\":0,\"id\":8,\"items\":[],\"name\":\"??3\"}]}', 12, 'liuzhuoming', '??????', 11344, NULL, '2019-05-28 15:17:45');
+INSERT INTO `log_detail` VALUES (288, 3, 'com.github.liuzhuoming23.svea.app.controller.TokenController.login', 'username=\"liuzhuoming\",password=******', '{\"username\":\"liuzhuoming\",\"token\":\"eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkxMTU0NDgsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.Qe0dq7sfGVc9ZheB19muNKP2CDZ5JBKsys-DRDS_HYAXt5rfXF1PBUvtFdeDSPNE0q8Q6g7GJdN4HMZCE7LVqw\"}', NULL, NULL, '登录系统', 1217, NULL, '2019-05-28 15:37:28');
+INSERT INTO `log_detail` VALUES (289, 0, 'com.github.liuzhuoming23.svea.app.controller.DictItemController.insertItem', 'dictId=2,val=3', NULL, 12, 'liuzhuoming', '获取字典项', 8, 'com.github.liuzhuoming23.svea.common.exception.SveaException: dictItem not exist', '2019-05-28 15:37:46');
+INSERT INTO `log_detail` VALUES (290, 0, 'com.github.liuzhuoming23.svea.app.controller.DictItemController.insertItem', 'dictItem={\"context\":\"测试3\",\"dictId\":4,\"sort\":3,\"val\":3},dictId=4', NULL, 12, 'liuzhuoming', '添加字典项', 7, NULL, '2019-05-28 15:39:21');
+INSERT INTO `log_detail` VALUES (291, 0, 'com.github.liuzhuoming23.svea.app.controller.DictItemController.insertItem', 'dictItem={\"context\":\"测试3\",\"dictId\":4,\"sort\":3,\"val\":3},dictId=4', NULL, 12, 'liuzhuoming', '添加字典项', 59, 'com.github.liuzhuoming23.svea.common.exception.SveaException: dictItem is exist', '2019-05-28 15:39:23');
+INSERT INTO `log_detail` VALUES (292, 0, 'com.github.liuzhuoming23.svea.app.controller.DictItemController.insertItem', 'dictItem={\"context\":\"测试3\",\"dictId\":4,\"sort\":3,\"val\":4},dictId=4', NULL, 12, 'liuzhuoming', '添加字典项', 32, NULL, '2019-05-28 15:39:34');
+INSERT INTO `log_detail` VALUES (293, 0, 'com.github.liuzhuoming23.svea.app.controller.DictItemController.insertItem', 'dictId=4,val=4', '{\"data\":{\"context\":\"测试3\",\"dictId\":4,\"id\":20,\"sort\":3,\"val\":4}}', 12, 'liuzhuoming', '获取字典项', 2, NULL, '2019-05-28 15:40:22');
+INSERT INTO `log_detail` VALUES (294, 0, 'com.github.liuzhuoming23.svea.app.controller.DictItemController.insertItem', 'dictId=4,val=4', '{\"data\":{\"context\":\"测试3\",\"dictId\":4,\"id\":20,\"sort\":3,\"val\":4}}', 12, 'liuzhuoming', '获取字典项', 1, NULL, '2019-05-28 15:42:42');
+INSERT INTO `log_detail` VALUES (295, 0, 'com.github.liuzhuoming23.svea.app.controller.DictController.select', 'dict={}', '{\"data\":[{\"code\":\"test3\",\"enable\":0,\"id\":4,\"items\":[{\"context\":\"测试3\",\"dictId\":4,\"id\":18,\"sort\":3,\"val\":3},{\"context\":\"测试3\",\"dictId\":4,\"id\":20,\"sort\":3,\"val\":4}],\"name\":\"测试3\"},{\"code\":\"test4\",\"enable\":0,\"id\":8,\"items\":[],\"name\":\"测试3\"}]}', 12, 'liuzhuoming', '获取字典列表', 27, NULL, '2019-05-28 15:42:58');
+INSERT INTO `log_detail` VALUES (296, 3, 'com.github.liuzhuoming23.svea.app.controller.TokenController.login', 'username=\"liuzhuoming\",password=******', '{\"username\":\"liuzhuoming\",\"token\":\"eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkxMTYwMjIsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.YCES1bRy6nEqEcVqQBwvR8ekexQPXfOnQM6sgVDGUvhPz5FxEnxBqQ7vQbagdwZYef06H4PAT18LEQ145JvaLg\"}', NULL, NULL, '登录系统', 7, NULL, '2019-05-28 15:47:03');
+INSERT INTO `log_detail` VALUES (297, 3, 'com.github.liuzhuoming23.svea.app.controller.TokenController.login', 'username=\"liuzhuoming\",password=******', '{\"username\":\"liuzhuoming\",\"token\":\"eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkxMTc2NTcsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.1lt7-A5WDc85zLC17V_dzwrk6U5WzvxfzIqR0KwlVOIUUn6t648WyUTmSX8LT9tceJ18YQMlLYL9mzgVsoOIvQ\"}', NULL, NULL, '登录系统', 1823, NULL, '2019-05-28 16:14:17');
+INSERT INTO `log_detail` VALUES (298, 0, 'com.github.liuzhuoming23.svea.app.controller.DictItemController.insertItem', 'dictId=4,val=4', '{\"data\":{\"context\":\"测试3\",\"dictId\":4,\"id\":20,\"sort\":3,\"val\":4}}', 12, 'liuzhuoming', '获取字典项', 7, NULL, '2019-05-28 16:14:30');
+INSERT INTO `log_detail` VALUES (299, 0, 'com.github.liuzhuoming23.svea.app.controller.DictItemController.insertItem', 'dictId=4,val=4', '{\"data\":{\"context\":\"测试3\",\"dictId\":4,\"id\":20,\"sort\":3,\"val\":4}}', 12, 'liuzhuoming', '获取字典项', 2, NULL, '2019-05-28 16:14:33');
+INSERT INTO `log_detail` VALUES (300, 0, 'com.github.liuzhuoming23.svea.app.controller.DictItemController.insertItem', 'dictId=4,val=4', '{\"data\":{\"context\":\"测试3\",\"dictId\":4,\"id\":20,\"sort\":3,\"val\":4}}', 12, 'liuzhuoming', '获取字典项', 1, NULL, '2019-05-28 16:14:34');
+INSERT INTO `log_detail` VALUES (301, 0, 'com.github.liuzhuoming23.svea.app.controller.DictItemController.insertItem', 'dictId=1,val=4', NULL, 12, 'liuzhuoming', '获取字典项', 2, 'com.github.liuzhuoming23.svea.common.exception.SveaException: dictItem(dictId=1 val=4) not exist', '2019-05-28 16:14:38');
+INSERT INTO `log_detail` VALUES (302, 0, 'com.github.liuzhuoming23.svea.app.controller.DictItemController.insertItem', 'dictId=1,val=4', NULL, 12, 'liuzhuoming', '获取字典项', 2, 'com.github.liuzhuoming23.svea.common.exception.SveaException: dictItem(dictId=1 val=4) not exist', '2019-05-28 16:47:22');
+INSERT INTO `log_detail` VALUES (303, 0, 'com.github.liuzhuoming23.svea.app.controller.DictItemController.insertItem', 'dictId=5,val=4', NULL, 12, 'liuzhuoming', '获取字典项', 2, 'com.github.liuzhuoming23.svea.common.exception.SveaException: dictItem(dictId=5 val=4) not exist', '2019-05-28 16:47:26');
+INSERT INTO `log_detail` VALUES (304, 0, 'com.github.liuzhuoming23.svea.app.controller.DictItemController.insertItem', 'dictId=4,val=4', '{\"data\":{\"context\":\"测试3\",\"dictId\":4,\"id\":20,\"sort\":3,\"val\":4}}', 12, 'liuzhuoming', '获取字典项', 2, NULL, '2019-05-28 16:47:31');
+INSERT INTO `log_detail` VALUES (305, 0, 'com.github.liuzhuoming23.svea.app.controller.DictItemController.delete', 'dictId=4,val=4', NULL, 12, 'liuzhuoming', '删除字典项', 16, NULL, '2019-05-28 16:48:35');
+INSERT INTO `log_detail` VALUES (306, 0, 'com.github.liuzhuoming23.svea.app.controller.DictItemController.insert', 'dictId=4,val=4', NULL, 12, 'liuzhuoming', '获取字典项', 2, 'com.github.liuzhuoming23.svea.common.exception.SveaException: dictItem(dictId=4 val=4) not exist', '2019-05-28 16:48:36');
+INSERT INTO `log_detail` VALUES (307, 0, 'com.github.liuzhuoming23.svea.app.controller.DictItemController.insert', 'dictId=4,val=3', '{\"data\":{\"context\":\"测试3\",\"dictId\":4,\"id\":18,\"sort\":3,\"val\":3}}', 12, 'liuzhuoming', '获取字典项', 1, NULL, '2019-05-28 16:48:52');
+INSERT INTO `log_detail` VALUES (308, 0, 'com.github.liuzhuoming23.svea.app.controller.DictItemController.delete', 'dictId=4,val=3', NULL, 12, 'liuzhuoming', '删除字典项', 5, NULL, '2019-05-28 16:49:01');
+INSERT INTO `log_detail` VALUES (309, 1, 'com.github.liuzhuoming23.svea.app.controller.MenuController.selectOneById', 'id=1', '{\"data\":{\"enable\":0,\"id\":1,\"name\":\"测试1\"}}', 12, 'liuzhuoming', '获取菜单', 45, NULL, '2019-05-28 16:54:50');
+INSERT INTO `log_detail` VALUES (310, 1, 'com.github.liuzhuoming23.svea.app.controller.MenuController.selectOneById', 'id=1', '{\"data\":{\"enable\":0,\"id\":1,\"name\":\"测试1\"}}', 12, 'liuzhuoming', '获取菜单', 44, NULL, '2019-05-28 16:56:28');
+INSERT INTO `log_detail` VALUES (311, 1, 'com.github.liuzhuoming23.svea.app.controller.MenuController.selectOneById', 'id=1', '{\"data\":{\"enable\":0,\"id\":1,\"name\":\"测试1\"}}', 12, 'liuzhuoming', '获取菜单', 15, NULL, '2019-05-28 16:58:24');
+INSERT INTO `log_detail` VALUES (312, 1, 'com.github.liuzhuoming23.svea.app.controller.MenuController.selectOneById', 'id=1', '{\"data\":{\"enable\":0,\"id\":1,\"name\":\"测试1\",\"sort\":-1}}', 12, 'liuzhuoming', '获取菜单', 13, NULL, '2019-05-28 16:58:45');
+INSERT INTO `log_detail` VALUES (313, 1, 'com.github.liuzhuoming23.svea.app.controller.MenuController.selectOneById', 'id=1', '{\"data\":{\"enable\":0,\"id\":1,\"name\":\"测试1\",\"sort\":-1}}', 12, 'liuzhuoming', '获取菜单', 17, NULL, '2019-05-28 17:01:32');
+INSERT INTO `log_detail` VALUES (314, 0, 'com.github.liuzhuoming23.svea.app.controller.DictController.delete', 'code=\"test4\"', NULL, 12, 'liuzhuoming', '删除字典', 24, NULL, '2019-05-28 17:04:03');
+INSERT INTO `log_detail` VALUES (315, 2, 'com.github.liuzhuoming23.svea.app.controller.MenuController.delete', 'id=1', NULL, 12, 'liuzhuoming', '删除菜单', 9, NULL, '2019-05-28 17:09:15');
+INSERT INTO `log_detail` VALUES (316, 3, 'com.github.liuzhuoming23.svea.app.controller.TokenController.login', 'username=\"liuzhuoming\",password=******', '{\"username\":\"liuzhuoming\",\"token\":\"eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkxMjYxMjksInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.BoMnrMer_Q0cXDg1pKhMs2Hk-fPPjJgd_GoZL_k-M4PvRDNQhL9J1oKFFvEFlLRE82sqYiCZiSeU3BCmgMvsgw\"}', NULL, NULL, '登录系统', 2297, NULL, '2019-05-28 18:35:30');
+INSERT INTO `log_detail` VALUES (317, 1, 'com.github.liuzhuoming23.svea.app.controller.TokenController.logout', '', NULL, 12, 'liuzhuoming', '登出系统', 2, NULL, '2019-05-28 18:36:29');
+INSERT INTO `log_detail` VALUES (318, 3, 'com.github.liuzhuoming23.svea.app.controller.TokenController.login', 'username=\"liuzhuoming\",password=******', '{\"username\":\"liuzhuoming\",\"token\":\"eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkxODE0OTQsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.l043gEbvN2uJw3EZ-YTi6KyKw_CYfHB4G3TfkN4YBWMYfscLfiFCOLb9933CNsAjyLd-UROljQYj6hIPoFNUcg\"}', NULL, NULL, '登录系统', 2140, NULL, '2019-05-29 09:58:14');
+INSERT INTO `log_detail` VALUES (319, 3, 'com.github.liuzhuoming23.svea.app.controller.TokenController.login', 'username=\"liuzhuoming\",password=******', '{\"username\":\"liuzhuoming\",\"token\":\"eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkxODE1MjcsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.GZ9rWKZRkE1dKKFSaZMFi5OmknZcM57HKRKeIuvRKFOmCi3uZcQ3jsbr8TIxnXX0P0bCNYFIrrlv7oNgcAu85Q\"}', NULL, NULL, '登录系统', 9, NULL, '2019-05-29 09:58:47');
+INSERT INTO `log_detail` VALUES (320, 3, 'com.github.liuzhuoming23.svea.app.controller.TokenController.login', 'username=\"liuzhuoming\",password=******', '{\"username\":\"liuzhuoming\",\"token\":\"eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkxODE2NjEsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.qqlA6QBx9YekOLGkR8cB5Cbc4PDU4ZtFYpGfcy_9QKkSn9vR1JRn9jNm-f0FeeLJbupgZaQR1gsMdAlOQkKpsg\"}', NULL, NULL, '登录系统', 1774, NULL, '2019-05-29 10:01:01');
+INSERT INTO `log_detail` VALUES (321, 2, 'com.github.liuzhuoming23.svea.app.controller.MenuController.insert', 'menu={\"id\":14,\"name\":\"测试5\",\"parentId\":1}', NULL, 12, 'liuzhuoming', '添加菜单', 18, NULL, '2019-05-29 10:23:36');
+INSERT INTO `log_detail` VALUES (322, 2, 'com.github.liuzhuoming23.svea.app.controller.MenuController.update', 'menu={\"enable\":0,\"name\":\"测试7\",\"parentId\":1}', NULL, 12, 'liuzhuoming', '更新菜单', 18, NULL, '2019-05-29 10:27:20');
+INSERT INTO `log_detail` VALUES (323, 2, 'com.github.liuzhuoming23.svea.app.controller.MenuController.update', 'menu={\"enable\":0,\"id\":14,\"name\":\"测试7\",\"parentId\":1}', NULL, 12, 'liuzhuoming', '更新菜单', 6, NULL, '2019-05-29 10:27:41');
+INSERT INTO `log_detail` VALUES (324, 5, 'com.github.liuzhuoming23.svea.app.controller.AccountController.insert', 'account={\"password\":\"Admin123\",\"roleId\":0,\"username\":\"admin12\"}', NULL, 12, 'liuzhuoming', '添加账户', 4, 'com.github.liuzhuoming23.svea.common.exception.SveaException: account(username=admin12) already exists', '2019-05-29 10:45:08');
+INSERT INTO `log_detail` VALUES (325, 2, 'com.github.liuzhuoming23.svea.app.controller.MenuController.update', 'menu={\"enable\":0,\"name\":\"测试7\",\"parentId\":1}', NULL, 12, 'liuzhuoming', '更新菜单', 3, 'java.lang.NullPointerException', '2019-05-29 10:50:55');
+INSERT INTO `log_detail` VALUES (326, 2, 'com.github.liuzhuoming23.svea.app.controller.MenuController.update', 'menu={\"enable\":0,\"name\":\"测试7\",\"parentId\":1}', NULL, 12, 'liuzhuoming', '更新菜单', 2, 'java.lang.NullPointerException', '2019-05-29 10:52:39');
+INSERT INTO `log_detail` VALUES (327, 2, 'com.github.liuzhuoming23.svea.app.controller.MenuController.update', 'menu={\"enable\":0,\"name\":\"测试7\",\"parentId\":1}', NULL, 12, 'liuzhuoming', '更新菜单', 9593, 'java.lang.NullPointerException', '2019-05-29 10:53:03');
+INSERT INTO `log_detail` VALUES (328, 2, 'com.github.liuzhuoming23.svea.app.controller.MenuController.update', 'menu={\"enable\":0,\"name\":\"测试7\",\"parentId\":1}', NULL, 12, 'liuzhuoming', '更新菜单', 12, 'com.github.liuzhuoming23.svea.common.exception.SveaException: menu(id=null) not exist', '2019-05-29 10:55:18');
+INSERT INTO `log_detail` VALUES (329, 2, 'com.github.liuzhuoming23.svea.app.controller.MenuController.insert', 'menu={\"enable\":0,\"id\":15,\"name\":\"测试5\",\"parentId\":1}', NULL, 12, 'liuzhuoming', '添加菜单', 38, NULL, '2019-05-29 10:55:54');
+INSERT INTO `log_detail` VALUES (330, 5, 'com.github.liuzhuoming23.svea.app.controller.AccountController.insert', 'account={\"enable\":0,\"password\":\"Admin123\",\"roleId\":0,\"username\":\"admin12\"}', NULL, 12, 'liuzhuoming', '添加账户', 4, 'com.github.liuzhuoming23.svea.common.exception.SveaException: account(username=admin12) already exists', '2019-05-29 10:56:18');
+INSERT INTO `log_detail` VALUES (331, 5, 'com.github.liuzhuoming23.svea.app.controller.AccountController.insert', 'account={\"enable\":0,\"isAdmin\":0,\"password\":\"6e583e95f7efd82762e3b41cb627d428\",\"roleId\":0,\"username\":\"admin123\"}', NULL, 12, 'liuzhuoming', '添加账户', 71, 'org.springframework.jdbc.BadSqlGrammarException: \r\n### Error updating database.  Cause: java.sql.SQLSyntaxErrorException: Unknown column \'isAdmin\' in \'field list\'\r\n### The error may exist in file [G:\\projects\\spring-vue-element-admin\\target\\classes\\mapper\\app\\AccountMapper.xml]\r\n### The error may involve com.github.liuzhuoming23.svea.app.mapper.AccountMapper.insert-Inline\r\n### The error occurred while setting parameters\r\n### SQL: insert into account     (username,password,role_id,isAdmin)     values     (?,?,?,?)\r\n### Cause: java.sql.SQLSyntaxErrorException: Unknown column \'isAdmin\' in \'field list\'\n; bad SQL grammar []; nested exception is java.sql.SQLSyntaxErrorException: Unknown column \'isAdmin\' in \'field list\'', '2019-05-29 10:57:58');
+INSERT INTO `log_detail` VALUES (332, 5, 'com.github.liuzhuoming23.svea.app.controller.AccountController.insert', 'account={\"enable\":0,\"isAdmin\":0,\"password\":\"6e583e95f7efd82762e3b41cb627d428\",\"roleId\":0,\"username\":\"admin123\"}', NULL, 12, 'liuzhuoming', '添加账户', 11, NULL, '2019-05-29 10:59:00');
+INSERT INTO `log_detail` VALUES (333, 3, 'com.github.liuzhuoming23.svea.app.controller.TokenController.login', 'username=\"liuzhuoming\",password=******', '{\"username\":\"liuzhuoming\",\"token\":\"eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkxODUyNjUsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.PJR4bUSZVn6lgNBSrWXBJuhujeDlCPIxrTjQe024RWbQhYHZ41xxbDM0CMWmTa_Ez3M3ULibenPNBfFJMOfq2Q\"}', NULL, NULL, '登录系统', 30, NULL, '2019-05-29 11:01:05');
+INSERT INTO `log_detail` VALUES (334, 3, 'com.github.liuzhuoming23.svea.app.controller.TokenController.login', 'username=\"liuzhuoming\",password=******', '{\"username\":\"liuzhuoming\",\"token\":\"eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkxODUyNjcsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.ELOR2yRYvyPzDNyYoveXgnqrfZ7B0GrJ07MLcH4HHnpHurrCjs8yTrqvjVcrC7ADKFxNFGQn3ycc75Afn1H_1A\"}', NULL, NULL, '登录系统', 7, NULL, '2019-05-29 11:01:07');
+INSERT INTO `log_detail` VALUES (335, 3, 'com.github.liuzhuoming23.svea.app.controller.TokenController.login', 'username=\"liuzhuoming\",password=******', '{\"username\":\"liuzhuoming\",\"token\":\"eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkxODUzMDEsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.WEp6zQeANSAm-YaTifQh6DJyXjrAvkzT3zBbtiw7AAKSUYEmlayv6Uuz5-SPc0tTRChLhZ5YX5x-JpO5DVs2mA\"}', NULL, NULL, '登录系统', 8, NULL, '2019-05-29 11:01:41');
+INSERT INTO `log_detail` VALUES (336, 3, 'com.github.liuzhuoming23.svea.app.controller.TokenController.login', 'username=\"liuzhuoming\",password=******', '{\"username\":\"liuzhuoming\",\"token\":\"eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkxODU1MDIsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.drhqTATYuhrmm-eW9XRhDTkhaYUcJnpbUqIoIYRVHgVlBfBjvOyNdrAUoqNACN1_62q5-EGksCqPaMnFw1GXew\"}', NULL, NULL, '登录系统', 1861, NULL, '2019-05-29 11:05:03');
+INSERT INTO `log_detail` VALUES (337, 3, 'com.github.liuzhuoming23.svea.app.controller.TokenController.login', 'username=\"liuzhuoming\",password=******', '{\"username\":\"liuzhuoming\",\"token\":\"eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkxODU1MzksInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.r8z8aqnNEeDcjFX8lLUOg2h8bj4NebOHz-fejJ3G5FSjL4nzRaxCz4wFSGApdl8p1vBBSmJSQLVLsRZUAgSLvA\"}', NULL, NULL, '登录系统', 26154, NULL, '2019-05-29 11:05:39');
+INSERT INTO `log_detail` VALUES (338, 3, 'com.github.liuzhuoming23.svea.app.controller.TokenController.login', 'username=\"liuzhuoming\",password=******', '{\"body\":{\"timestamp\":\"2019-05-29T11:06:40.528\",\"status\":401,\"error\":\"Unauthorized\",\"message\":\"incorrect username or password or not enable\",\"path\":\"/login\"},\"headers\":{},\"statusCode\":\"UNAUTHORIZED\",\"statusCodeValue\":401}', NULL, NULL, '登录系统', 1209, NULL, '2019-05-29 11:06:40');
+INSERT INTO `log_detail` VALUES (339, 3, 'com.github.liuzhuoming23.svea.app.controller.TokenController.login', 'username=\"liuzhuoming\",password=******', '{\"body\":{\"timestamp\":\"2019-05-29T11:06:44.885\",\"status\":401,\"error\":\"Unauthorized\",\"message\":\"incorrect username or password or not enable\",\"path\":\"/login\"},\"headers\":{},\"statusCode\":\"UNAUTHORIZED\",\"statusCodeValue\":401}', NULL, NULL, '登录系统', 7, NULL, '2019-05-29 11:06:44');
+INSERT INTO `log_detail` VALUES (340, 3, 'com.github.liuzhuoming23.svea.app.controller.TokenController.login', 'username=\"liuzhuoming\",password=******', '{\"username\":\"liuzhuoming\",\"token\":\"eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkxODU2MTAsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.qRWKIakY6n7L5RXKgFzHVjzRWNZ7Zyui5c1eE7RW22AjWlLuJMkxkXzY924UU2OnqZKUpB9SvCiCCI7d8jN7fg\"}', NULL, NULL, '登录系统', 598, NULL, '2019-05-29 11:06:51');
+INSERT INTO `log_detail` VALUES (341, 3, 'com.github.liuzhuoming23.svea.app.controller.TokenController.login', 'username=\"liuzhuoming\",password=******', '{\"username\":\"liuzhuoming\",\"token\":\"eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkxODU2MTksInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.UjIrsl3zktVY6alTIL5CQRIDBYgfUVqaFZfQFibpYH9mJcmuD-wL806Px02YJTxyUmqozBkPxZnV8ktyy8graA\"}', NULL, NULL, '登录系统', 8, NULL, '2019-05-29 11:06:59');
 
 -- ----------------------------
 -- Table structure for menu
@@ -291,29 +418,28 @@ DROP TABLE IF EXISTS `menu`;
 CREATE TABLE `menu`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT ' ',
   `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '菜单名称',
-  `permission` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '菜单权限标注',
   `parent_id` int(11) NULL DEFAULT NULL COMMENT '父级菜单id',
   `sort` int(3) NULL DEFAULT NULL COMMENT '排序',
   `enable` int(1) NOT NULL DEFAULT 0 COMMENT '是否可用（0可用，1不可用）',
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `permission_unique`(`permission`) USING BTREE COMMENT '权限标注唯一'
-) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '菜单信息表' ROW_FORMAT = Dynamic;
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '菜单表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of menu
 -- ----------------------------
-INSERT INTO `menu` VALUES (1, '测试1', NULL, NULL, NULL, 0);
-INSERT INTO `menu` VALUES (3, '测试1', NULL, 1, NULL, 0);
-INSERT INTO `menu` VALUES (4, '测试1', NULL, 3, NULL, 0);
-INSERT INTO `menu` VALUES (5, '测试1', NULL, 4, NULL, 0);
-INSERT INTO `menu` VALUES (6, '测试1', NULL, 1, NULL, 0);
-INSERT INTO `menu` VALUES (7, '测试1', NULL, 1, NULL, 0);
-INSERT INTO `menu` VALUES (8, '测试1', NULL, 1, NULL, 0);
-INSERT INTO `menu` VALUES (9, '测试1', NULL, 1, NULL, 0);
-INSERT INTO `menu` VALUES (10, '测试1', NULL, 1, NULL, 0);
-INSERT INTO `menu` VALUES (11, '测试1', NULL, 3, NULL, 0);
-INSERT INTO `menu` VALUES (12, '测试1', NULL, 3, NULL, 0);
-INSERT INTO `menu` VALUES (13, '测试1', NULL, 3, NULL, 0);
+INSERT INTO `menu` VALUES (1, '测试1', NULL, 1, 0);
+INSERT INTO `menu` VALUES (4, '测试1', 3, 2, 0);
+INSERT INTO `menu` VALUES (5, '测试1', 4, 0, 0);
+INSERT INTO `menu` VALUES (6, '测试1', 1, NULL, 0);
+INSERT INTO `menu` VALUES (7, '测试1', 1, NULL, 0);
+INSERT INTO `menu` VALUES (8, '测试1', 1, NULL, 0);
+INSERT INTO `menu` VALUES (9, '测试1', 1, NULL, 0);
+INSERT INTO `menu` VALUES (10, '测试1', 1, NULL, 0);
+INSERT INTO `menu` VALUES (11, '测试1', 3, NULL, 0);
+INSERT INTO `menu` VALUES (12, '测试1', 3, NULL, 0);
+INSERT INTO `menu` VALUES (13, '测试1', 3, NULL, 0);
+INSERT INTO `menu` VALUES (14, '测试7', 1, NULL, 0);
+INSERT INTO `menu` VALUES (15, '测试5', 1, NULL, 0);
 
 -- ----------------------------
 -- Table structure for role
@@ -324,7 +450,12 @@ CREATE TABLE `role`  (
   `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '角色名称',
   `enable` int(1) NOT NULL DEFAULT 0 COMMENT '是否可用（0可用，1不可用）',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of role
+-- ----------------------------
+INSERT INTO `role` VALUES (1, '测试', 0);
 
 -- ----------------------------
 -- Table structure for role_menu
@@ -335,6 +466,13 @@ CREATE TABLE `role_menu`  (
   `role_id` int(11) NOT NULL COMMENT '角色id',
   `menu_id` int(11) NOT NULL COMMENT '菜单id',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色菜单对应关系表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色菜单表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of role_menu
+-- ----------------------------
+INSERT INTO `role_menu` VALUES (1, 1, 1);
+INSERT INTO `role_menu` VALUES (2, 1, 10);
+INSERT INTO `role_menu` VALUES (3, 1, 14);
 
 SET FOREIGN_KEY_CHECKS = 1;

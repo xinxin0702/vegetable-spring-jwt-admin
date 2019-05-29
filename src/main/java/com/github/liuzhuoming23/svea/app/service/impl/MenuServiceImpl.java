@@ -31,6 +31,15 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
+    public void update(Menu menu) {
+        Menu one = menuMapper.selectOneById(menu.getId());
+        if (menu.getId() == null || one == null) {
+            throw new SveaException("menu(id=" + menu.getId() + ") not exist");
+        }
+        menuMapper.update(menu);
+    }
+
+    @Override
     public Menu selectOneById(Integer id) {
         Menu menu = menuMapper.selectOneById(id);
         menu.setChildren(this.selectListByParentId(id));
@@ -38,7 +47,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public void deleteOneById(int id) {
+    public void deleteOneById(Integer id) {
         menuMapper.deleteOneById(id);
     }
 

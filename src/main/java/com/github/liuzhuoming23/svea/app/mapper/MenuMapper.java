@@ -13,16 +13,23 @@ public interface MenuMapper {
     /**
      * 新增菜单
      *
-     * @param menu 菜单信息
+     * @param menu 菜单
      */
     void insert(Menu menu);
 
     /**
-     * 根据id获取菜单信息
+     * 更新菜单
+     *
+     * @param menu 菜单
+     */
+    void update(Menu menu);
+
+    /**
+     * 根据id获取菜单
      *
      * @param id 菜单id
      */
-    Menu selectOneById(int id);
+    Menu selectOneById(Integer id);
 
     /**
      * 根据父菜单id获取菜单集合
@@ -32,9 +39,9 @@ public interface MenuMapper {
     List<Menu> selectListByParentId(Integer parentId);
 
     /**
-     * 根据id删除菜单信息
+     * 根据id删除菜单
      *
      * @param id 菜单id
      */
-    void deleteOneById(int id);
+    void deleteOneById(Integer id);
 }

@@ -13,7 +13,7 @@ public interface DictService {
     /**
      * 获取字典列表
      *
-     * @param dict 字典查询信息
+     * @param dict 字典查询
      */
     List<Dict> select(Dict dict);
 

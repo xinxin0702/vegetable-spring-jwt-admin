@@ -3,7 +3,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.github.liuzhuoming23.svea.app.mapper.DictItemMapper">
 
-  <select id="selectByDictCode" parameterType="String"
+  <select id="selectListByDictCode" parameterType="String"
     resultType="com.github.liuzhuoming23.svea.app.domain.DictItem">
     select id,dict_id dictId,context,val,sort
     from dict_item
@@ -12,7 +12,7 @@
                    where code=#{code})
     order by sort
   </select>
-  <select id="selectByDictIdAndDictItemVal"
+  <select id="selectOneByDictIdAndDictItemVal"
     resultType="com.github.liuzhuoming23.svea.app.domain.DictItem">
     select id,dict_id dictId,context,val,sort
     from dict_item
@@ -20,7 +20,7 @@
     and val=#{val}
     order by sort
   </select>
-  <select id="selectByDictId" parameterType="int"
+  <select id="selectListByDictId" parameterType="int"
     resultType="com.github.liuzhuoming23.svea.app.domain.DictItem">
     select id,dict_id dictId,context,val,sort
     from dict_item

@@ -3,11 +3,12 @@ package com.github.liuzhuoming23.svea.app.domain;
 import java.util.List;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import lombok.Data;
 
 /**
- * 菜单信息
+ * 菜单
  *
  * @author liuzhuoming
  */
@@ -22,11 +23,6 @@ public class Menu {
     @Size(min = 1, max = 20)
     private String name;
     /**
-     * 菜单权限信息
-     */
-    @Size(min = 1, max = 20)
-    private String permission;
-    /**
      * 父菜单id
      */
     @Min(0)
@@ -38,6 +34,7 @@ public class Menu {
     /**
      * 是否可用（0是 1否）
      */
+    @NotNull
     private Integer enable;
     /**
      * 子菜单集合

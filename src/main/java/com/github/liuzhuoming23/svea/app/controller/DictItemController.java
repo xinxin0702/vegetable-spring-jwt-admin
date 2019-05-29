@@ -36,14 +36,14 @@ public class DictItemController {
     @GetMapping("{dictId}/item")
     @Log(description = "获取字典项集合")
     public Result select(@PathVariable Integer dictId) {
-        List<DictItem> dictItems = dictItemService.selectByDictId(dictId);
+        List<DictItem> dictItems = dictItemService.selectListByDictId(dictId);
         return new Result().succ(dictItems);
     }
 
     @GetMapping("{dictId}/item/{val}")
     @Log(description = "获取字典项")
     public Result insert(@PathVariable Integer dictId, @PathVariable Integer val) {
-        DictItem dictItem = dictItemService.selectByDictIdAndDictItemVal(dictId, val);
+        DictItem dictItem = dictItemService.selectOneByDictIdAndDictItemVal(dictId, val);
         return new Result().succ(dictItem);
     }
 

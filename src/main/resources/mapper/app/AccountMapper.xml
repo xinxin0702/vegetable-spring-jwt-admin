@@ -5,9 +5,9 @@
 
   <insert id="insert" parameterType="com.github.liuzhuoming23.svea.app.domain.Account">
     insert into account
-    (username,password,role_id,isAdmin)
+    (username,password,role_id,enable,is_admin)
     values
-    (#{username},#{password},#{roleId},#{isAdmin})
+    (#{username},#{password},#{roleId},#{enable},#{isAdmin})
   </insert>
 
   <select id="select" parameterType="com.github.liuzhuoming23.svea.app.domain.Account"

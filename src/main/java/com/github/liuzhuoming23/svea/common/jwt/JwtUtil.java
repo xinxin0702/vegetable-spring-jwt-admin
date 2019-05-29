@@ -10,7 +10,7 @@ import com.github.liuzhuoming23.svea.app.service.AccountService;
 import com.github.liuzhuoming23.svea.common.context.AccountContext;
 import com.github.liuzhuoming23.svea.common.context.SpringContext;
 import com.github.liuzhuoming23.svea.common.exception.TokenException;
-import com.github.liuzhuoming23.svea.common.properties.SysProperties;
+import com.github.liuzhuoming23.svea.common.properties.SveaProperties;
 import com.github.liuzhuoming23.svea.common.redis.RedisOperation;
 import com.github.liuzhuoming23.svea.util.EncryptType;
 import com.github.liuzhuoming23.svea.util.EncryptUtil;
@@ -36,7 +36,8 @@ import org.springframework.util.PathMatcher;
  */
 public class JwtUtil {
 
-    private static final SysProperties SYS_PROPERTIES = SpringContext.getBean(SysProperties.class);
+    private static final SveaProperties SYS_PROPERTIES = SpringContext
+        .getBean(SveaProperties.class);
     private static final RedisOperation REDIS_OPERATION = SpringContext
         .getBean(RedisOperation.class);
     private static final AccountService ACCOUNT_SERVICE = SpringContext
@@ -57,7 +58,9 @@ public class JwtUtil {
             .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
             .signWith(SignatureAlgorithm.HS512, EncryptUtil.encode(JWT_SECRET, EncryptType.BASE64))
             .compact();
-        REDIS_OPERATION.hash().put(TOKEN_HASH_KEY, username, token);
+        REDIS_OPERATION.value().set(TOKEN_HASH_KEY + "::" + username, token);
+        REDIS_OPERATION.expire(TOKEN_HASH_KEY + "::" + username,
+            new Date(System.currentTimeMillis() + EXPIRATION));
         return token;
     }
 
@@ -85,7 +88,7 @@ public class JwtUtil {
                     throw new TokenException("invalid account");
                 }
                 //验证token是否存在
-                String tokenInRedis = REDIS_OPERATION.hash().get(TOKEN_HASH_KEY, username);
+                String tokenInRedis = REDIS_OPERATION.value().get(TOKEN_HASH_KEY + "::" + username);
                 if (StringUtils.isEmpty(tokenInRedis) || !token.equals(tokenInRedis)) {
                     throw new TokenException("token expired");
                 }
@@ -93,7 +96,7 @@ public class JwtUtil {
                 if (System.currentTimeMillis() > expiration.getTime()) {
                     throw new TokenException("token expired");
                 }
-                //通过验证则把当前登录用户信息保存到ThreadLocal
+                //通过验证则把当前登录用户保存到ThreadLocal
                 AccountContext.set(account);
                 return new JwtHttpServletRequest(request, claims);
             } catch (Exception e) {

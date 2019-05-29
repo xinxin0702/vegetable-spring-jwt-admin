@@ -3,9 +3,11 @@ package com.github.liuzhuoming23.svea.common.aspect;
 import com.alibaba.fastjson.JSONObject;
 import com.github.liuzhuoming23.svea.common.annotation.RequestLimit;
 import com.github.liuzhuoming23.svea.common.cons.RedisKey;
+import com.github.liuzhuoming23.svea.common.cons.TokenInfo;
 import com.github.liuzhuoming23.svea.common.exception.SveaException;
 import com.github.liuzhuoming23.svea.common.redis.RedisOperation;
 import java.lang.reflect.Method;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -56,9 +58,9 @@ public class RequestLimitAspect {
         int count = annotation.count();
         long interval = annotation.interval();
 
-        String field = ip + "|" + uri;
+        String field = ip + "::" + uri;
 
-        String json = redisOperation.hash().get(RedisKey.LIMIT_HASH_KEY, field);
+        String json = redisOperation.value().get(RedisKey.LIMIT_HASH_KEY + "::" + field);
 
         int times = 1;
         long ts = System.currentTimeMillis();
@@ -88,6 +90,9 @@ public class RequestLimitAspect {
         params.put("times", times);
         params.put("ts", ts);
 
-        redisOperation.hash().put(RedisKey.LIMIT_HASH_KEY, field, JSONObject.toJSONString(params));
+        redisOperation.value()
+            .set(RedisKey.LIMIT_HASH_KEY + "::" + field, JSONObject.toJSONString(params));
+        redisOperation.expire(RedisKey.LIMIT_HASH_KEY + "::" + field,
+            new Date(System.currentTimeMillis() + TokenInfo.EXPIRATION));
     }
 }

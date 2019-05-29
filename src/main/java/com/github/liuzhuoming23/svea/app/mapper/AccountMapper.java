@@ -13,26 +13,26 @@ public interface AccountMapper {
     /**
      * 添加账户
      *
-     * @param account 账户信息
+     * @param account 账户
      */
     void insert(Account account);
 
     /**
-     * 获取账户信息
+     * 获取账户
      *
-     * @param account 账户查询信息
+     * @param account 账户查询
      */
     List<Account> select(Account account);
 
     /**
-     * 根据用户名获取账户信息
+     * 根据用户名获取账户
      *
      * @param username 用户名
      */
     Account selectOneByUsername(String username);
 
     /**
-     * 根据用户id获取账户信息
+     * 根据用户id获取账户
      *
      * @param id 用户id
      */
@@ -41,7 +41,7 @@ public interface AccountMapper {
     /**
      * 根据用户名更新账户密码
      *
-     * @param account 账户信息
+     * @param account 账户
      */
     void updatePasswordByUsername(Account account);
 

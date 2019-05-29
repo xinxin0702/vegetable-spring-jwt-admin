@@ -16,14 +16,14 @@ public interface DictItemService {
      * @param dictId 字典id
      * @param val 字典项值
      */
-    DictItem selectByDictIdAndDictItemVal(Integer dictId, Integer val);
+    DictItem selectOneByDictIdAndDictItemVal(Integer dictId, Integer val);
 
     /**
      * 根据字典id获取字典项集合
      *
      * @param dictId 字典id
      */
-    List<DictItem> selectByDictId(Integer dictId);
+    List<DictItem> selectListByDictId(Integer dictId);
 
     /**
      * 添加字典项

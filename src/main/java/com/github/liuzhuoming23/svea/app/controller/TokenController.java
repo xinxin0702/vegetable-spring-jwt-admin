@@ -52,7 +52,8 @@ public class TokenController {
             };
         } else {
             Result body = new Result()
-                .fail(HttpStatus.UNAUTHORIZED, "incorrect username or password", "/login");
+                .fail(HttpStatus.UNAUTHORIZED, "incorrect username or password or not enable",
+                    "/login");
             return new ResponseEntity<>(body, HttpStatus.UNAUTHORIZED);
         }
     }
@@ -62,30 +63,37 @@ public class TokenController {
     public void logout() {
         Account account = AccountContext.get();
         if (account != null && StringUtils.isNotEmpty(account.getUsername())) {
-            redisOperation.hash().delete(TOKEN_HASH_KEY, account.getUsername());
+            redisOperation.delete(TOKEN_HASH_KEY + "::" + account.getUsername());
         }
     }
 
     @DeleteMapping("logout/{username}")
     @Log(description = "强制登出系统", level = LogLevel.LV4)
     public void forceLogout(@PathVariable String username) {
-        redisOperation.hash().delete(TOKEN_HASH_KEY, username);
+        redisOperation.delete(TOKEN_HASH_KEY + "::" + username);
     }
 
     /**
-     * 账户验证
+     * 账户及密码验证
      *
      * @param username 用户名
      * @param password 密码
      */
     private boolean accountVerify(String username, String password) {
+        //验证参数是否为空
         if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
             return false;
         }
         Account account = accountService.selectOneByUsername(username);
+        //验证账号是否存在
         if (account == null) {
             return false;
         }
+        //验证账号是否启用
+        if (account.getEnable() != 0) {
+            return false;
+        }
+        //验证密码是否匹配
         return PswUtil.isEquals(username, password, account.getPassword());
     }
 }

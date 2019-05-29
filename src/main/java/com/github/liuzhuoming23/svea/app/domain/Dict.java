@@ -2,6 +2,7 @@ package com.github.liuzhuoming23.svea.app.domain;
 
 import java.util.List;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import lombok.Data;
 
@@ -33,5 +34,6 @@ public class Dict {
     /**
      * 是否可用（0是 1否）
      */
+    @NotNull
     private Integer enable;
 }

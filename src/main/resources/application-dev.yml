@@ -24,6 +24,11 @@ mybatis:
   type-aliases-package: com.github.liuzhuoming23.svea.*.domain
   mapper-locations: classpath:mapper/*/*.xml
 
-sys:
+#自定义配置参数
+svea:
+  #无需token验证的uri，多个用','分隔
   anonUrl: /login/**
+  #日志保存敏感字段，会被在日志内统一替换为'******'。只适用于基本类型参数，不适用于实体类里的参数
   sensitiveField: password,newPassword,idcard
+  #日志记录自定义级别，大于等于这个级别的才会被记录。默认值为0，即全部保存
+  logLevel: 2

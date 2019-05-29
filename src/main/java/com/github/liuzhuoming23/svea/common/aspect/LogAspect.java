@@ -6,7 +6,7 @@ import com.github.liuzhuoming23.svea.app.domain.LogDetail;
 import com.github.liuzhuoming23.svea.app.service.LogDetailService;
 import com.github.liuzhuoming23.svea.common.annotation.Log;
 import com.github.liuzhuoming23.svea.common.context.AccountContext;
-import com.github.liuzhuoming23.svea.common.properties.SysProperties;
+import com.github.liuzhuoming23.svea.common.properties.SveaProperties;
 import java.lang.reflect.Method;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -30,7 +30,7 @@ public class LogAspect {
     @Autowired
     private LogDetailService logDetailService;
     @Autowired
-    private SysProperties sysProperties;
+    private SveaProperties sveaProperties;
 
     @Pointcut("@annotation(com.github.liuzhuoming23.svea.common.annotation.Log)")
     public void pointcut() {
@@ -71,12 +71,17 @@ public class LogAspect {
         LocalVariableTableParameterNameDiscoverer localVariableTableParameterNameDiscoverer = new LocalVariableTableParameterNameDiscoverer();
         String[] paramNames = localVariableTableParameterNameDiscoverer.getParameterNames(method);
 
+        //如果日志等级小于设置的日志保存等级，则不保存
+        if (annotation == null || annotation.level().getVal() < sveaProperties.getLogLevel()) {
+            return;
+        }
+
         StringBuilder params = new StringBuilder();
         if (args != null && paramNames != null) {
             for (int i = 0; i < args.length; i++) {
                 Object arg = args[i];
                 String paramName = paramNames[i];
-                if (sysProperties.getSensitiveFields().contains(paramName)) {
+                if (sveaProperties.getSensitiveFields().contains(paramName)) {
                     params.append(paramName).append("=").append("******").append(",");
                 } else {
                     params.append(paramName).append("=").append(JSONObject.toJSONString(arg))
@@ -90,7 +95,7 @@ public class LogAspect {
         }
 
         LogDetail logDetail = new LogDetail();
-        //操作账号信息
+        //操作账号
         if (account != null) {
             logDetail.setAccountId(account.getId());
             logDetail.setUsername(account.getUsername());
@@ -107,10 +112,8 @@ public class LogAspect {
         }
 
         //注解信息
-        if (annotation != null) {
-            logDetail.setLevel(annotation.level().getVal());
-            logDetail.setDescription(annotation.description());
-        }
+        logDetail.setLevel(annotation.level().getVal());
+        logDetail.setDescription(annotation.description());
 
         //异常信息
         if (ex != null) {

@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 import lombok.Data;
 
 /**
- * 账户信息
+ * 账户
  *
  * @author liuzhuoming
  */
@@ -44,10 +44,12 @@ public class Account {
     /**
      * 是否可用（0是 1否）
      */
+    @NotNull
     private Integer enable;
     /**
      * 是否超级管理员（0否 1是）
      */
+    @NotNull
     private Integer isAdmin;
     /**
      * 角色集合

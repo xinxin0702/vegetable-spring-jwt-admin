@@ -28,7 +28,7 @@ public class DictServiceImpl implements DictService {
     public List<Dict> select(Dict dict) {
         List<Dict> list = dictMapper.select(dict);
         for (Dict one : list) {
-            List<DictItem> dictItems = dictItemMapper.selectByDictCode(one.getCode());
+            List<DictItem> dictItems = dictItemMapper.selectListByDictCode(one.getCode());
             one.setItems(dictItems);
         }
         return list;
@@ -40,7 +40,7 @@ public class DictServiceImpl implements DictService {
         if (dict == null) {
             throw new SveaException("dict(code=" + code + ") not exist");
         }
-        List<DictItem> dictItems = dictItemMapper.selectByDictCode(dict.getCode());
+        List<DictItem> dictItems = dictItemMapper.selectListByDictCode(dict.getCode());
         dict.setItems(dictItems);
         return dict;
     }
