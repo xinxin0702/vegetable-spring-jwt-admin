@@ -3,6 +3,7 @@ package com.github.liuzhuoming23.svea.app.domain;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Date;
 import javax.validation.constraints.Max;
@@ -24,6 +25,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@TableName("account")
 public class Account {
 
     @TableId(type = IdType.AUTO)

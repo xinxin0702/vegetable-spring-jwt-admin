@@ -3,6 +3,7 @@ package com.github.liuzhuoming23.svea.app.domain;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
@@ -16,6 +17,7 @@ import lombok.Data;
  * @author liuzhuoming
  */
 @Data
+@TableName("role")
 public class Role {
 
     @TableId(type = IdType.AUTO)

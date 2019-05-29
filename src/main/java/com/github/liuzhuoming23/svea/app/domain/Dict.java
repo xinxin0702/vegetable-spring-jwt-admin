@@ -3,6 +3,7 @@ package com.github.liuzhuoming23.svea.app.domain;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import java.util.List;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -17,6 +18,7 @@ import lombok.Data;
  * @author liuzhuoming
  */
 @Data
+@TableName("dict")
 public class Dict {
 
     @TableId(type = IdType.AUTO)

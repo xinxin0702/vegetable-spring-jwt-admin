@@ -3,6 +3,8 @@ package com.github.liuzhuoming23.svea.app.domain;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Date;
 import lombok.Data;
 
@@ -12,6 +14,7 @@ import lombok.Data;
  * @author liuzhuoming
  */
 @Data
+@TableName("log_detail")
 public class LogDetail {
 
     @TableId(type = IdType.AUTO)
@@ -64,6 +67,7 @@ public class LogDetail {
     /**
      * 添加日期时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @TableField("add_datetime")
     private Date addDatetime;
 }
