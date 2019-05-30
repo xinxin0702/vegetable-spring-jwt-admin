@@ -1,15 +1,17 @@
 package com.github.liuzhuoming23.svea.app.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.liuzhuoming23.svea.app.domain.Account;
 import com.github.liuzhuoming23.svea.app.service.AccountService;
 import com.github.liuzhuoming23.svea.common.annotation.Log;
 import com.github.liuzhuoming23.svea.common.annotation.RequestLimit;
 import com.github.liuzhuoming23.svea.common.cons.LogLevel;
+import com.github.liuzhuoming23.svea.common.domain.PageParams;
 import com.github.liuzhuoming23.svea.common.domain.Result;
+import com.github.liuzhuoming23.svea.common.domain.SortParams;
 import com.github.liuzhuoming23.svea.common.exception.SveaException;
 import com.github.liuzhuoming23.svea.util.PswUtil;
 import com.github.liuzhuoming23.svea.util.StringRegexUtil;
-import java.util.List;
 import javax.validation.Valid;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,10 +53,10 @@ public class AccountController {
     }
 
     @GetMapping
-    @Log(description = "查看账户列表", level = LogLevel.LV2)
-    public Result select(Account account) {
-        List<Account> accounts = accountService.select(account);
-        return new Result().succ(accounts);
+    @Log(description = "查看账户分页列表", level = LogLevel.LV2)
+    public Result select(Account account, PageParams pageParams, SortParams sortParams) {
+        IPage<Account> page = accountService.page(account, pageParams, sortParams);
+        return new Result().succ(page);
     }
 
     @GetMapping("{username}")

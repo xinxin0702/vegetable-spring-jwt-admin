@@ -1,11 +1,13 @@
 package com.github.liuzhuoming23.svea.app.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.liuzhuoming23.svea.app.domain.Dict;
 import com.github.liuzhuoming23.svea.app.service.DictService;
 import com.github.liuzhuoming23.svea.common.annotation.Log;
+import com.github.liuzhuoming23.svea.common.domain.PageParams;
 import com.github.liuzhuoming23.svea.common.domain.Result;
+import com.github.liuzhuoming23.svea.common.domain.SortParams;
 import com.github.liuzhuoming23.svea.common.exception.SveaException;
-import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -38,10 +40,10 @@ public class DictController {
     }
 
     @GetMapping
-    @Log(description = "获取字典列表")
-    public Result select(Dict dict) {
-        List<Dict> list = dictService.select(dict);
-        return new Result().succ(list);
+    @Log(description = "获取字典分页列表")
+    public Result page(Dict dict, PageParams pageParams, SortParams sortParams) {
+        IPage<Dict> page = dictService.page(dict, pageParams, sortParams);
+        return new Result().succ(page);
     }
 
     @GetMapping("{code}")

@@ -1,6 +1,9 @@
 package com.github.liuzhuoming23.svea.app.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.liuzhuoming23.svea.app.domain.Dict;
+import com.github.liuzhuoming23.svea.common.domain.PageParams;
+import com.github.liuzhuoming23.svea.common.domain.SortParams;
 import java.util.List;
 
 /**
@@ -16,6 +19,15 @@ public interface DictService {
      * @param dict 字典查询
      */
     List<Dict> select(Dict dict);
+
+    /**
+     * 获取分页字典列表
+     *
+     * @param dict 字典查询
+     * @param pageParams 分页参数
+     * @param sortParams 排序参数
+     */
+    IPage<Dict> page(Dict dict, PageParams pageParams, SortParams sortParams);
 
     /**
      * 根据字典项编码获取字典

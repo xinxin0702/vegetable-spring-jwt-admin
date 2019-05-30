@@ -31,6 +31,7 @@ public class RoleServiceImpl implements RoleService {
         if (role == null || role.getId() == null) {
             throw new SveaException("role(id=null) not exist");
         }
+        roleMapper.updateById(role);
     }
 
     @Override

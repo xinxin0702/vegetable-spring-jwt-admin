@@ -1,13 +1,18 @@
 package com.github.liuzhuoming23.svea.app.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.liuzhuoming23.svea.app.domain.Account;
 import com.github.liuzhuoming23.svea.app.domain.Role;
 import com.github.liuzhuoming23.svea.app.mapper.AccountMapper;
 import com.github.liuzhuoming23.svea.app.service.AccountService;
 import com.github.liuzhuoming23.svea.app.service.RoleService;
 import com.github.liuzhuoming23.svea.common.context.AccountContext;
+import com.github.liuzhuoming23.svea.common.domain.PageParams;
+import com.github.liuzhuoming23.svea.common.domain.SortParams;
 import com.github.liuzhuoming23.svea.common.exception.SveaException;
 import com.github.liuzhuoming23.svea.util.PswUtil;
 import com.github.liuzhuoming23.svea.util.StringRegexUtil;
@@ -93,6 +98,41 @@ public class AccountServiceImpl implements AccountService {
             }
         }
         return accountMapper.selectList(wrapper);
+    }
+
+    @Override
+    public IPage<Account> page(Account account, PageParams pageParams, SortParams sortParams) {
+        QueryWrapper<Account> wrapper = new QueryWrapper<>();
+        if (StringUtils.isNotEmpty(sortParams.getSortName())) {
+            if ("desc".equals(sortParams.getSortOrder())) {
+                wrapper.orderByDesc(sortParams.getSortName());
+            } else if (("asc".equals(sortParams.getSortOrder()))) {
+                wrapper.orderByAsc(sortParams.getSortName());
+            }
+        }
+        if (account != null) {
+            if (account.getId() != null) {
+                wrapper.lambda().eq(Account::getId, account.getId());
+            }
+            if (account.getRoleId() != null) {
+                wrapper.lambda().eq(Account::getRoleId, account.getRoleId());
+            }
+            if (StringUtils.isNotEmpty(account.getUsername())) {
+                wrapper.lambda().eq(Account::getUsername, account.getUsername());
+            }
+            if (account.getIsAdmin() != null) {
+                wrapper.lambda().eq(Account::getIsAdmin, account.getIsAdmin());
+            }
+            if (account.getEnable() != null) {
+                wrapper.lambda().eq(Account::getEnable, account.getEnable());
+            }
+            if (account.getStartDatetime() != null && account.getEndDatetime() != null) {
+                wrapper.lambda().between(Account::getAddDatetime, account.getStartDatetime(),
+                    account.getEndDatetime());
+            }
+        }
+        Page<Account> page = new Page<>(pageParams.getPageNum(), pageParams.getPageSize());
+        return accountMapper.selectPage(page, wrapper);
     }
 
     @Override

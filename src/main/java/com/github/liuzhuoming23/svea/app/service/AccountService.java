@@ -1,6 +1,9 @@
 package com.github.liuzhuoming23.svea.app.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.liuzhuoming23.svea.app.domain.Account;
+import com.github.liuzhuoming23.svea.common.domain.PageParams;
+import com.github.liuzhuoming23.svea.common.domain.SortParams;
 import java.util.List;
 
 /**
@@ -30,6 +33,15 @@ public interface AccountService {
      * @param account 账户查询条件
      */
     List<Account> select(Account account);
+
+    /**
+     * 获取分页账户列表
+     *
+     * @param account 账户查询
+     * @param pageParams 分页参数
+     * @param sortParams 排序参数
+     */
+    IPage<Account> page(Account account, PageParams pageParams, SortParams sortParams);
 
     /**
      * 根据用户名获取账户

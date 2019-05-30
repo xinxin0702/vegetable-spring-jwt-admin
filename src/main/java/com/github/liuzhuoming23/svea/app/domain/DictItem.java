@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import java.io.Serializable;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
@@ -18,8 +19,9 @@ import lombok.Data;
  */
 @Data
 @TableName("dict_item")
-public class DictItem {
+public class DictItem implements Serializable {
 
+    private static final long serialVersionUID = 4525692309395744386L;
     @TableId(type = IdType.AUTO)
     private Integer id;
     /**

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import java.io.Serializable;
 import java.util.List;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -19,8 +20,9 @@ import lombok.Data;
  */
 @Data
 @TableName("menu")
-public class Menu {
+public class Menu implements Serializable {
 
+    private static final long serialVersionUID = 7373738306307209895L;
     @TableId(type = IdType.AUTO)
     private Integer id;
     /**

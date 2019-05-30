@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import java.io.Serializable;
 import java.util.Date;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -26,8 +27,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("account")
-public class Account {
+public class Account implements Serializable {
 
+    private static final long serialVersionUID = 5160320381135058949L;
     @TableId(type = IdType.AUTO)
     private Integer id;
     /**
@@ -72,4 +74,7 @@ public class Account {
     @Max(1)
     @TableField("is_admin")
     private Integer isAdmin;
+
+    private transient Date startDatetime;
+    private transient Date endDatetime;
 }
