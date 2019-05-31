@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "99d92cab-9b69-4712-95c0-b1829bd7747b",
-		"name": "spring-vue-element-admin",
+		"name": "vegetable-spring-jwt-admin",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [

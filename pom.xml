@@ -10,9 +10,9 @@
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
   <groupId>com.github.liuzhuoming23</groupId>
-  <artifactId>S-VEA</artifactId>
+  <artifactId>v-aja</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>spring-vue-element-admin</name>
+  <name>vegetable-spring-jwt-admin</name>
   <description>Demo project for Spring Boot</description>
 
   <properties>

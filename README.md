@@ -1,2 +1,2 @@
-# spring-vue-element-admin
-spring-vue-element-admin
+# vegetable-spring-jwt-admin
+vegetable-spring-jwt-admin
