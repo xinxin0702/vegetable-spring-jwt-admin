@@ -46,7 +46,7 @@ public class AccountController {
     }
 
     @PutMapping("{username}")
-    @Log(description = "更新账户", level = LogLevel.LV4)
+    @Log(description = "更新账户", level = LogLevel.LV5)
     public void update(@Valid Account account, @PathVariable String username) {
         account.setUsername(username);
         accountService.update(account);

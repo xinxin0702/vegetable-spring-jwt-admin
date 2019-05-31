@@ -48,7 +48,6 @@ public class RequestLimitAspect {
         HttpServletRequest request = Objects.requireNonNull(attributes).getRequest();
         String ip = request.getRemoteAddr();
         String uri = request.getRequestURI();
-        String url = request.getRequestURL().toString();
 
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
