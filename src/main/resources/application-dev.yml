@@ -13,7 +13,7 @@ spring:
 
   datasource:
     driverClassName: com.p6spy.engine.spy.P6SpyDriver
-    url: jdbc:p6spy:mysql://127.0.0.1:32778/v-aja?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    url: jdbc:p6spy:mysql://127.0.0.1:32778/vegetable-spring-jwt-admin?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
     username: root
     password: root
 
