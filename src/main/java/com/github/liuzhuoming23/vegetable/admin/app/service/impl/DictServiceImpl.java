@@ -11,7 +11,7 @@ import com.github.liuzhuoming23.vegetable.admin.app.mapper.DictMapper;
 import com.github.liuzhuoming23.vegetable.admin.app.service.DictService;
 import com.github.liuzhuoming23.vegetable.admin.common.domain.PageParams;
 import com.github.liuzhuoming23.vegetable.admin.common.domain.SortParams;
-import com.github.liuzhuoming23.vegetable.admin.common.exception.SveaException;
+import com.github.liuzhuoming23.vegetable.admin.common.exception.VsjaException;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,13 +87,13 @@ public class DictServiceImpl implements DictService {
     @Override
     public Dict selectOneByCode(String code) {
         if (StringUtils.isEmpty(code)) {
-            throw new SveaException("dict(code=null) not exist");
+            throw new VsjaException("dict(code=null) not exist");
         }
         LambdaQueryWrapper<Dict> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Dict::getCode, code);
         Dict dict = dictMapper.selectOne(wrapper);
         if (dict == null) {
-            throw new SveaException(String.format("dict(code=%s) not exist", code));
+            throw new VsjaException(String.format("dict(code=%s) not exist", code));
         }
         List<DictItem> dictItems = dictItemMapper.selectListByDictCode(dict.getCode());
         dict.setItems(dictItems);

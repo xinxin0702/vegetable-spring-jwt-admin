@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.liuzhuoming23.vegetable.admin.app.domain.Role;
 import com.github.liuzhuoming23.vegetable.admin.app.mapper.RoleMapper;
 import com.github.liuzhuoming23.vegetable.admin.app.service.RoleService;
-import com.github.liuzhuoming23.vegetable.admin.common.exception.SveaException;
+import com.github.liuzhuoming23.vegetable.admin.common.exception.VsjaException;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void update(Role role) {
         if (role == null || role.getId() == null) {
-            throw new SveaException("role(id=null) not exist");
+            throw new VsjaException("role(id=null) not exist");
         }
         roleMapper.updateById(role);
     }
@@ -54,11 +54,11 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public Role selectOneById(Integer id) {
         if (id == null) {
-            throw new SveaException("role(id=null) not exist");
+            throw new VsjaException("role(id=null) not exist");
         }
         Role role = roleMapper.selectById(id);
         if (role == null) {
-            throw new SveaException(String.format("role(id=%d) not exist", id));
+            throw new VsjaException(String.format("role(id=%d) not exist", id));
         }
         return role;
     }

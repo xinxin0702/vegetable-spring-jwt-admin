@@ -6,7 +6,7 @@ import com.github.liuzhuoming23.vegetable.admin.app.domain.DictItem;
 import com.github.liuzhuoming23.vegetable.admin.app.mapper.DictItemMapper;
 import com.github.liuzhuoming23.vegetable.admin.app.mapper.DictMapper;
 import com.github.liuzhuoming23.vegetable.admin.app.service.DictItemService;
-import com.github.liuzhuoming23.vegetable.admin.common.exception.SveaException;
+import com.github.liuzhuoming23.vegetable.admin.common.exception.VsjaException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,7 +31,7 @@ public class DictItemServiceImpl implements DictItemService {
         wrapper.eq(DictItem::getVal, val);
         DictItem dictItem = dictItemMapper.selectOne(wrapper);
         if (dictItem == null) {
-            throw new SveaException(
+            throw new VsjaException(
                 String.format("dictItem(dictId=%d val=%d) not exist", dictId, val));
         }
         return dictItem;
@@ -51,12 +51,12 @@ public class DictItemServiceImpl implements DictItemService {
             try {
                 dictItemMapper.insert(dictItem);
             } catch (Exception e) {
-                throw new SveaException(String
+                throw new VsjaException(String
                     .format("dictItem(dictId=%d val=%d) is already exist", dictItem.getDictId(),
                         dictItem.getVal()));
             }
         } else {
-            throw new SveaException(String.format("dict(id=%d) not exist", dictItem.getDictId()));
+            throw new VsjaException(String.format("dict(id=%d) not exist", dictItem.getDictId()));
         }
     }
 

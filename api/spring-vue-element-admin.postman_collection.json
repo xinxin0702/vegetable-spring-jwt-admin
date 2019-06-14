@@ -1,789 +1,789 @@
 {
-	"info": {
-		"_postman_id": "99d92cab-9b69-4712-95c0-b1829bd7747b",
-		"name": "vegetable-spring-jwt-admin",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "token",
-			"item": [
-				{
-					"name": "登录（获取token）",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "127.0.0.1:8080/login/liuzhuoming?password=Lzm123",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8080",
-							"path": [
-								"login",
-								"liuzhuoming"
-							],
-							"query": [
-								{
-									"key": "password",
-									"value": "Lzm123"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "登出（删除当前登录用户token）",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"type": "text",
-								"value": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkxMjYxMjksInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.BoMnrMer_Q0cXDg1pKhMs2Hk-fPPjJgd_GoZL_k-M4PvRDNQhL9J1oKFFvEFlLRE82sqYiCZiSeU3BCmgMvsgw"
-							}
-						],
-						"url": {
-							"raw": "localhost:8080/logout",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"logout"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "强制退出系统",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTg4MzkxOTgsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.4tFigLYAa6WQ9eYwURDP83rN1UYRMPIAVt0HA66SGSj5LXW4dXDzXqSOZ4GYvHz7Fs9GRxuQ-BySyp8JDVNqow",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "localhost:8080/logout/liuzhuoming",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"logout",
-								"liuzhuoming"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "account",
-			"item": [
-				{
-					"name": "添加账户",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkxODE2NjEsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.qqlA6QBx9YekOLGkR8cB5Cbc4PDU4ZtFYpGfcy_9QKkSn9vR1JRn9jNm-f0FeeLJbupgZaQR1gsMdAlOQkKpsg",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "localhost:8080/account?username=admin123&password=Admin123&roleId=0&enable=0&isAdmin=0",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"account"
-							],
-							"query": [
-								{
-									"key": "username",
-									"value": "admin123"
-								},
-								{
-									"key": "password",
-									"value": "Admin123"
-								},
-								{
-									"key": "roleId",
-									"value": "0"
-								},
-								{
-									"key": "enable",
-									"value": "0"
-								},
-								{
-									"key": "isAdmin",
-									"value": "0"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "根据用户名查询账户",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkxOTAzODEsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.6-9G03yWTbczSHTEUwGA5Hm7kldf4lQkPHLo7icA4mCtnwbgihF6lAd70KC9IZ6MJGJP-8Kc9zrjYVBi5B2rbA",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "localhost:8080/account/liuzhuoming",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"account",
-								"liuzhuoming"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "获取账户列表",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTg4MzE2MzQsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.zd0rQXD0QbNLLZPhG9fxGr_dxJ5625dh-lf70P1IRsKCbQmWTHoSBecyfkWUm1UVk0RIrQc2UQe44WngkIYeKw",
-								"type": "text",
-								"disabled": true
-							}
-						],
-						"url": {
-							"raw": "localhost:8080/account?enable=0",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"account"
-							],
-							"query": [
-								{
-									"key": "enable",
-									"value": "0"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "根据用户名删除用户",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTg4MzE2MzQsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.zd0rQXD0QbNLLZPhG9fxGr_dxJ5625dh-lf70P1IRsKCbQmWTHoSBecyfkWUm1UVk0RIrQc2UQe44WngkIYeKw",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "localhost:8080/account/admin2",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"account",
-								"admin2"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "修改账户密码",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkxOTkzMjMsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.f5eIFiVLwjos-0nn0bDOvYi9IcKNigNi9-9-7CYux1qW-3Gx137dP33s23Mt6we3YtDD7ywlwNll0a4_nuxD7w",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "127.0.0.1:8080/account/liuzhuoming/psw?password=Lzm123&newPassword=Lzm123",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8080",
-							"path": [
-								"account",
-								"liuzhuoming",
-								"psw"
-							],
-							"query": [
-								{
-									"key": "password",
-									"value": "Lzm123"
-								},
-								{
-									"key": "newPassword",
-									"value": "Lzm123"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "修改账户",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkxOTAzODEsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.6-9G03yWTbczSHTEUwGA5Hm7kldf4lQkPHLo7icA4mCtnwbgihF6lAd70KC9IZ6MJGJP-8Kc9zrjYVBi5B2rbA",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "localhost:8080/account/liuzhuoming?roleId=1&enable=0&isAdmin=0&id=12",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"account",
-								"liuzhuoming"
-							],
-							"query": [
-								{
-									"key": "roleId",
-									"value": "1"
-								},
-								{
-									"key": "enable",
-									"value": "0"
-								},
-								{
-									"key": "isAdmin",
-									"value": "0"
-								},
-								{
-									"key": "id",
-									"value": "12"
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "dict",
-			"item": [
-				{
-					"name": "添加字典",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkxODE2NjEsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.qqlA6QBx9YekOLGkR8cB5Cbc4PDU4ZtFYpGfcy_9QKkSn9vR1JRn9jNm-f0FeeLJbupgZaQR1gsMdAlOQkKpsg",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "localhost:8080/dict?code=test4&name=测试3&enable=1",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"dict"
-							],
-							"query": [
-								{
-									"key": "code",
-									"value": "test4"
-								},
-								{
-									"key": "name",
-									"value": "测试3"
-								},
-								{
-									"key": "enable",
-									"value": "1"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "根据字典id和字典内容值获取字典项",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"type": "text",
-								"value": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkxMTc2NTcsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.1lt7-A5WDc85zLC17V_dzwrk6U5WzvxfzIqR0KwlVOIUUn6t648WyUTmSX8LT9tceJ18YQMlLYL9mzgVsoOIvQ"
-							}
-						],
-						"url": {
-							"raw": "localhost:8080/dict/4/item/3",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"dict",
-								"4",
-								"item",
-								"3"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "根据字典id获取字典项",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"type": "text",
-								"value": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkxMTU0NDgsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.Qe0dq7sfGVc9ZheB19muNKP2CDZ5JBKsys-DRDS_HYAXt5rfXF1PBUvtFdeDSPNE0q8Q6g7GJdN4HMZCE7LVqw"
-							}
-						],
-						"url": {
-							"raw": "localhost:8080/dict",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"dict"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "获取字典集合",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkyMTIxMjQsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.mqnBHvJ39JuBXukeEBEF83TOXNVahuCPv7uzgMNvByxFFpEamY9HndCdQKgctJAuJpw0GSObnt0Kg1FNiZXmMQ",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "localhost:8080/dict?sortName=id&sortOrder=desc&pageNum=1&pageSize=10",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"dict"
-							],
-							"query": [
-								{
-									"key": "sortName",
-									"value": "id"
-								},
-								{
-									"key": "sortOrder",
-									"value": "desc"
-								},
-								{
-									"key": "pageNum",
-									"value": "1"
-								},
-								{
-									"key": "pageSize",
-									"value": "10"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "根据code获取字典",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkwNTU3MjksInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.sx3Y_-EJU6u4_QKj3qIPKUbobwOMuOPw85zwj9qzfmXO_RsNpPZVY2drYztw49_DAgkjU9UPf2tME3dqZO59zw",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "localhost:8080/dict/test4",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"dict",
-								"test4"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "添加字典项",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"type": "text",
-								"value": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkxOTkzMjMsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.f5eIFiVLwjos-0nn0bDOvYi9IcKNigNi9-9-7CYux1qW-3Gx137dP33s23Mt6we3YtDD7ywlwNll0a4_nuxD7w"
-							}
-						],
-						"url": {
-							"raw": "localhost:8080/dict/9/item?context=测试3&val=2&sort=3",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"dict",
-								"9",
-								"item"
-							],
-							"query": [
-								{
-									"key": "context",
-									"value": "测试3"
-								},
-								{
-									"key": "val",
-									"value": "2"
-								},
-								{
-									"key": "sort",
-									"value": "3"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "根据字典id和字典项值删除字典项",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkxMTc2NTcsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.1lt7-A5WDc85zLC17V_dzwrk6U5WzvxfzIqR0KwlVOIUUn6t648WyUTmSX8LT9tceJ18YQMlLYL9mzgVsoOIvQ",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "localhost:8080/dict/4/item/3",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"dict",
-								"4",
-								"item",
-								"3"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "删除字典",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkxMTc2NTcsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.1lt7-A5WDc85zLC17V_dzwrk6U5WzvxfzIqR0KwlVOIUUn6t648WyUTmSX8LT9tceJ18YQMlLYL9mzgVsoOIvQ",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "localhost:8080/dict/test4",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"dict",
-								"test4"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "menu",
-			"item": [
-				{
-					"name": "根据菜单id查看菜单层级信息",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkxOTkzMjMsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.f5eIFiVLwjos-0nn0bDOvYi9IcKNigNi9-9-7CYux1qW-3Gx137dP33s23Mt6we3YtDD7ywlwNll0a4_nuxD7w",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "localhost:8080/menu/1",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"menu",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "添加菜单信息",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkxOTAzODEsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.6-9G03yWTbczSHTEUwGA5Hm7kldf4lQkPHLo7icA4mCtnwbgihF6lAd70KC9IZ6MJGJP-8Kc9zrjYVBi5B2rbA",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "localhost:8080/menu?name=测试78&parentId=1&enable=0",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"menu"
-							],
-							"query": [
-								{
-									"key": "name",
-									"value": "测试78"
-								},
-								{
-									"key": "parentId",
-									"value": "1"
-								},
-								{
-									"key": "enable",
-									"value": "0"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "删除菜单",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkxMTc2NTcsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.1lt7-A5WDc85zLC17V_dzwrk6U5WzvxfzIqR0KwlVOIUUn6t648WyUTmSX8LT9tceJ18YQMlLYL9mzgVsoOIvQ",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "localhost:8080/menu/1",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"menu",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "修改菜单",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkxOTkzMjMsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.f5eIFiVLwjos-0nn0bDOvYi9IcKNigNi9-9-7CYux1qW-3Gx137dP33s23Mt6we3YtDD7ywlwNll0a4_nuxD7w",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "localhost:8080/menu/1?name=测试70&parentId=4&enable=0",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"menu",
-								"1"
-							],
-							"query": [
-								{
-									"key": "name",
-									"value": "测试70"
-								},
-								{
-									"key": "parentId",
-									"value": "4"
-								},
-								{
-									"key": "enable",
-									"value": "0"
-								},
-								{
-									"key": "id",
-									"value": "14",
-									"disabled": true
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "获取菜单列表",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkxOTkzMjMsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.f5eIFiVLwjos-0nn0bDOvYi9IcKNigNi9-9-7CYux1qW-3Gx137dP33s23Mt6we3YtDD7ywlwNll0a4_nuxD7w",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "localhost:8080/menu?enable=0",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"menu"
-							],
-							"query": [
-								{
-									"key": "parentId",
-									"value": "2",
-									"disabled": true
-								},
-								{
-									"key": "id",
-									"value": "1",
-									"disabled": true
-								},
-								{
-									"key": "enable",
-									"value": "0"
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "logDetail",
-			"item": [
-				{
-					"name": "日志详情列表",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkyNzIyMDgsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.rCFbXdW-HYcf1Q_4wGoMlpGCtUaPVid54MR5DxOKDtGy3mN52y_peqhzHgoSYAklNe0d1cr9-sZlVeKH548VUg",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "127.0.0.1:8080/logDetail",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8080",
-							"path": [
-								"logDetail"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		}
-	],
-	"event": [
-		{
-			"listen": "prerequest",
-			"script": {
-				"id": "5725a636-eeba-44f6-b89f-564805c36f37",
-				"type": "text/javascript",
-				"exec": [
-					""
-				]
-			}
-		},
-		{
-			"listen": "test",
-			"script": {
-				"id": "666d86f8-c549-4188-86fa-20848383a056",
-				"type": "text/javascript",
-				"exec": [
-					""
-				]
-			}
-		}
-	]
+  "info": {
+    "_postman_id": "99d92cab-9b69-4712-95c0-b1829bd7747b",
+    "name": "vegetable-spring-jwt-admin",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "token",
+      "item": [
+        {
+          "name": "登录（获取token）",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "127.0.0.1:8080/login/liuzhuoming?password=Lzm123",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8080",
+              "path": [
+                "login",
+                "liuzhuoming"
+              ],
+              "query": [
+                {
+                  "key": "password",
+                  "value": "Lzm123"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "登出（删除当前登录用户token）",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "type": "text",
+                "value": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkxMjYxMjksInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.BoMnrMer_Q0cXDg1pKhMs2Hk-fPPjJgd_GoZL_k-M4PvRDNQhL9J1oKFFvEFlLRE82sqYiCZiSeU3BCmgMvsgw"
+              }
+            ],
+            "url": {
+              "raw": "localhost:8080/logout",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "logout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "强制退出系统",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTg4MzkxOTgsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.4tFigLYAa6WQ9eYwURDP83rN1UYRMPIAVt0HA66SGSj5LXW4dXDzXqSOZ4GYvHz7Fs9GRxuQ-BySyp8JDVNqow",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "localhost:8080/logout/liuzhuoming",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "logout",
+                "liuzhuoming"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "account",
+      "item": [
+        {
+          "name": "添加账户",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkxODE2NjEsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.qqlA6QBx9YekOLGkR8cB5Cbc4PDU4ZtFYpGfcy_9QKkSn9vR1JRn9jNm-f0FeeLJbupgZaQR1gsMdAlOQkKpsg",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "localhost:8080/account?username=admin123&password=Admin123&roleId=0&enable=0&isAdmin=0",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "account"
+              ],
+              "query": [
+                {
+                  "key": "username",
+                  "value": "admin123"
+                },
+                {
+                  "key": "password",
+                  "value": "Admin123"
+                },
+                {
+                  "key": "roleId",
+                  "value": "0"
+                },
+                {
+                  "key": "enable",
+                  "value": "0"
+                },
+                {
+                  "key": "isAdmin",
+                  "value": "0"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "根据用户名查询账户",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkxOTAzODEsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.6-9G03yWTbczSHTEUwGA5Hm7kldf4lQkPHLo7icA4mCtnwbgihF6lAd70KC9IZ6MJGJP-8Kc9zrjYVBi5B2rbA",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "localhost:8080/account/liuzhuoming",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "account",
+                "liuzhuoming"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "获取账户列表",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTg4MzE2MzQsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.zd0rQXD0QbNLLZPhG9fxGr_dxJ5625dh-lf70P1IRsKCbQmWTHoSBecyfkWUm1UVk0RIrQc2UQe44WngkIYeKw",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "localhost:8080/account?enable=0",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "account"
+              ],
+              "query": [
+                {
+                  "key": "enable",
+                  "value": "0"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "根据用户名删除用户",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTg4MzE2MzQsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.zd0rQXD0QbNLLZPhG9fxGr_dxJ5625dh-lf70P1IRsKCbQmWTHoSBecyfkWUm1UVk0RIrQc2UQe44WngkIYeKw",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "localhost:8080/account/admin2",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "account",
+                "admin2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "修改账户密码",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkxOTkzMjMsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.f5eIFiVLwjos-0nn0bDOvYi9IcKNigNi9-9-7CYux1qW-3Gx137dP33s23Mt6we3YtDD7ywlwNll0a4_nuxD7w",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "127.0.0.1:8080/account/liuzhuoming/psw?password=Lzm123&newPassword=Lzm123",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8080",
+              "path": [
+                "account",
+                "liuzhuoming",
+                "psw"
+              ],
+              "query": [
+                {
+                  "key": "password",
+                  "value": "Lzm123"
+                },
+                {
+                  "key": "newPassword",
+                  "value": "Lzm123"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "修改账户",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkxOTAzODEsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.6-9G03yWTbczSHTEUwGA5Hm7kldf4lQkPHLo7icA4mCtnwbgihF6lAd70KC9IZ6MJGJP-8Kc9zrjYVBi5B2rbA",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "localhost:8080/account/liuzhuoming?roleId=1&enable=0&isAdmin=0&id=12",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "account",
+                "liuzhuoming"
+              ],
+              "query": [
+                {
+                  "key": "roleId",
+                  "value": "1"
+                },
+                {
+                  "key": "enable",
+                  "value": "0"
+                },
+                {
+                  "key": "isAdmin",
+                  "value": "0"
+                },
+                {
+                  "key": "id",
+                  "value": "12"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "dict",
+      "item": [
+        {
+          "name": "添加字典",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkxODE2NjEsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.qqlA6QBx9YekOLGkR8cB5Cbc4PDU4ZtFYpGfcy_9QKkSn9vR1JRn9jNm-f0FeeLJbupgZaQR1gsMdAlOQkKpsg",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "localhost:8080/dict?code=test4&name=测试3&enable=1",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "dict"
+              ],
+              "query": [
+                {
+                  "key": "code",
+                  "value": "test4"
+                },
+                {
+                  "key": "name",
+                  "value": "测试3"
+                },
+                {
+                  "key": "enable",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "根据字典id和字典内容值获取字典项",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "type": "text",
+                "value": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkxMTc2NTcsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.1lt7-A5WDc85zLC17V_dzwrk6U5WzvxfzIqR0KwlVOIUUn6t648WyUTmSX8LT9tceJ18YQMlLYL9mzgVsoOIvQ"
+              }
+            ],
+            "url": {
+              "raw": "localhost:8080/dict/4/item/3",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "dict",
+                "4",
+                "item",
+                "3"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "根据字典id获取字典项",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "type": "text",
+                "value": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkxMTU0NDgsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.Qe0dq7sfGVc9ZheB19muNKP2CDZ5JBKsys-DRDS_HYAXt5rfXF1PBUvtFdeDSPNE0q8Q6g7GJdN4HMZCE7LVqw"
+              }
+            ],
+            "url": {
+              "raw": "localhost:8080/dict",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "dict"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "获取字典集合",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkyMTIxMjQsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.mqnBHvJ39JuBXukeEBEF83TOXNVahuCPv7uzgMNvByxFFpEamY9HndCdQKgctJAuJpw0GSObnt0Kg1FNiZXmMQ",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "localhost:8080/dict?sortName=id&sortOrder=desc&pageNum=1&pageSize=10",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "dict"
+              ],
+              "query": [
+                {
+                  "key": "sortName",
+                  "value": "id"
+                },
+                {
+                  "key": "sortOrder",
+                  "value": "desc"
+                },
+                {
+                  "key": "pageNum",
+                  "value": "1"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "根据code获取字典",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkwNTU3MjksInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.sx3Y_-EJU6u4_QKj3qIPKUbobwOMuOPw85zwj9qzfmXO_RsNpPZVY2drYztw49_DAgkjU9UPf2tME3dqZO59zw",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "localhost:8080/dict/test4",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "dict",
+                "test4"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "添加字典项",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "type": "text",
+                "value": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkxOTkzMjMsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.f5eIFiVLwjos-0nn0bDOvYi9IcKNigNi9-9-7CYux1qW-3Gx137dP33s23Mt6we3YtDD7ywlwNll0a4_nuxD7w"
+              }
+            ],
+            "url": {
+              "raw": "localhost:8080/dict/9/item?context=测试3&val=2&sort=3",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "dict",
+                "9",
+                "item"
+              ],
+              "query": [
+                {
+                  "key": "context",
+                  "value": "测试3"
+                },
+                {
+                  "key": "val",
+                  "value": "2"
+                },
+                {
+                  "key": "sort",
+                  "value": "3"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "根据字典id和字典项值删除字典项",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkxMTc2NTcsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.1lt7-A5WDc85zLC17V_dzwrk6U5WzvxfzIqR0KwlVOIUUn6t648WyUTmSX8LT9tceJ18YQMlLYL9mzgVsoOIvQ",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "localhost:8080/dict/4/item/3",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "dict",
+                "4",
+                "item",
+                "3"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "删除字典",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkxMTc2NTcsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.1lt7-A5WDc85zLC17V_dzwrk6U5WzvxfzIqR0KwlVOIUUn6t648WyUTmSX8LT9tceJ18YQMlLYL9mzgVsoOIvQ",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "localhost:8080/dict/test4",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "dict",
+                "test4"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "menu",
+      "item": [
+        {
+          "name": "根据菜单id查看菜单层级信息",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkxOTkzMjMsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.f5eIFiVLwjos-0nn0bDOvYi9IcKNigNi9-9-7CYux1qW-3Gx137dP33s23Mt6we3YtDD7ywlwNll0a4_nuxD7w",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "localhost:8080/menu/1",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "menu",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "添加菜单信息",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkxOTAzODEsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.6-9G03yWTbczSHTEUwGA5Hm7kldf4lQkPHLo7icA4mCtnwbgihF6lAd70KC9IZ6MJGJP-8Kc9zrjYVBi5B2rbA",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "localhost:8080/menu?name=测试78&parentId=1&enable=0",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "menu"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "测试78"
+                },
+                {
+                  "key": "parentId",
+                  "value": "1"
+                },
+                {
+                  "key": "enable",
+                  "value": "0"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "删除菜单",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkxMTc2NTcsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.1lt7-A5WDc85zLC17V_dzwrk6U5WzvxfzIqR0KwlVOIUUn6t648WyUTmSX8LT9tceJ18YQMlLYL9mzgVsoOIvQ",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "localhost:8080/menu/1",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "menu",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "修改菜单",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkxOTkzMjMsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.f5eIFiVLwjos-0nn0bDOvYi9IcKNigNi9-9-7CYux1qW-3Gx137dP33s23Mt6we3YtDD7ywlwNll0a4_nuxD7w",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "localhost:8080/menu/1?name=测试70&parentId=4&enable=0",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "menu",
+                "1"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "测试70"
+                },
+                {
+                  "key": "parentId",
+                  "value": "4"
+                },
+                {
+                  "key": "enable",
+                  "value": "0"
+                },
+                {
+                  "key": "id",
+                  "value": "14",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "获取菜单列表",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkxOTkzMjMsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.f5eIFiVLwjos-0nn0bDOvYi9IcKNigNi9-9-7CYux1qW-3Gx137dP33s23Mt6we3YtDD7ywlwNll0a4_nuxD7w",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "localhost:8080/menu?enable=0",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "menu"
+              ],
+              "query": [
+                {
+                  "key": "parentId",
+                  "value": "2",
+                  "disabled": true
+                },
+                {
+                  "key": "id",
+                  "value": "1",
+                  "disabled": true
+                },
+                {
+                  "key": "enable",
+                  "value": "0"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "logDetail",
+      "item": [
+        {
+          "name": "日志详情列表",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1NTkyNzIyMDgsInVzZXJuYW1lIjoibGl1emh1b21pbmcifQ.rCFbXdW-HYcf1Q_4wGoMlpGCtUaPVid54MR5DxOKDtGy3mN52y_peqhzHgoSYAklNe0d1cr9-sZlVeKH548VUg",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "127.0.0.1:8080/logDetail",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8080",
+              "path": [
+                "logDetail"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "id": "5725a636-eeba-44f6-b89f-564805c36f37",
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "id": "666d86f8-c549-4188-86fa-20848383a056",
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ]
 }

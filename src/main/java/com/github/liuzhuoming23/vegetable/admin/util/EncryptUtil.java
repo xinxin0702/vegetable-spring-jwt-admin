@@ -1,6 +1,6 @@
 package com.github.liuzhuoming23.vegetable.admin.util;
 
-import com.github.liuzhuoming23.vegetable.admin.common.exception.SveaException;
+import com.github.liuzhuoming23.vegetable.admin.common.exception.VsjaException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -43,10 +43,10 @@ public class EncryptUtil {
                 case AES:
                     return aesEncode(text);
                 default:
-                    throw new SveaException("encode type does not exist");
+                    throw new VsjaException("encode type does not exist");
             }
         } catch (Exception e) {
-            throw new SveaException("encode failed");
+            throw new VsjaException("encode failed");
         }
     }
 
@@ -67,10 +67,10 @@ public class EncryptUtil {
                     return aesDecode(text);
                 case MD5:
                 default:
-                    throw new SveaException("decode failed");
+                    throw new VsjaException("decode failed");
             }
         } catch (Exception e) {
-            throw new SveaException("decode failed");
+            throw new VsjaException("decode failed");
         }
     }
 

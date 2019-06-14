@@ -6,7 +6,7 @@ import com.github.liuzhuoming23.vegetable.admin.app.domain.LogDetail;
 import com.github.liuzhuoming23.vegetable.admin.app.service.LogDetailService;
 import com.github.liuzhuoming23.vegetable.admin.common.annotation.Log;
 import com.github.liuzhuoming23.vegetable.admin.common.context.AccountContext;
-import com.github.liuzhuoming23.vegetable.admin.common.properties.SveaProperties;
+import com.github.liuzhuoming23.vegetable.admin.common.properties.VsjaProperties;
 import java.lang.reflect.Method;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -30,7 +30,7 @@ public class LogAspect {
     @Autowired
     private LogDetailService logDetailService;
     @Autowired
-    private SveaProperties sveaProperties;
+    private VsjaProperties vsjaProperties;
 
     @Pointcut("@annotation(com.github.liuzhuoming23.vegetable.admin.common.annotation.Log)")
     public void pointcut() {
@@ -72,7 +72,7 @@ public class LogAspect {
         String[] paramNames = localVariableTableParameterNameDiscoverer.getParameterNames(method);
 
         //如果日志等级小于设置的日志保存等级，则不保存
-        if (annotation == null || annotation.level().getVal() < sveaProperties.getLogLevel()) {
+        if (annotation == null || annotation.level().getVal() < vsjaProperties.getLogLevel()) {
             return;
         }
 
@@ -81,7 +81,7 @@ public class LogAspect {
             for (int i = 0; i < args.length; i++) {
                 Object arg = args[i];
                 String paramName = paramNames[i];
-                if (sveaProperties.getSensitiveFields().contains(paramName)) {
+                if (vsjaProperties.getSensitiveFields().contains(paramName)) {
                     params.append(paramName).append("=").append("******").append(",");
                 } else {
                     params.append(paramName).append("=").append(JSONObject.toJSONString(arg))

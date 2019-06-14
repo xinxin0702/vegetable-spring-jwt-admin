@@ -1,6 +1,6 @@
 package com.github.liuzhuoming23.vegetable.admin.common.properties;
 
-import com.github.liuzhuoming23.vegetable.admin.common.exception.SveaException;
+import com.github.liuzhuoming23.vegetable.admin.common.exception.VsjaException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,8 +17,8 @@ import org.springframework.context.annotation.Configuration;
  */
 @Data
 @Configuration
-@ConfigurationProperties(prefix = "svea")
-public class SveaProperties {
+@ConfigurationProperties(prefix = "v-sja")
+public class VsjaProperties {
 
     private String anonUrl;
     private String sensitiveField;
@@ -42,7 +42,7 @@ public class SveaProperties {
             try {
                 logLevel = Integer.parseInt(this.logLevel);
             } catch (NumberFormatException e) {
-                throw new SveaException("logLevel must be number");
+                throw new VsjaException("logLevel must be number");
             }
             return logLevel;
         }

@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.liuzhuoming23.vegetable.admin.app.domain.Menu;
 import com.github.liuzhuoming23.vegetable.admin.app.mapper.MenuMapper;
 import com.github.liuzhuoming23.vegetable.admin.app.service.MenuService;
-import com.github.liuzhuoming23.vegetable.admin.common.exception.SveaException;
+import com.github.liuzhuoming23.vegetable.admin.common.exception.VsjaException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ public class MenuServiceImpl implements MenuService {
         if (menu.getParentId() != null) {
             Menu parent = menuMapper.selectById(menu.getParentId());
             if (parent == null) {
-                throw new SveaException(String.format("menu(id=%d) not exist", menu.getParentId()));
+                throw new VsjaException(String.format("menu(id=%d) not exist", menu.getParentId()));
             }
         }
         menuMapper.insert(menu);
@@ -34,11 +34,11 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public void update(Menu menu) {
         if (menu == null || menu.getId() == null) {
-            throw new SveaException("menu(id=null) not exist");
+            throw new VsjaException("menu(id=null) not exist");
         }
         Menu one = menuMapper.selectById(menu.getId());
         if (one == null) {
-            throw new SveaException(String.format("menu(id=%d) not exist", menu.getId()));
+            throw new VsjaException(String.format("menu(id=%d) not exist", menu.getId()));
         }
         menuMapper.updateById(menu);
     }

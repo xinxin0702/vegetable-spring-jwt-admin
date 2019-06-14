@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(value = SveaException.class)
+    @ExceptionHandler(value = VsjaException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public Result handle(SveaException e) {
+    public Result handle(VsjaException e) {
         log.error(e.getMessage());
         return new Result().fail(e.getMessage());
     }

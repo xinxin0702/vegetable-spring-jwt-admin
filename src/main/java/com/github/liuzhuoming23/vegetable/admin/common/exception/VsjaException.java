@@ -1,15 +1,15 @@
 package com.github.liuzhuoming23.vegetable.admin.common.exception;
 
 /**
- * svea系统异常
+ * v-sja系统异常
  *
  * @author liuzhuoming
  */
-public class SveaException extends RuntimeException {
+public class VsjaException extends RuntimeException {
 
     private static final long serialVersionUID = -635494975146845009L;
 
-    public SveaException(String message) {
+    public VsjaException(String message) {
         super(message);
     }
 }

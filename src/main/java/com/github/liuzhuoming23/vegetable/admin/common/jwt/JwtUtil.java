@@ -5,7 +5,7 @@ import com.github.liuzhuoming23.vegetable.admin.app.service.AccountService;
 import com.github.liuzhuoming23.vegetable.admin.common.context.AccountContext;
 import com.github.liuzhuoming23.vegetable.admin.common.context.SpringContext;
 import com.github.liuzhuoming23.vegetable.admin.common.exception.TokenException;
-import com.github.liuzhuoming23.vegetable.admin.common.properties.SveaProperties;
+import com.github.liuzhuoming23.vegetable.admin.common.properties.VsjaProperties;
 import com.github.liuzhuoming23.vegetable.admin.common.redis.RedisOperation;
 import com.github.liuzhuoming23.vegetable.admin.util.EncryptType;
 import com.github.liuzhuoming23.vegetable.admin.util.EncryptUtil;
@@ -33,8 +33,8 @@ import org.springframework.util.PathMatcher;
  */
 public class JwtUtil {
 
-    private static final SveaProperties SYS_PROPERTIES = SpringContext
-        .getBean(SveaProperties.class);
+    private static final VsjaProperties SYS_PROPERTIES = SpringContext
+        .getBean(VsjaProperties.class);
     private static final RedisOperation REDIS_OPERATION = SpringContext
         .getBean(RedisOperation.class);
     private static final AccountService ACCOUNT_SERVICE = SpringContext
@@ -53,7 +53,8 @@ public class JwtUtil {
         String token = Jwts.builder()
             .setClaims(map)
             .setExpiration(new Date(System.currentTimeMillis() + TokenInfo.EXPIRATION))
-            .signWith(SignatureAlgorithm.HS512, EncryptUtil.encode(TokenInfo.JWT_SECRET, EncryptType.BASE64))
+            .signWith(SignatureAlgorithm.HS512,
+                EncryptUtil.encode(TokenInfo.JWT_SECRET, EncryptType.BASE64))
             .compact();
         REDIS_OPERATION.value().set(RedisKey.TOKEN_HASH_KEY + "::" + username, token);
         REDIS_OPERATION.expire(RedisKey.TOKEN_HASH_KEY + "::" + username,
@@ -85,7 +86,8 @@ public class JwtUtil {
                     throw new TokenException("account is not enable");
                 }
                 //验证token是否存在
-                String tokenInRedis = REDIS_OPERATION.value().get(RedisKey.TOKEN_HASH_KEY + "::" + username);
+                String tokenInRedis = REDIS_OPERATION.value()
+                    .get(RedisKey.TOKEN_HASH_KEY + "::" + username);
                 if (StringUtils.isEmpty(tokenInRedis) || !token.equals(tokenInRedis)) {
                     throw new TokenException("token expired");
                 }

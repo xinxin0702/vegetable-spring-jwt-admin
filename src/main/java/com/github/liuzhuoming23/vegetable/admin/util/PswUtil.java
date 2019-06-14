@@ -18,7 +18,8 @@ public class PswUtil {
      * @return 密文密码
      */
     public static String encrypt(String username, String password) {
-        return EncryptUtil.encode(username + EncryptSalt.ACCOUNT_PASSWORD_SALT + password, EncryptType.MD5);
+        return EncryptUtil
+            .encode(username + EncryptSalt.ACCOUNT_PASSWORD_SALT + password, EncryptType.MD5);
     }
 
     /**

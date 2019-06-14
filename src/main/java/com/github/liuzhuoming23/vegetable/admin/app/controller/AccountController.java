@@ -9,7 +9,7 @@ import com.github.liuzhuoming23.vegetable.admin.common.cons.LogLevel;
 import com.github.liuzhuoming23.vegetable.admin.common.domain.PageParams;
 import com.github.liuzhuoming23.vegetable.admin.common.domain.Result;
 import com.github.liuzhuoming23.vegetable.admin.common.domain.SortParams;
-import com.github.liuzhuoming23.vegetable.admin.common.exception.SveaException;
+import com.github.liuzhuoming23.vegetable.admin.common.exception.VsjaException;
 import com.github.liuzhuoming23.vegetable.admin.util.PswUtil;
 import com.github.liuzhuoming23.vegetable.admin.util.StringRegexUtil;
 import javax.validation.Valid;
@@ -40,7 +40,7 @@ public class AccountController {
     @Log(description = "添加账户", level = LogLevel.LV5)
     public void insert(@Valid Account account) {
         if (StringUtils.isEmpty(account.getPassword())) {
-            throw new SveaException("password must not be null or empty");
+            throw new VsjaException("password must not be null or empty");
         }
         accountService.insert(account);
     }
@@ -73,28 +73,28 @@ public class AccountController {
     public void updatePasswordByUsername(@PathVariable String username,
         @RequestParam String password, @RequestParam String newPassword) {
         if (!StringRegexUtil.isContainLetterOrDigit(username, 6, 16)) {
-            throw new SveaException(
+            throw new VsjaException(
                 "username can only contain uppercase or lowercase letters or numbers and length between 6 and 16");
         }
         if (!StringRegexUtil.isContainUppercaseAndLowercaseAndDigit(password, 6, 16)) {
-            throw new SveaException(
+            throw new VsjaException(
                 "old password must contain uppercase and lowercase letters and numbers and length between 6 and 16");
         }
         if (!StringRegexUtil.isContainUppercaseAndLowercaseAndDigit(newPassword, 6, 16)) {
-            throw new SveaException(
+            throw new VsjaException(
                 "new password must contain uppercase and lowercase letters and numbers and length between 6 and 16");
         }
 
         Account one = accountService.selectOneByUsername(username);
 
         if (one == null) {
-            throw new SveaException("account not exist");
+            throw new VsjaException("account not exist");
         }
 
         if (PswUtil.isEquals(username, password, one.getPassword())) {
             accountService.updatePasswordByUsername(username, newPassword);
         } else {
-            throw new SveaException("incorrect username or password");
+            throw new VsjaException("incorrect username or password");
         }
     }
 

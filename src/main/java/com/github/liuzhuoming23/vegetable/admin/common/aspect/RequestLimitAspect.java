@@ -3,7 +3,7 @@ package com.github.liuzhuoming23.vegetable.admin.common.aspect;
 import com.alibaba.fastjson.JSONObject;
 import com.github.liuzhuoming23.vegetable.admin.common.annotation.RequestLimit;
 import com.github.liuzhuoming23.vegetable.admin.common.cons.RedisKey;
-import com.github.liuzhuoming23.vegetable.admin.common.exception.SveaException;
+import com.github.liuzhuoming23.vegetable.admin.common.exception.VsjaException;
 import com.github.liuzhuoming23.vegetable.admin.common.redis.RedisOperation;
 import java.lang.reflect.Method;
 import java.util.Date;
@@ -74,7 +74,7 @@ public class RequestLimitAspect {
             if (tsRedis >= ts) {
                 //redis存的请求次数大于设置的最大请求次数，则请求失败
                 if (timesRedis > count) {
-                    throw new SveaException(String.format(
+                    throw new VsjaException(String.format(
                         "exceeding the maximum number of requests, limit %d times every %d millisecond",
                         count, interval));
                 } else {

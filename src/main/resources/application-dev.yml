@@ -21,11 +21,11 @@ spring:
     auto: true
 
 mybatis-plus:
-  type-aliases-package: com.github.liuzhuoming23.svea.*.domain
+  type-aliases-package: com.github.liuzhuoming23.vegetable.admin.*.domain
   mapper-locations: classpath:mapper/*/*.xml
 
 #自定义配置参数
-svea:
+v-sja:
   #无需token验证的uri，多个用','分隔
   anonUrl: /login/**
   #日志保存敏感字段，会被在日志内统一替换为'******'。只适用于基本类型参数，不适用于实体类里的参数

@@ -13,7 +13,7 @@ import com.github.liuzhuoming23.vegetable.admin.app.service.RoleService;
 import com.github.liuzhuoming23.vegetable.admin.common.context.AccountContext;
 import com.github.liuzhuoming23.vegetable.admin.common.domain.PageParams;
 import com.github.liuzhuoming23.vegetable.admin.common.domain.SortParams;
-import com.github.liuzhuoming23.vegetable.admin.common.exception.SveaException;
+import com.github.liuzhuoming23.vegetable.admin.common.exception.VsjaException;
 import com.github.liuzhuoming23.vegetable.admin.util.PswUtil;
 import com.github.liuzhuoming23.vegetable.admin.util.StringRegexUtil;
 import java.util.List;
@@ -37,16 +37,16 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void insert(Account account) {
         if (!StringRegexUtil.isContainLetterOrDigit(account.getUsername(), 6, 16)) {
-            throw new SveaException(
+            throw new VsjaException(
                 "username can only contain uppercase or lowercase letters or numbers and length between 6 and 16");
         }
         if (!StringRegexUtil.isContainUppercaseAndLowercaseAndDigit(account.getPassword(), 6, 16)) {
-            throw new SveaException(
+            throw new VsjaException(
                 "password must contain uppercase and lowercase letters and numbers and length between 6 and 16");
         }
         Account list = this.selectOneByUsername(account.getUsername());
         if (list != null) {
-            throw new SveaException(
+            throw new VsjaException(
                 String.format("account(username=%s) already exists", account.getUsername()));
         }
         account.setPassword(PswUtil.encrypt(account.getUsername(), account.getPassword()));
@@ -56,21 +56,21 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void update(Account account) {
         if (account == null || account.getId() == null) {
-            throw new SveaException("account(id=null) not exist");
+            throw new VsjaException("account(id=null) not exist");
         }
         if (StringUtils.isEmpty(account.getUsername())
             || !account.getUsername().equals(AccountContext.get().getUsername())) {
-            throw new SveaException(String
+            throw new VsjaException(String
                 .format("operate account(id=%d) not equals current account(id=%d)", account.getId(),
                     AccountContext.get().getId()));
         }
         Account one = accountMapper.selectById(account.getId());
         if (one == null) {
-            throw new SveaException(String.format("account(id=%d) not exist", account.getId()));
+            throw new VsjaException(String.format("account(id=%d) not exist", account.getId()));
         }
         Role role = roleService.selectOneById(account.getRoleId());
         if (role == null) {
-            throw new SveaException(String.format("role(id=%d) not exist", account.getRoleId()));
+            throw new VsjaException(String.format("role(id=%d) not exist", account.getRoleId()));
         }
         account = Account.builder().id(account.getId()).roleId(account.getRoleId())
             .enable(account.getEnable()).isAdmin(account.getIsAdmin()).build();
@@ -138,13 +138,13 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Account selectOneByUsername(String username) {
         if (StringUtils.isEmpty(username)) {
-            throw new SveaException(String.format("account(username=%s) not exist", username));
+            throw new VsjaException(String.format("account(username=%s) not exist", username));
         }
         LambdaQueryWrapper<Account> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Account::getUsername, username);
         Account account = accountMapper.selectOne(wrapper);
         if (account == null) {
-            throw new SveaException(String.format("account(username=%s) not exist", username));
+            throw new VsjaException(String.format("account(username=%s) not exist", username));
         }
         return account;
     }

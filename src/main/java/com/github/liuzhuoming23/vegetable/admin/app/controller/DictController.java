@@ -7,7 +7,7 @@ import com.github.liuzhuoming23.vegetable.admin.common.annotation.Log;
 import com.github.liuzhuoming23.vegetable.admin.common.domain.PageParams;
 import com.github.liuzhuoming23.vegetable.admin.common.domain.Result;
 import com.github.liuzhuoming23.vegetable.admin.common.domain.SortParams;
-import com.github.liuzhuoming23.vegetable.admin.common.exception.SveaException;
+import com.github.liuzhuoming23.vegetable.admin.common.exception.VsjaException;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,7 +35,7 @@ public class DictController {
         try {
             dictService.insert(dict);
         } catch (Exception e) {
-            throw new SveaException("insert dict failed");
+            throw new VsjaException("insert dict failed");
         }
     }
 
