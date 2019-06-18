@@ -35,18 +35,10 @@ public class DictServiceImpl implements DictService {
     public List<Dict> select(Dict dict) {
         LambdaQueryWrapper<Dict> wrapper = new LambdaQueryWrapper<>();
         if (dict != null) {
-            if (dict.getId() != null) {
-                wrapper.eq(Dict::getId, dict.getId());
-            }
-            if (StringUtils.isNotEmpty(dict.getCode())) {
-                wrapper.eq(Dict::getCode, dict.getCode());
-            }
-            if (StringUtils.isNotEmpty(dict.getName())) {
-                wrapper.eq(Dict::getName, dict.getName());
-            }
-            if (dict.getEnable() != null) {
-                wrapper.eq(Dict::getEnable, dict.getEnable());
-            }
+            wrapper.eq(dict.getId() != null, Dict::getId, dict.getId());
+            wrapper.eq(StringUtils.isNotEmpty(dict.getCode()), Dict::getCode, dict.getCode());
+            wrapper.eq(StringUtils.isNotEmpty(dict.getName()), Dict::getName, dict.getName());
+            wrapper.eq(dict.getEnable() != null, Dict::getEnable, dict.getEnable());
         }
         List<Dict> list = dictMapper.selectList(wrapper);
         for (Dict one : list) {
@@ -60,25 +52,16 @@ public class DictServiceImpl implements DictService {
     public IPage<Dict> page(Dict dict, PageParams pageParams, SortParams sortParams) {
         QueryWrapper<Dict> wrapper = new QueryWrapper<>();
         if (StringUtils.isNotEmpty(sortParams.getSortName())) {
-            if ("desc".equals(sortParams.getSortOrder())) {
-                wrapper.orderByDesc(sortParams.getSortName());
-            } else if (("asc".equals(sortParams.getSortOrder()))) {
-                wrapper.orderByAsc(sortParams.getSortName());
-            }
+            wrapper.orderByDesc("desc".equals(sortParams.getSortOrder()), sortParams.getSortName());
+            wrapper.orderByAsc("asc".equals(sortParams.getSortOrder()), sortParams.getSortName());
         }
         if (dict != null) {
-            if (dict.getId() != null) {
-                wrapper.lambda().eq(Dict::getId, dict.getId());
-            }
-            if (StringUtils.isNotEmpty(dict.getCode())) {
-                wrapper.lambda().eq(Dict::getCode, dict.getCode());
-            }
-            if (StringUtils.isNotEmpty(dict.getName())) {
-                wrapper.lambda().eq(Dict::getName, dict.getName());
-            }
-            if (dict.getEnable() != null) {
-                wrapper.lambda().eq(Dict::getEnable, dict.getEnable());
-            }
+            wrapper.lambda().eq(dict.getId() != null, Dict::getId, dict.getId());
+            wrapper.lambda()
+                .eq(StringUtils.isNotEmpty(dict.getCode()), Dict::getCode, dict.getCode());
+            wrapper.lambda()
+                .eq(StringUtils.isNotEmpty(dict.getName()), Dict::getName, dict.getName());
+            wrapper.lambda().eq(dict.getEnable() != null, Dict::getEnable, dict.getEnable());
         }
         Page<Dict> page = new Page<>(pageParams.getPageNum(), pageParams.getPageSize());
         return dictMapper.selectPage(page, wrapper);

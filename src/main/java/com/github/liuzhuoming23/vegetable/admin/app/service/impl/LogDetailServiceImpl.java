@@ -33,36 +33,27 @@ public class LogDetailServiceImpl implements LogDetailService {
         SortParams sortParams) {
         QueryWrapper<LogDetail> wrapper = new QueryWrapper<>();
         if (StringUtils.isNotEmpty(sortParams.getSortName())) {
-            if ("desc".equals(sortParams.getSortOrder())) {
-                wrapper.orderByDesc(sortParams.getSortName());
-            } else if (("asc".equals(sortParams.getSortOrder()))) {
-                wrapper.orderByAsc(sortParams.getSortName());
-            }
+            wrapper.orderByDesc("desc".equals(sortParams.getSortOrder()), sortParams.getSortName());
+            wrapper.orderByAsc("asc".equals(sortParams.getSortOrder()), sortParams.getSortName());
         }
         if (logDetail != null) {
-            if (logDetail.getId() != null) {
-                wrapper.lambda().eq(LogDetail::getId, logDetail.getId());
-            }
-            if (logDetail.getLevel() != null) {
-                wrapper.lambda().eq(LogDetail::getLevel, logDetail.getLevel());
-            }
-            if (StringUtils.isNotEmpty(logDetail.getMethod())) {
-                wrapper.lambda().eq(LogDetail::getMethod, logDetail.getMethod());
-            }
-            if (logDetail.getAccountId() != null) {
-                wrapper.lambda().eq(LogDetail::getAccountId, logDetail.getAccountId());
-            }
-            if (StringUtils.isNotEmpty(logDetail.getUsername())) {
-                wrapper.lambda().eq(LogDetail::getUsername, logDetail.getUsername());
-            }
-            if (StringUtils.isNotEmpty(logDetail.getDescription())) {
-                wrapper.lambda().eq(LogDetail::getDescription, logDetail.getDescription());
-            }
-
-            if (logDetail.getStartDatetime() != null && logDetail.getEndDatetime() != null) {
-                wrapper.lambda().between(LogDetail::getAddDatetime, logDetail.getStartDatetime(),
-                    logDetail.getEndDatetime());
-            }
+            wrapper.lambda().eq(logDetail.getId() != null, LogDetail::getId, logDetail.getId());
+            wrapper.lambda()
+                .eq(logDetail.getLevel() != null, LogDetail::getLevel, logDetail.getLevel());
+            wrapper.lambda()
+                .eq(StringUtils.isNotEmpty(logDetail.getMethod()), LogDetail::getMethod,
+                    logDetail.getMethod());
+            wrapper.lambda().eq(logDetail.getAccountId() != null, LogDetail::getAccountId,
+                logDetail.getAccountId());
+            wrapper.lambda()
+                .eq(StringUtils.isNotEmpty(logDetail.getUsername()), LogDetail::getUsername,
+                    logDetail.getUsername());
+            wrapper.lambda().eq(StringUtils.isNotEmpty(logDetail.getDescription()),
+                LogDetail::getDescription, logDetail.getDescription());
+            wrapper.lambda().between(
+                logDetail.getStartDatetime() != null && logDetail.getEndDatetime() != null,
+                LogDetail::getAddDatetime, logDetail.getStartDatetime(),
+                logDetail.getEndDatetime());
         }
         Page<LogDetail> page = new Page<>(pageParams.getPageNum(), pageParams.getPageSize());
         return logDetailMapper.selectPage(page, wrapper);

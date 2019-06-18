@@ -47,18 +47,10 @@ public class MenuServiceImpl implements MenuService {
     public List<Menu> select(Menu menu) {
         LambdaQueryWrapper<Menu> wrapper = new LambdaQueryWrapper<>();
         if (menu != null) {
-            if (menu.getId() != null) {
-                wrapper.eq(Menu::getId, menu.getId());
-            }
-            if (menu.getParentId() != null) {
-                wrapper.eq(Menu::getParentId, menu.getParentId());
-            }
-            if (menu.getSort() != null) {
-                wrapper.eq(Menu::getSort, menu.getSort());
-            }
-            if (menu.getEnable() != null) {
-                wrapper.eq(Menu::getEnable, menu.getEnable());
-            }
+            wrapper.eq(menu.getId() != null, Menu::getId, menu.getId());
+            wrapper.eq(menu.getParentId() != null, Menu::getParentId, menu.getParentId());
+            wrapper.eq(menu.getSort() != null, Menu::getSort, menu.getSort());
+            wrapper.eq(menu.getEnable() != null, Menu::getEnable, menu.getEnable());
         }
         List<Menu> list = menuMapper.selectList(wrapper);
         for (Menu menu1 : list) {
@@ -69,7 +61,6 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public Menu selectOneById(Integer id) {
-
         Menu menu = menuMapper.selectById(id);
         menu.setChildren(this.selectListByParentId(id));
         return menu;

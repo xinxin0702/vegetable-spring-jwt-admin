@@ -38,15 +38,9 @@ public class RoleServiceImpl implements RoleService {
     public List<Role> select(Role role) {
         LambdaQueryWrapper<Role> wrapper = new LambdaQueryWrapper<>();
         if (role != null) {
-            if (role.getId() != null) {
-                wrapper.eq(Role::getId, role.getId());
-            }
-            if (role.getEnable() != null) {
-                wrapper.eq(Role::getEnable, role.getEnable());
-            }
-            if (StringUtils.isNotEmpty(role.getName())) {
-                wrapper.eq(Role::getName, role.getName());
-            }
+            wrapper.eq(role.getId() != null, Role::getId, role.getId());
+            wrapper.eq(role.getEnable() != null, Role::getEnable, role.getEnable());
+            wrapper.eq(StringUtils.isNotEmpty(role.getName()), Role::getName, role.getName());
         }
         return roleMapper.selectList(wrapper);
     }

@@ -81,21 +81,12 @@ public class AccountServiceImpl implements AccountService {
     public List<Account> select(Account account) {
         LambdaQueryWrapper<Account> wrapper = new LambdaQueryWrapper<>();
         if (account != null) {
-            if (account.getId() != null) {
-                wrapper.eq(Account::getId, account.getId());
-            }
-            if (account.getRoleId() != null) {
-                wrapper.eq(Account::getRoleId, account.getRoleId());
-            }
-            if (StringUtils.isNotEmpty(account.getUsername())) {
-                wrapper.eq(Account::getUsername, account.getUsername());
-            }
-            if (account.getEnable() != null) {
-                wrapper.eq(Account::getEnable, account.getEnable());
-            }
-            if (account.getIsAdmin() != null) {
-                wrapper.eq(Account::getIsAdmin, account.getIsAdmin());
-            }
+            wrapper.eq(account.getId() != null, Account::getId, account.getId());
+            wrapper.eq(account.getRoleId() != null, Account::getRoleId, account.getRoleId());
+            wrapper.eq(StringUtils.isNotEmpty(account.getUsername()), Account::getUsername,
+                account.getUsername());
+            wrapper.eq(account.getEnable() != null, Account::getEnable, account.getEnable());
+            wrapper.eq(account.getIsAdmin() != null, Account::getIsAdmin, account.getIsAdmin());
         }
         return accountMapper.selectList(wrapper);
     }
@@ -104,32 +95,23 @@ public class AccountServiceImpl implements AccountService {
     public IPage<Account> page(Account account, PageParams pageParams, SortParams sortParams) {
         QueryWrapper<Account> wrapper = new QueryWrapper<>();
         if (StringUtils.isNotEmpty(sortParams.getSortName())) {
-            if ("desc".equals(sortParams.getSortOrder())) {
-                wrapper.orderByDesc(sortParams.getSortName());
-            } else if (("asc".equals(sortParams.getSortOrder()))) {
-                wrapper.orderByAsc(sortParams.getSortName());
-            }
+            wrapper.orderByDesc("desc".equals(sortParams.getSortOrder()), sortParams.getSortName());
+            wrapper.orderByAsc("asc".equals(sortParams.getSortOrder()), sortParams.getSortName());
         }
         if (account != null) {
-            if (account.getId() != null) {
-                wrapper.lambda().eq(Account::getId, account.getId());
-            }
-            if (account.getRoleId() != null) {
-                wrapper.lambda().eq(Account::getRoleId, account.getRoleId());
-            }
-            if (StringUtils.isNotEmpty(account.getUsername())) {
-                wrapper.lambda().eq(Account::getUsername, account.getUsername());
-            }
-            if (account.getIsAdmin() != null) {
-                wrapper.lambda().eq(Account::getIsAdmin, account.getIsAdmin());
-            }
-            if (account.getEnable() != null) {
-                wrapper.lambda().eq(Account::getEnable, account.getEnable());
-            }
-            if (account.getStartDatetime() != null && account.getEndDatetime() != null) {
-                wrapper.lambda().between(Account::getAddDatetime, account.getStartDatetime(),
-                    account.getEndDatetime());
-            }
+            wrapper.lambda().eq(account.getId() != null, Account::getId, account.getId());
+            wrapper.lambda()
+                .eq(account.getRoleId() != null, Account::getRoleId, account.getRoleId());
+            wrapper.lambda()
+                .eq(StringUtils.isNotEmpty(account.getUsername()), Account::getUsername,
+                    account.getUsername());
+            wrapper.lambda()
+                .eq(account.getIsAdmin() != null, Account::getIsAdmin, account.getIsAdmin());
+            wrapper.lambda()
+                .eq(account.getEnable() != null, Account::getEnable, account.getEnable());
+            wrapper.lambda()
+                .between(account.getStartDatetime() != null && account.getEndDatetime() != null,
+                    Account::getAddDatetime, account.getStartDatetime(), account.getEndDatetime());
         }
         Page<Account> page = new Page<>(pageParams.getPageNum(), pageParams.getPageSize());
         return accountMapper.selectPage(page, wrapper);
