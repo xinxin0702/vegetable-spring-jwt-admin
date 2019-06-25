@@ -11,6 +11,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 /**
@@ -27,14 +28,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             try {
                 request = JwtUtil.validateToken(request);
             } catch (TokenException e) {
-                response.setHeader("Content-Type", "application/json");
-                response.setCharacterEncoding("UTF-8");
+                response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
                 response.setStatus(401);
                 String uri = request.getRequestURI();
                 Result result = new Result().fail(HttpStatus.UNAUTHORIZED, e.getMessage(), uri);
                 String json = JSONObject.toJSONString(result);
-                ServletOutputStream output = response.getOutputStream();
-                output.write(json.getBytes());
+                response.getWriter().print(json);
                 return;
             }
         }

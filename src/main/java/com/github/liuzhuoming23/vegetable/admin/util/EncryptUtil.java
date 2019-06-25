@@ -6,6 +6,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
+import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Base64;
@@ -127,6 +128,19 @@ public class EncryptUtil {
     }
 
     /**
+     * 生成aes key
+     *
+     * @param key 密钥
+     */
+    private static Key aesKey(String key) throws NoSuchAlgorithmException {
+        KeyGenerator kgen = KeyGenerator.getInstance("AES");
+        kgen.init(128, new SecureRandom(key.getBytes()));
+        SecretKey secretKey = kgen.generateKey();
+        byte[] encoded = secretKey.getEncoded();
+        return new SecretKeySpec(encoded, "AES");
+    }
+
+    /**
      * AES加密
      *
      * @param text 待加密文本
@@ -134,25 +148,10 @@ public class EncryptUtil {
      */
     private static String aesEncode(String text, String key)
         throws NoSuchAlgorithmException, NoSuchPaddingException, BadPaddingException, IllegalBlockSizeException, InvalidKeyException {
-        //构造密钥生成器，指定为AES算法，不区分大小写
-        KeyGenerator kgen = KeyGenerator.getInstance("AES");
-        kgen.init(128, new SecureRandom(key.getBytes()));
-        SecretKey secretKey = kgen.generateKey();
-        byte[] encoded = secretKey.getEncoded();
-        SecretKeySpec secretKeySpec = new SecretKeySpec(encoded, "AES");
-        Cipher cipher = Cipher.getInstance("AES");
-        byte[] byteContent = text.getBytes(StandardCharsets.UTF_8);
-        cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
-        byte[] bytes = cipher.doFinal(byteContent);
-        StringBuilder sb = new StringBuilder();
-        for (byte b : bytes) {
-            String hex = Integer.toHexString(b & 0xFF);
-            if (hex.length() == 1) {
-                hex = '0' + hex;
-            }
-            sb.append(hex.toUpperCase());
-        }
-        return sb.toString();
+        Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+        cipher.init(Cipher.ENCRYPT_MODE, aesKey(key));
+        byte[] result = cipher.doFinal(text.getBytes(StandardCharsets.UTF_8));
+        return new String(Base64.getEncoder().encode(result), StandardCharsets.UTF_8);
     }
 
     /**
@@ -163,32 +162,17 @@ public class EncryptUtil {
      */
     private static String aesDecode(String text, String key)
         throws InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException, BadPaddingException, IllegalBlockSizeException {
-        if (text.length() < 1) {
-            return null;
-        }
-        byte[] bytes = new byte[text.length() / 2];
-        for (int i = 0; i < text.length() / 2; i++) {
-            int high = Integer.parseInt(text.substring(i * 2, i * 2 + 1), 16);
-            int low = Integer.parseInt(text.substring(i * 2 + 1, i * 2 + 2), 16);
-            bytes[i] = (byte) (high * 16 + low);
-        }
-        KeyGenerator kgen = KeyGenerator.getInstance("AES");
-        SecureRandom secureRandom = SecureRandom.getInstance("SHA1PRNG");
-        secureRandom.setSeed(key.getBytes());
-        kgen.init(128, secureRandom);
-        SecretKey secretKey = kgen.generateKey();
-        byte[] encoded = secretKey.getEncoded();
-        SecretKeySpec secretKeySpec = new SecretKeySpec(encoded, "AES");
-        Cipher cipher = Cipher.getInstance("AES");
-        cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
-        byte[] result = cipher.doFinal(bytes);
+        Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+        cipher.init(Cipher.DECRYPT_MODE, aesKey(key));
+        byte[] result = cipher
+            .doFinal(Base64.getDecoder().decode(text.getBytes(StandardCharsets.UTF_8)));
         return new String(result, StandardCharsets.UTF_8);
     }
 
     /**
      * AES默认密钥
      */
-    private final static String AES_KEY = EncryptUtil.encode("1990-12-23", EncryptType.MD5);
+    private final static String AES_KEY = "1990-12-23";
 
     /**
      * AES默认密钥加密
